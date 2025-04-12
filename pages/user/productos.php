@@ -1,6 +1,6 @@
 <div class="main">
     <div class="product-titule">
-        <h2>Nuestros Productos</h2> 
+        <h2 id = "nuestros-productos">Nuestros Productos</h2> 
     </div>
 
     <div class="cards-container">

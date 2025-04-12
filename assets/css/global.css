@@ -102,7 +102,7 @@ hr{
     padding: 16px;
     text-align: center;
     width: 300px;
-    margin: 16px auto;
+    margin: 20px 40px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
 }
@@ -123,32 +123,42 @@ hr{
 }
 .product-price {
     font-size: 16px;
-    color: #28a745;
+    color: #000000;
     font-weight: bold;
     margin: 8px 0;
 }
 .add-to-cart-button {
-    background-color: #007bff;
-    color: #fff;
+    background-color: #f7cf5c;
+    color: #000000;
+    font-weight: bolder;
     border: none;
     padding: 10px 16px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
+    box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.3);
 }
 .add-to-cart-button:hover {
     background-color: #0056b3;
 }
 .cards-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Tres columnas */
-    gap: 20px; /* Espacio entre las tarjetas */
-    justify-items: center; /* Centrar las tarjetas horizontalmente */
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
+    gap: 30px; /* espacio entre las tarjetas */
+    max-width: 1200px; /* límite de ancho para que no se estiren de más */
+    margin: 0 auto; /* centra el contenedor horizontalmente */
+    padding: 20px 30px;
+    margin-left: 200px;
+}
+.main {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;
     padding: 20px;
 }
-.main{
-    padding: 30px;
-    width: 100%;
+
+#nuestros-productos{
+    margin-left: 500px;
 }
 .product-titule{
     font-size: 2em;
@@ -157,7 +167,6 @@ hr{
     text-align: center;
     margin-bottom: 30px;
 }
-
 
 footer{
     background-color: var(--color-rosa);
@@ -178,5 +187,3 @@ footer{
     display: grid;
     grid-template-rows: auto 1fr auto;
 }
-
-

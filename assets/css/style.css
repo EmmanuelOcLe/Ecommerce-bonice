@@ -1,27 +1,29 @@
-/* Estilos del slider */
 .slider {
     position: relative;
     width: 100%;
     max-width: 800px;
-    margin: auto;
+    margin: 50px 400px;
     overflow: hidden;
 }
 
 .slides {
     display: flex;
     transition: transform 0.5s ease-in-out;
+    width: 100%;
 }
 
 .slide {
-    min-width: 100%;
+    min-width: 100%; /* Muy importante para que cada slide ocupe todo el contenedor */
     box-sizing: border-box;
 }
 
 .slide img {
-    width: 100%;
+    width: 100%;      /* Ocupar todo el ancho del slide */
+    height: auto;     /* Mantener proporciones */
     display: block;
+    object-fit: cover;
 }
-/* Flechas de navegación */
+
 .arrow {
     position: absolute;
     top: 50%;

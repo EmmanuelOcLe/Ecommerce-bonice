@@ -8,10 +8,10 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <div class="navbar-nav">
-                <a class="nav-link" href="pages/home.php">Inicio</a>
-                <a class="nav-link" href="pages/user/productos.php">Productos</a>
-                <a class="nav-link" href="#">Quienes Somos</a>
-                <a class="nav-link" href="#">Nuestro Equipo</a>
+            <a class="nav-link" href="index.php?page=home">Inicio</a>
+            <a class="nav-link" href="index.php?page=user/productos">Productos</a>
+            <a class="nav-link" href="index.php?page=user/quienes">Quienes Somos</a>
+            <a class="nav-link" href="index.php?page=user/equipo">Nuestro Equipo</a>
             </div>
         </div>
     </nav>
