@@ -24,4 +24,7 @@ function prevSlide() {
 // Cambio automático cada 10 segundos
 setInterval(() => {
     nextSlide();
-}, 10000);
+}, 5000);
+
+
+

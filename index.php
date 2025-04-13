@@ -23,7 +23,6 @@
             
             <main>
                 <?php include "includes/main.php"; ?> 
-                
             </main>
 
             

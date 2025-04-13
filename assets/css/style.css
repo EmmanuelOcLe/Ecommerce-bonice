@@ -2,7 +2,7 @@
 .slider {
     position: relative;
     width: 100%;
-    max-width: 800px;
+    max-width: 1000px;
     margin: auto;
     overflow: hidden;
 }
@@ -10,6 +10,8 @@
 .slides {
     display: flex;
     transition: transform 0.5s ease-in-out;
+    display: flex;
+    align-items: center;
 }
 
 .slide {
@@ -40,4 +42,74 @@
 
 .arrow.right {
     right: 10px;
+}
+
+/* Estilo para mostrar el dropdown al pasar el mouse */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu {
+    margin-top: 0; /* Ajusta la posición del menú desplegable */
+}
+
+
+/* STYLE DE PRODUCTOS */
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    width: 350px;
+    margin: 16px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+.product-image {
+    width: 100%;
+    height: 250px;
+    border-radius: 8px;
+}
+.product-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 8px 0;
+}
+.product-description {
+    font-size: 14px;
+    color: #555;
+    margin: 8px 0;
+}
+.product-price {
+    font-size: 16px;
+    color: #28a745;
+    font-weight: bold;
+    margin: 8px 0;
+}
+.add-to-cart-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.add-to-cart-button:hover {
+    background-color: #0056b3;
+}
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px; 
+    justify-items: center;
+    padding: 20px;
+    width: 100%;
+}
+.product-titule{
+    font-size: 2em;
+    font-weight: 600;
+    color: var(--color-azul);
+    text-align: center;
+    margin-bottom: 30px;
 }
