@@ -88,17 +88,20 @@ nav{
 .dropdown-content a {
     display: block;
     padding: 10px 14px;
-    color: #000;
     text-decoration: none;
+    color: var(--color-blanco);
+    font-weight: 700;
 }
 
 .dropdown-content a:hover {
-    background-color: #eaeaea;
+    background-color: #a8005a;
+
 }
 
 /* Mostrar dropdown al pasar el mouse */
 .dropdown:hover .dropdown-content {
     display: block;
+    background-color: var(--color-rosa);
 }
 
 
