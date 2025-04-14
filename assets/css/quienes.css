@@ -1,0 +1,63 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    color: #333;
+}
+
+.main-content {
+    display: flex;
+}
+
+.content-area {
+    padding: 60px 80px;
+    flex-grow: 1;
+}
+
+.bonice-info-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.bonice-intro, .bonice-team {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.bonice-logo {
+    width: 160px;
+    height: auto;
+    margin-left: 30px;
+    height: 160px;
+}
+
+.bonice-image {
+    margin-right: 20px;
+    width: 230px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.3);
+}
+
+.bonice-text {
+    margin-left: 5%;
+    font-size: 25px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.bonice-text-1 {
+    font-size: 25px;
+    line-height: 1.7;
+    color: #333;
+}
+
+.bonice-divider {
+    border: none;
+    border-top: 4px solid #e6007e; 
+    margin: 30px 0 50px;
+    width: 115%;
+}
