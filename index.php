@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="assets/css/global.css">
     <link rel="stylesheet" href="assets/css/detalle.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/style_carrito_usuario.css">
+    <link rel="stylesheet" href="assets/css/carrito.css">
     <title>BonIce</title>
 </head>
 <body>

@@ -1,4 +1,5 @@
 
+
 /* Header */
 header {
     width: 100%;
@@ -97,8 +98,8 @@ header {
 .contenido-principal {
     display: flex;
     max-width: 1200px;
-    margin: 20px auto;
-    gap: 22rem;
+    margin: 20px 50px;
+    gap: 15rem;
 }
 
 .seccion-carrito {
@@ -187,16 +188,14 @@ header {
     cursor: pointer;
 }
 
-
 .resumen-pedido {
-    width: 60%; /* o el tamaño que desees */
+    width: 700px; /* o el tamaño que desees */
     background-color: white;
     border-radius: 5px;
     padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    height: 25em;
+    height: fit-content;
 }
-
 
 
 .resumen-pedido h3 {
@@ -205,17 +204,6 @@ header {
     color: #333;
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
-}
-
-/* Footer */
-footer {
-    background-color: #e6007e;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -231,4 +219,34 @@ footer {
         width: 60px;
         height: 60px;
     }
+}
+
+
+/* Recibo */
+.tabla-recibo {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.tabla-recibo th,
+.tabla-recibo td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.columna-precio-recibo {
+    text-align: right;
+}
+
+.columna-nombre-recibo {
+    font-size: 14px;
+}
+
+.contenedor-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
 }
