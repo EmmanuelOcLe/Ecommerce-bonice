@@ -1,0 +1,188 @@
+img{
+  max-width: 80%;
+  user-select: none;
+  pointer-events: none;
+}
+.contenedor{
+  flex-direction: column;
+  align-items: center;
+}
+.contenedor h1{
+  margin-top: 0.5em;
+}
+.separador{
+  width: 90%;
+  border: 1px solid black;
+  margin: 1em auto;
+}
+.gestion-productos-container{
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.input-field-container{
+  width: 95%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+.input-field-container input{
+  padding: 5px 0.5em 5px 0.5em;
+  width: 50%;
+  font-size: larger;
+  background-color: #F6F8FE;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 1px 3px 0 #bbb;
+  margin-right: 1em;
+  transition: outline 100ms;
+}
+.input-field-container input:focus{
+  outline: 5px solid #c2cff6;
+}
+.input-field-container span{
+  margin: 0 1em;
+  font-size: larger;
+  pointer-events: none;
+  user-select: none;
+}
+.input-field-container button{
+  color: #6D6A6A;
+  background-color: #F7CF5C;
+  padding: 0.5em 0;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px 0 #bbb;
+  font-weight: bolder;
+  width: 20%;
+  transition: background 150ms;
+}
+.input-field-container button:hover{
+  cursor: pointer;
+  background-color: #fabb00;
+}
+.productos-container{
+  width: 90%;
+}
+.productos-row{
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  margin: 1em auto;
+}
+.productos-row div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.productos-row:first-child{
+  font-size: larger;
+}
+.productos-row div:last-child > a{
+  color: #C40069;
+  font-size: larger;
+  margin: 0 0.5em;
+  border: none;
+  background-color: #fff;
+}
+.productos-row div:last-child > a:hover{
+  cursor: pointer;
+  color: #ff0088;
+}
+.productos-row div:last-child > a > i{
+  font-size: larger;
+}
+
+
+.actualizar-container{
+  box-sizing: border-box;
+  background-color: #F6F8FE;
+  width: 80%;
+  margin: 3em auto 2em auto;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px 0 #bbb;
+  position: relative;
+}
+.actualizar-container > img{
+  height: 160px;
+  position: relative;
+  bottom: 55px;
+}
+.form-actualizar{
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  margin-top: -8%;
+}
+.form-actualizar input[type="text"], textarea{
+  border: none;
+  box-shadow: 0 1px 3px 0 #bbb;
+  padding: 5px 0.5em;
+  border-radius: 3px;
+  font-size: 1em;
+  transition: outline 100ms;
+}
+.form-actualizar input[type="text"]:focus, .form-actualizar > textarea:focus{
+  outline: 5px solid #c2cff6;
+}
+.form-actualizar > div{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1em;
+  margin-bottom: 1em;
+}
+.form-actualizar > div > div{
+  display: flex;
+  gap: 1em;
+  max-height: 30px;
+  align-items: center;
+}
+.form-actualizar > div > div > img{
+  height: 200%;
+}
+.form-actualizar > div > div > input[type="file"]{
+  display: none;
+}
+.form-actualizar > div > div > label{
+  width: 100%;
+  color: #757575;
+  background-color: #fff;
+  border: none;
+  box-shadow: 0 1px 3px 0 #bbb;
+  padding: 5px 0.5em;
+  border-radius: 3px;
+  font-size: 1em;
+  transition: background 150ms;
+  user-select: none;
+}
+.form-actualizar > div > div > label:hover{
+  background-color: #E9E9ED;
+  cursor: pointer;
+}
+.form-actualizar > input[placeholder="Categoria"]{
+  margin-bottom: 1em;
+}
+.form-actualizar > textarea{
+  font-family: 'Montserrat', sans-serif;
+  min-height: 100px;
+  margin-bottom: 1em;
+  resize: vertical;
+  transition: height 100ms;
+}
+.form-actualizar input[type="submit"]{
+  border: none;
+  border-radius: 5px;
+  padding: 5px 3em;
+  background-color: #F7CF5C;
+  font-weight: bolder;
+  font-size: 1em;
+  box-shadow: 0 1px 3px 0 #bbb;
+  transition: background 150ms;
+  width: fit-content;
+  align-self: flex-end;
+}
+.form-actualizar > input[type="submit"]:hover{
+  background-color: #ffbf00;
+  cursor: pointer;
+}
