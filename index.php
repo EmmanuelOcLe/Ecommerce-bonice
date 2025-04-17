@@ -1,3 +1,6 @@
+<?php require  'config/datab.php'; ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,3 +39,4 @@
 <script src="assets/js/script.js"></script>
 </body>
 </html>
+

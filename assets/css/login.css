@@ -1,0 +1,93 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    overflow-x: hidden;
+}
+
+.wave-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; 
+}
+
+.top-wave {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 90px;
+    background-color: #d1006c;
+}
+
+.top-wave svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.logo-floating {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+.logo-floating img {
+    width: 150px;
+    height: auto;
+    margin-top: 110px;
+}
+
+.form-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    background-color: #f5f7fa;
+    border-radius: 10px;
+    padding: 80px 20px 20px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.form-row input,
+.form-control {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    box-shadow: 0px 4px 8px #babbc0;
+}
+
+.btn-register {
+    background-color: #f9d461;
+    color: #333;
+    border: none;
+    width: 50%;
+    margin-left: 50%;
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* Onda inferior */
+.bottom-wave {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 90px;
+    background-color: #d1006c;
+}
