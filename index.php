@@ -1,5 +1,3 @@
-<?php require  'config/datab.php'; ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
