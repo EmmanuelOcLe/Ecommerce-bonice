@@ -115,7 +115,6 @@
     margin-bottom: 30px;
 }
 .user-welcome{
-    /* animation: name duration timing-function delay iteration-count direction fill-mode; */
     position: absolute;
     background-color: #4AB817dd;
     color: #fff;
@@ -127,7 +126,7 @@
     right: 0;
     transform: translate(50%, -110%);
     box-shadow: 0 0 10px #555;
-    animation: user-welcome 5s ease-in-out;
+    animation: user-welcome 3s ease-in-out;
 }
 @keyframes user-welcome{
     0%{
@@ -141,6 +140,40 @@
     75%{
         transform: translate(50%, 50%);
         background-color: #4AB817dd;
+    }
+    100%{
+        transform: translate(50%, -110%);
+        background-color: #4AB81700;
+        display: none;
+    }
+}
+
+.user-farewell{
+    position: absolute;
+    background-color: #C40069dd;
+    color: #fff;
+    width: 50%;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    left: 0;
+    right: 0;
+    transform: translate(50%, -110%);
+    box-shadow: 0 0 10px #555;
+    animation: user-farewell 3s ease-in-out;
+}
+@keyframes user-farewell{
+    0%{
+        transform: translate(50%, -110%);
+        background-color: #4AB81700;
+    }
+    50%{
+        transform: translate(50%, 50%);
+        background-color: #C40069dd;
+    }
+    75%{
+        transform: translate(50%, 50%);
+        background-color: #C40069dd;
     }
     100%{
         transform: translate(50%, -110%);

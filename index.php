@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="assets/css/detalle.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/carrito.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>BonIce</title>
 </head>
 <body>
@@ -29,6 +30,17 @@
             <h1>Bienvenido/a, <?= $_SESSION["user"]; ?></h1>
         </div>
         <?php endif; ?>
+
+        <?php if (isset($_COOKIE["user_session"]) && $_COOKIE["user_session"] == "finish"): ?>
+        <div class="user-farewell">
+            <h1>Sesion cerrada correctamente</h1>
+        </div>
+        <?php
+            setcookie("user_session", "", time() - 3600, "/");
+            unset($_COOKIE["user_session"]);
+        ?>
+        <?php endif ?>
+
         <?php include 'includes/header.php'; ?> 
         
         <div class="contenedor">
