@@ -1,5 +1,5 @@
 <?php
-require_once '../../functions/carrito.php';
+require_once '../../config/functions/carrito.php';
 
 if (isset($_GET['agregar'])) {
     agregarAlCarrito($_GET['agregar']);
@@ -79,11 +79,11 @@ if (isset($_GET['agregar'])) {
                             </td>
                             <td class="columna-precio">$7.950</td>
                             <td class="columna-cantidad">
-                            <div class="control-cantidad" data-id="<?= $producto['id'] ?>">
-                                <button class="boton-cantidad disminuir">-</button>
-                                <input type="text" class="cantidad" value="1" readonly>
-                                <button class="boton-cantidad aumentar">+</button>
-                            </div>
+                                <div class="control-cantidad">
+                                    <button class="boton-cantidad aumentar">+</button>
+                                    <span class="cantidad">1</span>
+                                    <button class="boton-cantidad disminuir">-</button>
+                                </div>
                             </td>
                             <td class="columna-eliminar">
                                 <button class="boton-eliminar">×</button>
@@ -155,33 +155,4 @@ if (isset($_GET['agregar'])) {
         include_once '../../includes/footer.php';
     ?>
 </body>
-<script>
-    <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const botonesAumentar = document.querySelectorAll('.boton-cantidad.aumentar');
-    const botonesDisminuir = document.querySelectorAll('.boton-cantidad.disminuir');
-
-    botonesAumentar.forEach(boton => {
-        boton.addEventListener('click', () => {
-            const contenedor = boton.closest('.control-cantidad');
-            const input = contenedor.querySelector('.cantidad');
-            let cantidad = parseInt(input.value);
-            input.value = cantidad + 1;
-        });
-    });
-
-    botonesDisminuir.forEach(boton => {
-        boton.addEventListener('click', () => {
-            const contenedor = boton.closest('.control-cantidad');
-            const input = contenedor.querySelector('.cantidad');
-            let cantidad = parseInt(input.value);
-            if (cantidad > 1) {
-                input.value = cantidad - 1;
-            }
-        });
-    });
-});
-</script>
-
-</script>
 </html>

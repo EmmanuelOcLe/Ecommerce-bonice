@@ -7,4 +7,3 @@
         echo "<p style='color:red'>La página solicitada no existe.</p>";
     }
 ?>
-    
