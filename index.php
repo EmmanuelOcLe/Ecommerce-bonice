@@ -1,4 +1,11 @@
-<?php require  'config/datab.php'; ?>
+<?php
+    require  'config/db.php';
+    session_start();
+    if (isset($_SESSION["user_times"]))
+    {
+        $_SESSION["user_times"] ++;
+    }
+?>
 
 
 <!DOCTYPE html>
@@ -15,6 +22,13 @@
 </head>
 <body>
     <div class="todo">
+        <?php
+            if (isset($_SESSION["user_times"]) && $_SESSION["user_times"] == 1):
+        ?>
+        <div class="user-welcome">
+            <h1>Bienvenido/a, <?= $_SESSION["user"]; ?></h1>
+        </div>
+        <?php endif; ?>
         <?php include 'includes/header.php'; ?> 
         
         <div class="contenedor">
