@@ -16,7 +16,10 @@
     </div>
 
     <div class="form-container">
-        <form action="registro.php" method="POST">
+        <?php if (isset($_GET["status"]) && $_GET["status"] == 1): ?>
+        <p class="status-red">No se encuentra registrado</p>
+        <?php endif; ?>
+        <form action="../functions/login.php" method="POST">
 
             <input type="email" name="correo" class="form-control" placeholder="Correo Electrónico" required>
             <input type="password" name="contrasena" class="form-control" placeholder="Contraseña" required>

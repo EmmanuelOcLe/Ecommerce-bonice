@@ -1,3 +1,13 @@
+<?php
+require_once '../../config/functions/carrito.php';
+
+if (isset($_GET['agregar'])) {
+    agregarAlCarrito($_GET['agregar']);
+    header("Location: carrito.php"); // evitar recarga doble
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

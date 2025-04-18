@@ -28,6 +28,7 @@ nav {
     align-items: center;
     justify-content: center;
     padding: 15px;
+    position: relative;
 }
 
 .nav-link {
@@ -58,6 +59,79 @@ nav {
 .navbar-nav {
     display: flex;
     gap: 20px;
+}
+
+.admin-user-icon{
+    position: absolute;
+    left: 5%;
+    color: #fff;
+    font-size: 30px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.admin-user-icon:hover{
+    cursor: pointer;
+}
+.admin-user-options{
+    width: fit-content;
+    height: fit-content;
+    position: absolute;
+    left: 5%;
+    top: 100%;
+    padding: 20px 40px;
+
+    display: flex;
+    visibility: hidden;
+    pointer-events: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em;
+    background-color: #F6F8FE;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px #bbb;
+    z-index: 100;
+    opacity: 0;
+    transition: all 100ms ease-out 10ms;
+}
+.admin-user-icon:hover + .admin-user-options{
+    /* display: flex; */
+    visibility: visible;
+    pointer-events: auto;
+    opacity: 1;
+}
+.admin-user-icon:hover{
+    padding-right: 5%;
+}
+.admin-user-options:hover{
+    /* display: flex; */
+    visibility: visible;
+    pointer-events: auto;
+    opacity: 1;
+}
+.admin-user-options a{
+    font-size: larger;
+    text-decoration: none;
+    color: #000;
+}
+.admin-user-options a:hover{
+    text-decoration: underline;
+    color: #0056b3;
+}
+.admin-user-options a:last-child{
+    text-align: center;
+    background-color: #F7CF5C;
+    padding: 5px 0 5px 0;
+    margin-top: 1em;
+    font-weight: bolder;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px #bbb;
+    transition: background 150ms;
+}
+.admin-user-options a:last-child:hover{
+    text-decoration: none;
+    color: #000;
+    background-color: #ffbf00;
 }
 
 /* Dropdown */

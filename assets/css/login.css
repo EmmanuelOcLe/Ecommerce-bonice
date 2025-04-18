@@ -91,3 +91,6 @@ body {
     height: 90px;
     background-color: #d1006c;
 }
+.status-red{
+    color: #d1006c;
+}

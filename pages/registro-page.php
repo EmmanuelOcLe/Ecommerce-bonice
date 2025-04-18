@@ -1,4 +1,12 @@
-
+<?php 
+    require_once  '../config/db.php';
+    $statuses = [
+        "1" => "Debe completar todos los campos.",
+        "2" => "Correo no válido.",
+        "3" => "Este correo ya está registrado",
+        "0" => "Registro exitoso. Se le redireccionará dentro de 5 segundos."
+    ];
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -18,14 +26,29 @@
         </div>
     
         <div class="form-container">
-            <form action="registro.php" method="POST">
-            <div class="form-row">
+
+        <?php 
+            if (isset($_GET["status"])):
+                if ($_GET["status"] > 3 || $_GET["status"] < 0)
+                {
+                    $mensaje = "";
+                }
+                else
+                {
+                    $mensaje = $statuses[strval($_GET["status"])];
+                }
+        ?>
+        <p class=<?php if ($_GET["status"] == 0){echo "status-blue";} else {echo "status-red";} ?> ><?= $mensaje ?></p>
+        <?php if ($_GET["status"] == 0){ echo "<meta http-equiv='refresh' content='5; URL=../index.php'>";} ?>
+        <?php endif; ?>
+            <form action="../functions/registro.php" method="POST">
+                <!-- <div class="form-row">
                     <select name="rol" class="form-control" required>
                         <option value="" disabled selected>Seleccionar Rol</option>
                         <option value="usuario">Usuario</option>
                         <option value="administrador">Administrador</option>
                     </select>
-                </div>
+                </div> -->
     
                 <div class="form-row">
                     <input type="text" name="nombres" placeholder="Nombres" required>
