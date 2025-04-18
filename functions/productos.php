@@ -3,10 +3,10 @@ include("config/db.php");
 
 
 function listarProductos() {
-    global $conn;
+    global $conexion;
 
     $sql = "SELECT * FROM productos";
-    $resultado = $conn->query($sql);
+    $resultado = $conexion->query($sql);
 
     $productos = array();
 
