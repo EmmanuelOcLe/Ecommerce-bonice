@@ -212,10 +212,10 @@ hr {
 
 .cards-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
-    gap: 30px; /* espacio entre las tarjetas */
-    max-width: 1200px; /* límite de ancho para que no se estiren de más */
-    margin: 0 auto; /* centra el contenedor horizontalmente */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 30px; 
+    max-width: 1200px; 
+    margin: 0 auto; 
     padding: 20px 30px;
 }
 
@@ -226,9 +226,6 @@ hr {
     padding: 20px;
 }
 
-#nuestros-productos {
-    margin-left: 500px;
-}
 
 .product-titule {
     font-size: 2em;

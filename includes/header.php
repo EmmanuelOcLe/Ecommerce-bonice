@@ -10,16 +10,7 @@
                 <div class="navbar-nav">
 
                     <a class="nav-link" href="index.php?page=home">Inicio</a>
-
-                    <!-- Dropdown Productos -->
-                    <div class="dropdown">
-                        <a class="nav-link dropbtn" href="index.php?page=user/productos">Productos</a>
-                        <div class="dropdown-content">
-                            <a href="#">Bonice</a>
-                            <a href="#">Popetas</a>
-                        </div>
-                    </div>
-
+                    <a class="nav-link dropbtn" href="index.php?page=user/productos">Productos</a>
                     <a class="nav-link" href="index.php?page=user/quienes">Quienes Somos</a>
                     <a class="nav-link" href="index.php?page=user/equipo">Nuestro Equipo</a>
                 </div>
