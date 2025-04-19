@@ -7,30 +7,51 @@
 
         <nav class="navbar">
             <div class="container-fluid">
-                
 
                 <?php if (isset($_SESSION["user_rol"]) && $_SESSION["user_rol"] == "admin"): ?>
-                <div class="admin-user-icon">
-                    <i class="bi bi-person-circle"></i>
-                    <i class="bi bi-chevron-down"></i>
-                </div>
+                    <div class="admin-user-icon">
+                        <i class="bi bi-person-circle"></i>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
 
-                <div class="admin-user-options">
-                    <a href="">Gestionar productos</a>
-                    <a href="">Gestionar categorías</a>
-                    <a href="">Gestionar pedidos</a>
-                    <a href="functions/cerrar_sesion.php">Cerrar Sesion</a>
-                </div>
-
+                    <div class="admin-user-options">
+                        <a href="pages/admin/gestionar_productos.php">Gestionar productos</a>
+                        <a href="pages/admin/gestionar_categorias.php">Gestionar categorías</a>
+                        <a href="pages/admin/gestionar_pedidos.php">Gestionar pedidos</a>
+                        <a href="functions/cerrar_sesion.php">Cerrar Sesión</a>
+                    </div>
                 <?php endif; ?>
 
                 <div class="navbar-nav">
+                    <?php
+                    // Cargar las categorías desde la BD
+                    $categorias_menu = mysqli_query($conexion, "SELECT * FROM categorias ORDER BY id");
 
-                    <a class="nav-link" href="index.php?page=home">Inicio</a>
-                    <a class="nav-link dropbtn" href="index.php?page=user/productos">Productos</a>
-                    <a class="nav-link" href="index.php?page=user/quienes">Quienes Somos</a>
-                    <a class="nav-link" href="index.php?page=user/equipo">Nuestro Equipo</a>
+                    // Asignar rutas fijas por ID
+                    $urls_por_id = [
+                        1 => "index.php?page=home",              // Inicio
+                        2 => "index.php?page=user/productos",    // Productos
+                        3 => "index.php?page=user/quienes",      // Quienes Somos
+                        4 => "index.php?page=user/equipo"        // Nuestro Equipo
+                      
+                    ];
+
+                    while ($cat = mysqli_fetch_assoc($categorias_menu)):
+                        $id_categoria = $cat['id'];
+                        $nombre_categoria = $cat['nombre'];
+
+                        // Determinar la URL según el ID
+                        if (array_key_exists($id_categoria, $urls_por_id)) {
+                            $url = $urls_por_id[$id_categoria];
+                        } else {
+                            // Si no está en el array, usa la genérica
+                            $url = "index.php?page=user/category&id=$id_categoria";
+                        }
+                    ?>
+                        <a class="nav-link" href="<?= $url ?>"><?= $nombre_categoria ?></a>
+                    <?php endwhile; ?>
                 </div>
+
             </div>
         </nav>
 
