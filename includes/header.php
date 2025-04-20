@@ -8,16 +8,20 @@
         <nav class="navbar">
             <div class="container-fluid">
 
-                <?php if (isset($_SESSION["user_rol"]) && $_SESSION["user_rol"] == "admin"): ?>
+                <?php if (isset($_SESSION["user"])): ?>
                     <div class="admin-user-icon">
                         <i class="bi bi-person-circle"></i>
                         <i class="bi bi-chevron-down"></i>
                     </div>
 
                     <div class="admin-user-options">
-                        <a href="pages/admin/gestionar_productos.php">Gestionar productos</a>
+                        
+                        <?php if (isset($_SESSION["user_rol"]) && $_SESSION["user_rol"] == "admin"): ?>
+                        <a href="index.php?page=admin/gestionar_productos">Gestionar productos</a>
                         <a href="pages/admin/gestionar_categorias.php">Gestionar categorías</a>
-                        <a href="pages/admin/gestionar_pedidos.php">Gestionar pedidos</a>
+                        <a href="index.php?page=admin/gestionar_pedidos">Gestionar pedidos</a>
+                        <?php endif; ?>
+                        
                         <a href="functions/cerrar_sesion.php">Cerrar Sesión</a>
                     </div>
                 <?php endif; ?>

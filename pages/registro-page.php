@@ -1,4 +1,11 @@
-<?php 
+<?php
+    session_start();
+    
+    if (isset($_SESSION["user"]))
+    {
+        header("Location: ../index.php");
+        exit();
+    }
     require_once  '../config/db.php';
     $statuses = [
         "1" => "Debe completar todos los campos.",

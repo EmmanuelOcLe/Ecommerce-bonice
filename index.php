@@ -45,12 +45,14 @@
         
         <div class="contenedor">
 
+            <?php if (!isset($_SESSION["user"])): ?>
             <aside class="bloque-sesion">
                 <?php include 'includes/aside.php'; ?>
                 
             </aside>
-
+            
             <hr>
+            <?php endif; ?>
             
             <main>
                 <?php include "includes/main.php"; ?> 

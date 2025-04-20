@@ -14,6 +14,7 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 .todo {
+    width: 100%;
     min-height: 100dvh;
     display: grid;
     grid-template-rows: auto 1fr auto;
@@ -121,7 +122,7 @@ nav {
 .admin-user-options a:last-child{
     text-align: center;
     background-color: #F7CF5C;
-    padding: 5px 0 5px 0;
+    padding: 0.5em;
     margin-top: 1em;
     font-weight: bolder;
     border-radius: 5px;

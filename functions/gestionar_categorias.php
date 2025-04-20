@@ -1,20 +1,18 @@
 <?php
-require_once('../../config/db.php');
+
+if (!isset($_SESSION["user"]))
+{
+header ("Location: ../index.php");
+exit();
+}
+
+  require_once('../../config/db.php');
 
 // Lógica para actualizar una categoría
 if (isset($_POST['actualizar'])) {
     $id = $_POST['id'];
     $nombre = $_POST['nombre'];
     $query = "UPDATE categorias SET nombre = '$nombre' WHERE id = $id";
-    mysqli_query($conexion, $query);
-    header("Location: gestionar_categorias.php");
-    exit();
-}
-
-// Lógica para eliminar una categoría
-if (isset($_GET['eliminar'])) {
-    $id = $_GET['eliminar'];
-    $query = "DELETE FROM categorias WHERE id = $id";
     mysqli_query($conexion, $query);
     header("Location: gestionar_categorias.php");
     exit();
