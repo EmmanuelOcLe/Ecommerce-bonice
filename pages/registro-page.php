@@ -34,6 +34,8 @@
     
         <div class="form-container">
 
+        <h1>Registrarse</h1>
+
         <?php 
             if (isset($_GET["status"])):
                 if ($_GET["status"] > 3 || $_GET["status"] < 0)

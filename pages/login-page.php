@@ -25,6 +25,7 @@
     </div>
 
     <div class="form-container">
+        <h1>Iniciar sesión</h1>
         <?php if (isset($_GET["status"]) && $_GET["status"] == 1): ?>
         <p class="status-red">No se encuentra registrado</p>
         <?php endif; ?>
