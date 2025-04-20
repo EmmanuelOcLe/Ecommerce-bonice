@@ -27,9 +27,12 @@ $productosEnCarrito = obtenerCarrito();
                             <a href="index.php?page=admin/gestionar_productos">Gestionar productos</a>
                             <a href="pages/admin/gestionar_categorias.php">Gestionar categorías</a>
                             <a href="index.php?page=admin/gestionar_pedidos">Gestionar pedidos</a>
+                        <?php else: ?>
+                            <a href="pages/user/mis_pedidos.php">Mis pedidos</a>
                         <?php endif; ?>
                         <a href="functions/cerrar_sesion.php">Cerrar Sesión</a>
                     </div>
+
                 <?php endif; ?>
 
                 <div class="navbar-nav">

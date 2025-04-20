@@ -149,3 +149,27 @@ img{
 .detalles-producto-row > div > img{
   width: 70%;
 }
+
+
+.button-warning {
+  background-color: #ffc107;
+  color: #000;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-success {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-warning:hover,
+.button-success:hover {
+  opacity: 0.9;
+}

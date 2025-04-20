@@ -50,18 +50,20 @@ function eliminarProducto($id) {
     $stmt->close();
 }
 
-function obtenerProductoPorId($id) {
-    global $conexion;
+if (!function_exists('obtenerProductoPorId')) {
+    function obtenerProductoPorId($id) {
+        global $conexion;
 
-    $stmt = $conexion->prepare("SELECT * FROM productos WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
+        $stmt = $conexion->prepare("SELECT * FROM productos WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
 
-    $resultado = $stmt->get_result();
-    $producto = $resultado->fetch_assoc();
+        $resultado = $stmt->get_result();
+        $producto = $resultado->fetch_assoc();
 
-    $stmt->close();
-    return $producto;
+        $stmt->close();
+        return $producto;
+    }
 }
 
 function actualizarProducto($id, $nombre, $descripcion, $precio, $stock, $categoria_id, $imagen = null) {
