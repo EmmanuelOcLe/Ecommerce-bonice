@@ -13,10 +13,11 @@
 
                     <!-- Parte central (enlaces) -->
                     <div class="menu">
-                        <a class="enlace" href="index.php?page=home">Inicio</a>
-                        <a class="enlace" href="index.php?page=user/productos">Productos</a>
-                        <a class="enlace" href="index.php?page=user/quienes">Quienes Somos</a>
-                        <a class="enlace" href="index.php?page=user/equipo">Nuestro Equipo</a>
+                    <a class="enlace" href="../../index.php?page=home">Inicio</a>
+                        <a class="enlace" href="../../index.php?page=user/productos">Productos</a>
+                        <a class="enlace" href="../../index.php?page=user/quienes">Quienes Somos</a>
+                        <a class="enlace" href="../../index.php?page=user/equipo">Nuestro Equipo</a>
+                        <a class="icono-carrito-enlace" href="../../index.php?page=user/carrito">    
                     </div>
 
                     <!-- Parte derecha (carrito) -->
