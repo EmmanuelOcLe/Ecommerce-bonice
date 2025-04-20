@@ -30,7 +30,6 @@
                     <?php
                     // Cargar las categorías desde la BD
                     $categorias_menu = mysqli_query($conexion, "SELECT * FROM categorias ORDER BY id");
-
                     // Asignar rutas fijas por ID
                     $urls_por_id = [
                         1 => "index.php?page=home",              // Inicio

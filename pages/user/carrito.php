@@ -1,11 +1,21 @@
 <?php
-require_once '../../config/functions/carrito.php';
+include_once(__DIR__ . '/../../functions/carrito.php');
 
-if (isset($_GET['agregar'])) {
-    agregarAlCarrito($_GET['agregar']);
-    header("Location: carrito.php"); // evitar recarga doble
-    exit;
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
+
+// Si se agregó un producto, agrégalo al carrito
+if (isset($_GET['agregar'])) {
+    $idProducto = intval($_GET['agregar']);
+    agregarAlCarrito($idProducto);
+    
+    // Redirige a la misma página sin parámetros para evitar duplicados al recargar
+    header("Location: carrito.php");
+    exit();
+}
+
+$productosEnCarrito = obtenerCarrito();
 ?>
 
 <!DOCTYPE html>
@@ -16,143 +26,108 @@ if (isset($_GET['agregar'])) {
     <title>Carrito</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="../../assets/css/global.css">
-
     <link rel="stylesheet" href="../../assets/css/carrito.css">
 </head>
-    <body>
-    <header>
-        <div class="encabezado">
-            <div class="logo-contenedor">
-                <img src="../../assets/img/bonice.png" alt="logo bonice" class="logo">
+<body>
+
+<?php include_once '../../includes/header-usuario.php'; ?>
+
+<main>
+    <div class="contenido-principal">
+        <div class="seccion-carrito">
+            <div class="barra-busqueda">
+                <input type="text" placeholder="Buscar productos...">
             </div>
 
-            <nav class="barra-navegacion">
-                <div class="navegacion-contenedor">
-                    <!-- Parte izquierda (usuario) -->
-                    <div class="usuario">
-                        <img src="../../assets/img/user.png" class="icono-usuario" alt="Usuario">
-                    </div>
-
-                    <!-- Parte central (enlaces) -->
-                    <div class="menu">
-                        <a class="enlace" href="index.php?page=home">Inicio</a>
-                        <a class="enlace" href="index.php?page=user/productos">Productos</a>
-                        <a class="enlace" href="index.php?page=user/quienes">Quienes Somos</a>
-                        <a class="enlace" href="index.php?page=user/equipo">Nuestro Equipo</a>
-                    </div>
-
-                    <!-- Parte derecha (carrito) -->
-                    <div class="carrito">
-                        <a class="icono-carrito-enlace" href="index.php?page=user/carrito">
-                            <img src="../../assets/img/Shopping_car.png" alt="Carrito de compras" class="icono-carrito">
-                        </a>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <main>
-        <div class="contenido-principal">
-            <div class="seccion-carrito">
-                <div class="barra-busqueda">
-                    <input type="text" placeholder="Buscar productos...">
-                </div>
-                
-                <table class="tabla-carrito">
-                    <thead>
-                        <tr>
-                            <th>Producto</th>
-                            <th>Nombre</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="columna-imagen">
-                                <img src="../../uploads/productos/producto1.png" alt="BonIce Doble Surtido">
-                            </td>
-                            <td class="columna-nombre">
-                                BONICE DOBLE<br>SURTIDO x 100
-                            </td>
-                            <td class="columna-precio">$7.950</td>
-                            <td class="columna-cantidad">
-                                <div class="control-cantidad">
-                                    <button class="boton-cantidad aumentar">+</button>
-                                    <span class="cantidad">1</span>
-                                    <button class="boton-cantidad disminuir">-</button>
-                                </div>
-                            </td>
-                            <td class="columna-eliminar">
-                                <button class="boton-eliminar">×</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="columna-imagen">
-                                <img src="../../uploads/productos/producto4.png" alt="Paletas Surtidas">
-                            </td>
-                            <td class="columna-nombre">
-                                PALETAS SURTIDAS<br>x 30
-                            </td>
-                            <td class="columna-precio">$15.950</td>
-                            <td class="columna-cantidad">
-                                <div class="control-cantidad">
-                                    <button class="boton-cantidad aumentar">+</button>
-                                    <span class="cantidad">1</span>
-                                    <button class="boton-cantidad disminuir">-</button>
-                                </div>
-                            </td>
-                            <td class="columna-eliminar">
-                                <button class="boton-eliminar">×</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="resumen-pedido">
-            <h3>RESUMEN DE TU PEDIDO - 1</h3>
-            <table class="tabla-recibo">
+            <table class="tabla-carrito">
                 <thead>
                     <tr>
-                        <th><b>Producto</b></th>
-                        <th><b>Precio</b></th>
+                        <th>Producto</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
+                <?php if (!empty($productosEnCarrito)): ?>
+                    <?php foreach ($productosEnCarrito as $producto): ?>
+                        <tr>
+                            <td class="columna-imagen">
+                                <img src="../../uploads/productos/<?php echo htmlspecialchars($producto['imagen'] ?? 'imagen_default.png'); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                            </td>
+                            <td class="columna-nombre">
+                                <?php echo strtoupper(htmlspecialchars($producto['nombre'])); ?><br>
+                                x <?php echo htmlspecialchars($producto['descripcion'] ?? ''); ?>
+                            </td>
+                            <td class="columna-precio">$<?php echo number_format($producto['precio'], 1); ?></td>
+                            <td class="columna-cantidad">
+                                <div class="control-cantidad">
+                                    <form method="POST" action="../../functions/carrito.php" style="display: inline;">
+                                        <input type="hidden" name="aumentar" value="<?php echo $producto['id']; ?>">
+                                        <button class="boton-cantidad aumentar" type="submit">+</button>
+                                    </form>
+                                    <span class="cantidad"><?php echo $producto['cantidad']; ?></span>
+                                    <form method="POST" action="../../functions/carrito.php" style="display: inline;">
+                                        <input type="hidden" name="disminuir" value="<?php echo $producto['id']; ?>">
+                                        <button class="boton-cantidad disminuir" type="submit">-</button>
+                                    </form>
+                                </div>
+                            </td>
+                            <td class="columna-eliminar">
+                                <form method="POST" action="../../functions/carrito.php">
+                                    <input type="hidden" name="eliminar" value="<?php echo $producto['id']; ?>">
+                                    <button type="submit" class="boton-eliminar">×</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
                     <tr>
-                        <td class="columna-nombre-recibo">BonIce Doble Surtido x 100</td>
-                        <td class="columna-precio-recibo">$7.950</td>
+                        <td colspan="5" style="text-align: center;">No hay productos en el carrito.</td>
                     </tr>
-                    <tr>
-                        <td class="columna-nombre-recibo">Paletas Surtidas x 30</td>
-                        <td class="columna-precio-recibo">$15.950</td>
-                    </tr>
-
-                    <tr>
-                        <div class="contenerdor-footer">
-                            <td class="cantidad">Cantidad de productos:2</td>
-                            <td class="total">Total a Pagar : 32.960</td>
-                        </div>
-                    </tr>
-
-                    <tr>
-                        <td >
-                            <button class="boton-pagar">Pagar</button>
-                        </td>
-
-                    </tr>
+                <?php endif; ?>
                 </tbody>
             </table>
-            
-            </div>
         </div>
-    </main>
 
-    <?php 
-        include_once '../../includes/footer.php';
-    ?>
+        <div class="resumen-pedido">
+            <h3>RESUMEN DE TU PEDIDO</h3>
+            <table class="tabla-recibo">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php 
+                $total = 0;
+                foreach ($productosEnCarrito as $producto): 
+                    $subtotal = $producto['precio'] * $producto['cantidad'];
+                    $total += $subtotal;
+                ?>
+                    <tr>
+                        <td class="columna-nombre-recibo"><?php echo htmlspecialchars($producto['nombre']); ?> x<?php echo $producto['cantidad']; ?></td>
+                        <td class="columna-precio-recibo">$<?php echo number_format($subtotal, 3); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                <tr>
+                    <td class="cantidad">Cantidad de productos: <?php echo count($productosEnCarrito); ?></td>
+                    <td class="total">Total a Pagar: $<?php echo number_format($total, ); ?></td>
+                </tr>
+                <tr>
+                  <form method="POST" action="../../pages/admin/gestionar_pedidos.php">
+    <button type="submit" class="boton-pagar">Pagar</button>
+</form>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<?php include_once '../../includes/footer.php'; ?>
 </body>
 </html>
