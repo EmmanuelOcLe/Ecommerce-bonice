@@ -43,6 +43,7 @@ $resultado = mysqli_stmt_get_result($stmtPedidos);
   <link rel="stylesheet" href="../../assets/css/global.css">
   <link rel="stylesheet" href="../../assets/css/pedidos.css">
   <title>Mis pedidos</title>
+
 </head>
 <body>
 <?php include '../../includes/header.php'; ?>
@@ -57,12 +58,21 @@ $resultado = mysqli_stmt_get_result($stmtPedidos);
       </div>
 
       <?php while ($pedido = mysqli_fetch_assoc($resultado)) : ?>
+        <?php
+          $estado_clase = match ($pedido['estado']) {
+            'pendiente'     => 'estado-pendiente',
+            'en proceso'    => 'estado-en-proceso',
+            'enviado'       => 'estado-enviado',
+            'entregado'     => 'estado-entregado',
+            default         => 'estado-desconocido',
+          };
+        ?>
         <div class="gestionar-pedidos-row">
           <div><?= htmlspecialchars($pedido['id']) ?></div>
           <div>$<?= number_format($pedido['coste'], 0, ',', '.') ?></div>
           <div><?= htmlspecialchars($pedido['fecha']) ?></div>
           <div>
-            <span class="<?= $pedido['estado'] == 'pendiente' ? 'button-warning' : 'button-success' ?>">
+            <span class="estado-label <?= $estado_clase ?>">
               <?= ucfirst($pedido['estado']) ?>
             </span>
           </div>
