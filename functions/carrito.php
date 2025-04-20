@@ -10,7 +10,7 @@ if (!isset($_SESSION['carrito'])) {
 
 // Obtener producto por ID desde la base de datos
 function obtenerProductoPorId($id) {
-    $conexion = new mysqli("localhost", "root", "123456789", "bonice");
+    $conexion = new mysqli("localhost", "root", "123456", "bonice");
 
     if ($conexion->connect_error) {
         die("Conexión fallida: " . $conexion->connect_error);
@@ -92,14 +92,19 @@ function obtenerCarrito() {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['eliminar'])) {
         eliminarDelCarrito((int) $_POST['eliminar']);
+        header("Location: ../pages/user/carrito.php");
+        exit();
     } elseif (isset($_POST['aumentar'])) {
         aumentarCantidad((int) $_POST['aumentar']);
+        header("Location: ../pages/user/carrito.php");
+        exit();
     } elseif (isset($_POST['disminuir'])) {
         disminuirCantidad((int) $_POST['disminuir']);
+        header("Location: ../pages/user/carrito.php");
+        exit();
     } elseif (isset($_POST['vaciar'])) {
         vaciarCarrito();
+        header("Location: ../pages/user/carrito.php");
+        exit();
     }
-
-    header("Location: ../pages/user/carrito.php");
-    exit();
 }

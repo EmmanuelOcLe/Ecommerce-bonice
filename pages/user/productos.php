@@ -23,9 +23,9 @@ $productos = listarProductos();
 
                     <!-- Enlace "Ver Más" con el ID dinámico -->
                     <a href="pages/user/detalle.php?producto=<?php echo $producto['id']; ?>" class="view-more-button">Ver Más</a>
-                    
-                    <!-- Enlace para agregar al carrito con el ID del producto -->
-                    <a href="pages/user/carrito.php?agregar=<?php echo $producto['id']; ?>" class="btn-agregar">Agregar al carrito</a>
+
+                    <!-- Botón para agregar al carrito con AJAX -->
+                    <button class="btn-agregar" onclick="agregarAlCarrito(<?php echo $producto['id']; ?>)">Agregar al carrito</button>
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
@@ -33,3 +33,65 @@ $productos = listarProductos();
         <?php endif; ?>
     </div>
 </div>
+
+<!-- TOAST CSS -->
+<style>
+.notificacion-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4caf50;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 9999;
+}
+
+.notificacion-toast.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notificacion-toast.error {
+    background-color: #e74c3c;
+}
+</style>
+
+<!-- TOAST JS + AJAX -->
+<script>
+function agregarAlCarrito(idProducto) {
+    fetch(`pages/user/carrito.php?agregar=${idProducto}`, {
+        method: 'GET',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(res => {
+        if (res.ok) {
+            mostrarNotificacion("Producto agregado al carrito");
+        } else {
+            throw new Error("No se pudo agregar");
+        }
+    })
+    .catch(() => {
+        mostrarNotificacion("Error al agregar al carrito", true);
+    });
+}
+
+function mostrarNotificacion(mensaje, esError = false) {
+    const noti = document.createElement("div");
+    noti.className = `notificacion-toast ${esError ? 'error' : ''}`;
+    noti.innerText = mensaje;
+    document.body.appendChild(noti);
+
+    setTimeout(() => {
+        noti.classList.add("mostrar");
+        setTimeout(() => {
+            noti.classList.remove("mostrar");
+            setTimeout(() => document.body.removeChild(noti), 300);
+        }, 2500);
+    }, 100);
+}
+</script>

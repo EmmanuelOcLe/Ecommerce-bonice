@@ -9,8 +9,15 @@ if (session_status() === PHP_SESSION_NONE) {
 if (isset($_GET['agregar'])) {
     $idProducto = intval($_GET['agregar']);
     agregarAlCarrito($idProducto);
-    
-    // Redirige a la misma página sin parámetros para evitar duplicados al recargar
+
+    // Si es una petición AJAX, no redirigir
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+        strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+        http_response_code(200);
+        exit;
+    }
+
+    // Redirige normalmente solo si NO es AJAX
     header("Location: carrito.php");
     exit();
 }
@@ -50,43 +57,43 @@ $productosEnCarrito = obtenerCarrito();
                     </tr>
                 </thead>
                 <tbody>
-                <?php if (!empty($productosEnCarrito)): ?>
-                    <?php foreach ($productosEnCarrito as $producto): ?>
+                    <?php if (!empty($productosEnCarrito)): ?>
+                        <?php foreach ($productosEnCarrito as $producto): ?>
+                            <tr>
+                                <td class="columna-imagen">
+                                    <img src="../../uploads/productos/<?php echo htmlspecialchars($producto['imagen'] ?? 'imagen_default.png'); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                                </td>
+                                <td class="columna-nombre">
+                                    <?php echo strtoupper(htmlspecialchars($producto['nombre'])); ?><br>
+                                    x <?php echo htmlspecialchars($producto['descripcion'] ?? ''); ?>
+                                </td>
+                                <td class="columna-precio">$<?php echo number_format($producto['precio'], 1); ?></td>
+                                <td class="columna-cantidad">
+                                    <div class="control-cantidad">
+                                        <form method="POST" action="../../functions/carrito.php" style="display: inline;">
+                                            <input type="hidden" name="aumentar" value="<?php echo $producto['id']; ?>">
+                                            <button class="boton-cantidad aumentar" type="submit">+</button>
+                                        </form>
+                                        <span class="cantidad"><?php echo $producto['cantidad']; ?></span>
+                                        <form method="POST" action="../../functions/carrito.php" style="display: inline;">
+                                            <input type="hidden" name="disminuir" value="<?php echo $producto['id']; ?>">
+                                            <button class="boton-cantidad disminuir" type="submit">-</button>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td class="columna-eliminar">
+                                    <form method="POST" action="../../functions/carrito.php">
+                                        <input type="hidden" name="eliminar" value="<?php echo $producto['id']; ?>">
+                                        <button type="submit" class="boton-eliminar">×</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
                         <tr>
-                            <td class="columna-imagen">
-                                <img src="../../uploads/productos/<?php echo htmlspecialchars($producto['imagen'] ?? 'imagen_default.png'); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
-                            </td>
-                            <td class="columna-nombre">
-                                <?php echo strtoupper(htmlspecialchars($producto['nombre'])); ?><br>
-                                x <?php echo htmlspecialchars($producto['descripcion'] ?? ''); ?>
-                            </td>
-                            <td class="columna-precio">$<?php echo number_format($producto['precio'], 1); ?></td>
-                            <td class="columna-cantidad">
-                                <div class="control-cantidad">
-                                    <form method="POST" action="../../functions/carrito.php" style="display: inline;">
-                                        <input type="hidden" name="aumentar" value="<?php echo $producto['id']; ?>">
-                                        <button class="boton-cantidad aumentar" type="submit">+</button>
-                                    </form>
-                                    <span class="cantidad"><?php echo $producto['cantidad']; ?></span>
-                                    <form method="POST" action="../../functions/carrito.php" style="display: inline;">
-                                        <input type="hidden" name="disminuir" value="<?php echo $producto['id']; ?>">
-                                        <button class="boton-cantidad disminuir" type="submit">-</button>
-                                    </form>
-                                </div>
-                            </td>
-                            <td class="columna-eliminar">
-                                <form method="POST" action="../../functions/carrito.php">
-                                    <input type="hidden" name="eliminar" value="<?php echo $producto['id']; ?>">
-                                    <button type="submit" class="boton-eliminar">×</button>
-                                </form>
-                            </td>
+                            <td colspan="5" style="text-align: center;">No hay productos en el carrito.</td>
                         </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="5" style="text-align: center;">No hay productos en el carrito.</td>
-                    </tr>
-                <?php endif; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
@@ -101,27 +108,26 @@ $productosEnCarrito = obtenerCarrito();
                     </tr>
                 </thead>
                 <tbody>
-                <?php 
-                $total = 0;
-                foreach ($productosEnCarrito as $producto): 
-                    $subtotal = $producto['precio'] * $producto['cantidad'];
-                    $total += $subtotal;
-                ?>
+                    <?php 
+                    $total = 0;
+                    foreach ($productosEnCarrito as $producto): 
+                        $subtotal = $producto['precio'] * $producto['cantidad'];
+                        $total += $subtotal;
+                    ?>
+                        <tr>
+                            <td class="columna-nombre-recibo"><?php echo htmlspecialchars($producto['nombre']); ?> x<?php echo $producto['cantidad']; ?></td>
+                            <td class="columna-precio-recibo">$<?php echo number_format($subtotal, 3); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
                     <tr>
-                        <td class="columna-nombre-recibo"><?php echo htmlspecialchars($producto['nombre']); ?> x<?php echo $producto['cantidad']; ?></td>
-                        <td class="columna-precio-recibo">$<?php echo number_format($subtotal, 3); ?></td>
+                        <td class="cantidad">Cantidad de productos: <?php echo count($productosEnCarrito); ?></td>
+                        <td class="total">Total a Pagar: $<?php echo number_format($total); ?></td>
                     </tr>
-                <?php endforeach; ?>
-                <tr>
-                    <td class="cantidad">Cantidad de productos: <?php echo count($productosEnCarrito); ?></td>
-                    <td class="total">Total a Pagar: $<?php echo number_format($total, ); ?></td>
-                </tr>
-                <tr>
-                  <form method="POST" action="../../pages/admin/gestionar_pedidos.php">
-    <button type="submit" class="boton-pagar">Pagar</button>
-</form>
-
-                </tr>
+                    <tr>
+                        <form method="POST" action="../../pages/user/gestion.php">
+                            <button type="submit" class="boton-pagar">Pagar</button>
+                        </form>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -129,5 +135,6 @@ $productosEnCarrito = obtenerCarrito();
 </main>
 
 <?php include_once '../../includes/footer.php'; ?>
+
 </body>
 </html>
