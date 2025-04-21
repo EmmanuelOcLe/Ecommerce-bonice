@@ -1,0 +1,239 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #fff;
+}
+
+
+.mid-line {
+    width: 2000px;
+    height: 4px;
+    background-color: #e91e63;
+    margin-bottom: 20px;
+    margin-left: 2.9%
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Producto Principal */
+.producto-principal {
+    display: flex;
+    background-color: white;
+    margin-bottom: 30px;
+    padding: 10px 0;
+}
+
+.producto-imagen {
+    flex: 0 0 25%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.producto-imagen img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.producto-info {
+    flex: 0 0 75%;
+    padding: 10px 20px;
+    position: relative;
+    bottom: -7rem;
+    right: -2rem;
+}
+
+.producto-titulo {
+    font-size: 25px;
+    font-weight: bolder;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.producto-descripcion {
+    font-size: 25px;
+    font-weight: 200;
+    line-height: 1.4;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.producto-disponibilidad {
+    font-size: 17px;
+    font-weight: 200;
+    color: #666;
+    margin-bottom: 10px;
+
+}
+
+.producto-precio {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.btn-agregar {
+    background-color: #f0ad4e;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-agregar:hover {
+    background-color: #ec971f;
+}
+
+.productos-relacionados {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 1rem 2rem;
+    align-items: center;
+}
+
+.productos-carousel {
+    display: flex;
+    gap: 1rem;
+    transition: transform 0.5s ease-in-out;
+    will-change: transform;
+}
+
+.producto-relacionado {
+    width: 500%;
+    flex: 0 0 calc(200% / 3 - rem); /* 3 productos visibles con espacio */
+    max-width: calc(600% / 3 - 1rem);
+    background: #f9f9f9;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-align: center;
+    position: relative;
+    top: -1rem;
+}
+
+.producto-relacionado img {
+    width: 200px;       /* o el tamaño que quieras */
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto;
+    display: block;
+}
+
+
+
+
+.btn-ver-mas {
+    background-color: #f0ad4e;
+    color: black;
+    border: none;
+    padding: 12px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 80%;
+    font-size: 1rem;
+    border-radius: 10px;
+}
+
+.btn-ver-mas:hover {
+    background-color: #ec971f;
+}
+
+.nav-btn {
+    background-color: #e91e63;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 12px;
+}
+
+
+
+/* Producto no encontrado */
+.producto-no-encontrado {
+    background-color: white;
+    border: 1px solid #eee;
+    padding: 30px;
+    text-align: center;
+}
+
+.producto-no-encontrado p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .producto-principal {
+        flex-direction: column;
+    }
+    
+    .producto-imagen, .producto-info {
+        flex: 0 0 100%;
+    }
+    
+    .productos-carousel {
+        flex-direction: column;
+    }
+    
+    .producto-relacionado {
+        max-width: 100%;
+        margin-bottom: 15px;
+    }
+    
+    .nav-btn {
+        display: none;
+    }
+}
+
+
+.notificacion-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4caf50;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 9999;
+}
+
+.notificacion-toast.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notificacion-toast.error {
+    background-color: #e74c3c;
+}

@@ -1,0 +1,341 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.logo-contenedor {
+    background-color: #0077c8;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.logo {
+    height: 60px;
+    max-width: 200px;
+    object-fit: contain;
+}
+
+.barra-navegacion {
+    background-color: #e6007e;
+    padding: 8px 0;
+    max-width: 100%;
+    margin: 0 auto;
+    height: 60px;
+}
+
+.navegacion-contenedor {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 100%;
+}
+
+.usuario,
+.carrito {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.usuario img,
+.carrito img {
+    height: 60px;
+    cursor: pointer;
+}
+
+.menu {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.menu .enlace {
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.menu .enlace:hover {
+    color: #ffccf3;
+}
+
+.icono-carrito,
+.icono-usuario {
+    height: 35px;
+}
+
+.icono-usuario {
+    margin-right: auto;
+}
+
+.icono-carrito-enlace {
+    margin-left: auto;
+}
+
+@media (max-width: 768px) {
+    .navegacion-contenedor {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .menu {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+}
+
+/* Main */
+.contenido-principal {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+    gap: 3rem;
+    padding: 0 20px;
+}
+
+.seccion-carrito {
+    flex: 2;
+    position: relative;
+    bottom: -11%;
+    left: -25%;
+    border-radius: 5px;
+    padding: 20px;
+    padding-bottom: 20rem;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.barra-busqueda {
+    margin-bottom: 20px;
+}
+
+.barra-busqueda input {
+    width: 300%;
+    padding: 12px;
+    border: none;
+    background-color: #F6F8FE;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    right: 30px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.barra-busqueda input:focus {
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.tabla-carrito {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-carrito th {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tabla-carrito td {
+    padding: 15px 10px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+.columna-imagen img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.columna-nombre {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.columna-precio {
+    font-weight: bold;
+}
+
+.control-cantidad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.boton-cantidad {
+    width: 25px;
+    height: 25px;
+    background-color: #031779;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.boton-cantidad:hover {
+    transform: scale(1.05);
+}
+
+.cantidad {
+    margin: 0 10px;
+}
+
+.resumen-pago {
+    width: 116%;
+    background-color: #aabff7;
+    color: black;
+    padding: 15px;
+    margin-top: 20px;
+    text-align: left;
+    position: relative;
+    right: 8%;
+}
+
+.resumen-pago p {
+    margin: 5px 0;
+    font-size: 14px;
+    font-weight: 200;
+}
+
+.boton-eliminar {
+    width: 25px;
+    height: 25px;
+    background-color: #e6007e;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.boton-eliminar:hover {
+    transform: scale(1.05);
+}
+
+.resumen-pedido {
+    flex: 2;
+    width: 1000px;
+    padding: 60px;
+    background-color: #F6F8FE;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.resumen-pedido h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .contenido-principal {
+        flex-direction: column;
+    }
+
+    .tabla-carrito {
+        font-size: 14px;
+    }
+
+    .columna-imagen img {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+/* Recibo */
+.tabla-recibo {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.tabla-recibo th,
+.tabla-recibo td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    position: relative;
+    top: -3rem;
+}
+
+.columna-precio-recibo {
+    text-align: right;
+}
+
+.columna-nombre-recibo {
+    font-size: 14px;
+}
+
+.contenedor-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.fila-resumen {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+    font-weight: 200;
+    font-size: 14px;
+    color: black;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.fila-resumen:hover {
+    transform: translateX(5px);
+    opacity: 0.9;
+}
+
+.boton-pagar {
+    background-color: #f7cf5c;
+    border: none;
+    height: 30px;
+    width: 150px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: -15rem;
+    left: 25rem;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.boton-pagar:hover {
+    background-color: #e9c14a;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
