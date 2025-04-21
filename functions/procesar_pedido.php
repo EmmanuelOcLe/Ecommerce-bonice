@@ -1,34 +1,30 @@
 <?php
 session_start();
-ob_start();
-
 require_once '../config/db.php';
 require_once '../functions/carrito.php';
 
+header('Content-Type: application/json');
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_SESSION['user_email'])) {
-        echo "Usuario no autenticado";
+        echo json_encode(['status' => 'error', 'message' => 'Usuario no autenticado']);
         exit;
     }
 
-    // Obtener ID del usuario desde su correo
     $email = $_SESSION['user_email'];
-    $sqlUsuario = "SELECT id FROM usuarios WHERE email = ?";
-    $stmt = mysqli_prepare($conexion, $sqlUsuario);
+    $stmt = mysqli_prepare($conexion, "SELECT id FROM usuarios WHERE email = ?");
     mysqli_stmt_bind_param($stmt, "s", $email);
     mysqli_stmt_execute($stmt);
-    $resultado = mysqli_stmt_get_result($stmt);
-    $usuario = mysqli_fetch_assoc($resultado);
-
-    if (!$usuario) {
-        echo "Usuario no encontrado";
-        exit;
-    }
+    $result = mysqli_stmt_get_result($stmt);
+    $usuario = mysqli_fetch_assoc($result);
     mysqli_stmt_close($stmt);
 
-    $usuario_id = $usuario['id'];
+    if (!$usuario) {
+        echo json_encode(['status' => 'error', 'message' => 'Usuario no encontrado']);
+        exit;
+    }
 
-    // Obtener datos del formulario
+    $usuario_id = $usuario['id'];
     $direccion = $_POST['direccion'] ?? '';
     $provincia = $_POST['departamento'] ?? '';
     $localidad = $_POST['ciudad'] ?? '';
@@ -38,14 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fecha = date('Y-m-d');
     $hora = date('H:i:s');
 
-    // Obtener carrito
     $carrito = obtenerCarrito();
     if (empty($carrito)) {
-        echo "El carrito está vacío";
+        echo json_encode(['status' => 'error', 'message' => 'El carrito está vacío']);
         exit;
     }
 
-    // Calcular el coste total y cantidad total
     $coste_total = 0;
     $cantidad_total = 0;
     foreach ($carrito as $producto) {
@@ -53,25 +47,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $cantidad_total += $producto['cantidad'];
     }
 
-    // Insertar pedido
     $sqlPedido = "INSERT INTO pedidos (usuario_id, provincia, localidad, direccion, coste, estado, fecha, hora)
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmtPedido = mysqli_prepare($conexion, $sqlPedido);
     mysqli_stmt_bind_param($stmtPedido, "isssdsss", $usuario_id, $provincia, $localidad, $direccion, $coste_total, $estado, $fecha, $hora);
 
     if (mysqli_stmt_execute($stmtPedido)) {
-        // Obtener el ID del nuevo pedido
-        $pedido_id = mysqli_insert_id($conexion);
-
-        // Vaciar carrito
         $_SESSION['carrito'] = [];
-
-        // Redirigir a la página de confirmación con los datos
-        header("Location: ../functions/confirmacion.php?pedido_id=$pedido_id&total=$coste_total&cantidad=$cantidad_total");
-        exit();
+        echo json_encode(['status' => 'success']);
     } else {
-        echo "Error al guardar el pedido";
-        exit();
+        echo json_encode(['status' => 'error', 'message' => 'Error al guardar el pedido']);
     }
 }
-?>

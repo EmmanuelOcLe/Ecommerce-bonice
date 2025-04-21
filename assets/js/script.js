@@ -1,28 +1,51 @@
-let currentIndex = 0;
-const slides = document.querySelector('.slides');
-const totalSlides = document.querySelectorAll('.slide').length;
+let currentSlide = 0;
+const slideElements = document.querySelectorAll('.slide');
+const slidesContainer = document.querySelector('.slides');
+const dotsContainer = document.querySelector('.dots-container');
+
+// Crear los puntos debajo del slider
+slideElements.forEach((_, i) => {
+    const dot = document.createElement('span');
+    dot.classList.add('dot');
+    dot.addEventListener('click', () => goToSlide(i));
+    dotsContainer.appendChild(dot);
+});
 
 function showSlide(index) {
-    if (index >= totalSlides) {
-        currentIndex = 0;
-    } else if (index < 0) {
-        currentIndex = totalSlides - 1;
+    if (index < 0) {
+        currentSlide = slideElements.length - 1;
+    } else if (index >= slideElements.length) {
+        currentSlide = 0;
     } else {
-        currentIndex = index;
+        currentSlide = index;
     }
-    slides.style.transform = `translateX(-${currentIndex * 100}%)`;
-}
 
-function nextSlide() {
-    showSlide(currentIndex + 1);
+    // Mover el contenedor de slides
+    slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+    // Actualizar los puntos
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentSlide);
+    });
 }
 
 function prevSlide() {
-    showSlide(currentIndex - 1);
+    showSlide(currentSlide - 1);
 }
 
-// Cambio automático cada 10 segundos
+function nextSlide() {
+    showSlide(currentSlide + 1);
+}
+
+function goToSlide(index) {
+    showSlide(index);
+}
+
+// Mostrar primer slide al inicio
+showSlide(currentSlide);
+
+// Slider automático cada 3 segundos
 setInterval(() => {
     nextSlide();
-}, 5000);
-
+}, 3000);

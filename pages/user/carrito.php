@@ -41,10 +41,12 @@ $productosEnCarrito = obtenerCarrito();
 
 <main>
     <div class="contenido-principal">
+
+        <div class="barra-busqueda">
+            <input type="text" placeholder="Buscar productos...">
+        </div>
+
         <div class="seccion-carrito">
-            <div class="barra-busqueda">
-                <input type="text" placeholder="Buscar productos...">
-            </div>
 
             <table class="tabla-carrito">
                 <thead>
@@ -120,8 +122,22 @@ $productosEnCarrito = obtenerCarrito();
                         </tr>
                     <?php endforeach; ?>
                     <tr>
-                        <td class="cantidad">Cantidad de productos: <?php echo count($productosEnCarrito); ?></td>
-                        <td class="total">Total a Pagar: $<?php echo number_format($total); ?></td>
+                        <td colspan="2">
+                            <div class="resumen-pago">
+                                <div class="fila-resumen">
+                                    <span class="etiqueta">Cantidad de productos:</span>
+                                    <span class="valor"><?php echo count($productosEnCarrito); ?></span>
+                                    
+                                </div>
+
+                                <p>------------------------------------------------------------</p>
+
+                                <div class="fila-resumen">
+                                    <span class="etiqueta">Total a Pagar:</span>
+                                    <span class="valor">$<?php echo number_format($total); ?></span>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <form method="POST" action="../../pages/user/gestion.php">

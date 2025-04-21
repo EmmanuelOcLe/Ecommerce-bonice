@@ -1,4 +1,7 @@
 /* AJUSTES GLOBALES */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -8,10 +11,12 @@
     --color-rosa: #C40069;
     --color-azul: #006CB0;
     --color-blanco: #fff;
-    --fuente-secundaria: Arial, sans-serif;
+    --fuente-secundaria: 'Poppins', sans-serif;
 }
 body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Poppins", sans-serif;
+    font-weight: 100;
+    font-style: normal;
 }
 .todo {
     width: 100%;
@@ -37,7 +42,7 @@ nav {
     font-weight: 700;
     text-decoration: none;
     padding: 10px 20px;
-    font-size: 1.2em;
+    font-size: 1.4em;
     border-radius: 5px;
 }
 
@@ -202,14 +207,20 @@ main{
 }
 
 .logo-pingui {
-    width: 100%;
+    width: 120%;
     margin: 30px 10px;
     padding: 30px;
+    filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.1)); 
+    transition: filter 0.3s ease;
+}
+
+.logo-pingui:hover{
+    filter: drop-shadow(0 6px 25px rgba(0, 0, 0, 0.2));
 }
 
 .aside-button {
     background-color: var(--color-azul);
-    padding: 15px 25px;
+    padding: 20px 40px;
     border: none;
     border-radius: 7px;
     margin: 15px 0;
@@ -217,11 +228,28 @@ main{
     font-size: 1.3em;
     font-weight: 600;
     width: 100%;
-    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-.aside-button:hover {
+.aside-button-reg {
+    background-color: var(--color-azul);
+    padding: 20px 50px;
+    border: none;
+    border-radius: 7px;
+    margin: 15px 0;
+    color: var(--color-blanco);
+    font-size: 1.3em;
+    font-weight: 600;
+    width: 100%;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.aside-button:hover, .aside-button-reg:hover {
     background-color: #004977f3;
+    cursor: pointer;
+    transform: scale(1.05);
 }
 
 hr {
@@ -331,6 +359,40 @@ footer {
     grid-template-rows: auto 1fr auto;
 }
 
+/* Contenedor del carrito */
+.carrito-icono {
+    position: relative;
+    display: inline-block; /* Para que los elementos dentro puedan posicionarse correctamente */
+}
+
+/* Icono del carrito */
+.carrito-icono .dropdown-carrito a img {
+    width: 40px; /* Ajusta el tamaño según lo necesites */
+    height: 40px;
+}
+
+/* Dropdown del carrito */
+.carrito-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%; /* Justo debajo del icono */
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 200px; /* Ajusta el ancho del dropdown */
+    z-index: 99; /* Para asegurarte de que quede por encima de otros elementos */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Mostrar dropdown cuando se pasa el mouse sobre el ícono */
+.carrito-icono:hover .carrito-dropdown {
+    display: block;
+}
+
+
+
+
 /* Medias Queries */
 @media screen and (max-width: 1920px) {
     .cards-container {
@@ -358,7 +420,7 @@ footer {
     }
 }
 
-@media screen and (max-width: 1440px) {
+/* @media screen and (max-width: 1440px) {
     .cards-container {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -466,4 +528,4 @@ footer {
         margin: 10px auto;
     }
 }
-
+ */

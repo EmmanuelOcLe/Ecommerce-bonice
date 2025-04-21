@@ -1,58 +1,76 @@
-.slider {
+.slider-wrapper {
     position: relative;
-    width: 100%;
     max-width: 1000px;
-    margin: auto;
+    margin: 60px auto;
+  }
+  
+  .slider {
     overflow: hidden;
-}
-
-.slides {
+    border-radius: 10px;
+  }
+  
+  .slides {
     display: flex;
-    transition: transform 0.5s ease-in-out;
-    display: flex;
-    align-items: center;
-}
-
-.slide {
-    min-width: 100%; /* Muy importante para que cada slide ocupe todo el contenedor */
-    box-sizing: border-box;
-}
-
-.slide img {
-    width: 100%;      /* Ocupar todo el ancho del slide */
-    height: auto;     /* Mantener proporciones */
+    transition: transform 0.5s ease;
+  }
+  
+  .slide {
+    min-width: 100%;
+  }
+  
+  .slide img {
+    width: 100%;
     display: block;
-    object-fit: cover;
-}
-
-.arrow {
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #C40069;
     color: white;
-    border: none;
+    font-size: 24px;
     padding: 10px;
+    border: none;
     cursor: pointer;
-    z-index: 10;
+    z-index: 2;
+    border-radius: 50%;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  }
+  
+  .arrow.left {
+    left: -90px;
+  }
+  
+  .arrow.right {
+    right: -5rem;
+  }
+  
+
+/* Puntos debajo del slider */
+.dots-container {
+    text-align: center;
+    margin-top: 15px;
 }
 
-.arrow.left {
-    left: 10px;
+.dot {
+    height: 12px;
+    width: 12px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.arrow.right {
-    right: 10px;
+.dot.active {
+    background-color: #C40069;
 }
 
-/* Estilo para mostrar el dropdown al pasar el mouse */
-.nav-item.dropdown:hover .dropdown-menu {
-    display: block;
-}
 
-.dropdown-menu {
-    margin-top: 0; /* Ajusta la posición del menú desplegable */
-}
 
 
 /* STYLE DE PRODUCTOS */

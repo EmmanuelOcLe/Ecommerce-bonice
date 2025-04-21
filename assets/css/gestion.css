@@ -19,7 +19,7 @@ body {
 
 .logo-floating {
     position: absolute;
-    top: 30px;
+    top: 100px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
@@ -33,9 +33,9 @@ body {
 }
 
 
-.form-container {
+.form-container-gestion {
     position: absolute;
-    top: 50%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 46%;
@@ -76,6 +76,35 @@ body {
     transition: all 0.3s ease;
 }
 
+
+.form-control-dir{
+    width: 45%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+}
+
+.form-control-ciud{
+    width: 49%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    z-index: 1 !important;
+    position: relative !important;
+}
+
 input:focus {
     outline: none;
     border: 2px solid #3498db;
@@ -104,33 +133,3 @@ input:focus {
     transform: scale(1.05);
 }
 
-.wave-top {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 100px;
-    overflow: hidden;
-}
-  
-.wave-top svg {
-    width: 100%;
-    height: 100%;
-    transform: rotate(180deg);
-    display: block;
-}
-  
-.wave-bottom {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 150px;
-    z-index: -1;
-    pointer-events: none;
-}
-  
-.wave-bottom svg {
-    display: block;
-    width: 100%;
-    height: 100%;
-}
