@@ -35,7 +35,6 @@ $productos_relacionados = array_filter($productos_relacionados, function($p) use
 
 <header>
     <div class="header-container">
-
         <div class="img-container">
             <img src="../../assets/img/bonice.png" alt="logo bonice" class="logo-bonice" style="width: 25%;">
         </div>
@@ -92,7 +91,7 @@ $productos_relacionados = array_filter($productos_relacionados, function($p) use
                                 <ul>
                                     <?php foreach ($productosEnCarrito as $producto): ?>
                                         <li>
-                                            <?php echo htmlspecialchars($producto['nombre']); ?> -
+                                            <?php echo htmlspecialchars($producto['nombre']); ?> - 
                                             $<?php echo number_format($producto['precio'], 1); ?>
                                         </li>
                                     <?php endforeach; ?>
@@ -109,7 +108,6 @@ $productos_relacionados = array_filter($productos_relacionados, function($p) use
 
             </div>
         </nav>
-
     </div>
 </header>
 

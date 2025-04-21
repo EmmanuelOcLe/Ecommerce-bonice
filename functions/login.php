@@ -19,10 +19,6 @@
   
       $query = mysqli_stmt_get_result($statement);
       $result = mysqli_fetch_assoc($query);
-
-      // echo mysqli_num_rows($query);
-      // echo $contrasena_segura;
-      // exit();
   
       if (mysqli_num_rows($query) == 1)
       {

@@ -3,6 +3,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+require_once __DIR__ . '/../config/db.php'; // Conexión centralizada
+
 // Inicializar el carrito si no existe
 if (!isset($_SESSION['carrito'])) {
     $_SESSION['carrito'] = [];
@@ -10,11 +12,7 @@ if (!isset($_SESSION['carrito'])) {
 
 // Obtener producto por ID desde la base de datos
 function obtenerProductoPorId($id) {
-    $conexion = new mysqli("localhost", "root", "123456", "bonice");
-
-    if ($conexion->connect_error) {
-        die("Conexión fallida: " . $conexion->connect_error);
-    }
+    global $conexion;
 
     $stmt = $conexion->prepare("SELECT id, nombre, precio, descripcion, imagen FROM productos WHERE id = ?");
     $stmt->bind_param("i", $id);
@@ -23,8 +21,6 @@ function obtenerProductoPorId($id) {
     $producto = $resultado->fetch_assoc();
 
     $stmt->close();
-    $conexion->close();
-
     return $producto;
 }
 
@@ -39,7 +35,7 @@ function agregarAlCarrito($idProducto, $cantidad = 1) {
                 'id' => $producto['id'],
                 'nombre' => $producto['nombre'],
                 'descripcion' => $producto['descripcion'],
-                'imagen' => $producto['imagen'],
+                'imagen' => '../../uploads/productos/' . $producto['imagen'], // Ruta corregida
                 'precio' => $producto['precio'],
                 'cantidad' => $cantidad
             ];

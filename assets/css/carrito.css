@@ -1,8 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-
-/* Header */
-header {
-    width: 100%;
+body {
+    font-family: 'Poppins', sans-serif;
 }
 
 .logo-contenedor {
@@ -98,16 +97,20 @@ header {
 .contenido-principal {
     display: flex;
     max-width: 1200px;
-    margin: 20px 50px;
-    gap: 15rem;
+    margin: 20px auto;
+    gap: 3rem;
+    padding: 0 20px;
 }
 
 .seccion-carrito {
-    flex: 3;
-    background-color: white;
+    flex: 2;
+    position: relative;
+    bottom: -11%;
+    left: -25%;
     border-radius: 5px;
     padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding-bottom: 20rem;
+    animation: fadeInUp 0.6s ease-out;
 }
 
 .barra-busqueda {
@@ -115,10 +118,20 @@ header {
 }
 
 .barra-busqueda input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
+    width: 300%;
+    padding: 12px;
+    border: none;
+    background-color: #F6F8FE;
     border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    right: 30px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.barra-busqueda input:focus {
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .tabla-carrito {
@@ -171,10 +184,32 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.boton-cantidad:hover {
+    transform: scale(1.05);
 }
 
 .cantidad {
     margin: 0 10px;
+}
+
+.resumen-pago {
+    width: 116%;
+    background-color: #aabff7;
+    color: black;
+    padding: 15px;
+    margin-top: 20px;
+    text-align: left;
+    position: relative;
+    right: 8%;
+}
+
+.resumen-pago p {
+    margin: 5px 0;
+    font-size: 14px;
+    font-weight: 200;
 }
 
 .boton-eliminar {
@@ -186,17 +221,23 @@ header {
     border-radius: 50%;
     font-size: 18px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.boton-eliminar:hover {
+    transform: scale(1.05);
 }
 
 .resumen-pedido {
-    width: 700px; /* o el tamaño que desees */
-    background-color: white;
+    flex: 2;
+    width: 1000px;
+    padding: 60px;
+    background-color: #F6F8FE;
     border-radius: 5px;
     padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    height: fit-content;
+    animation: fadeInUp 0.6s ease-out;
 }
-
 
 .resumen-pedido h3 {
     font-size: 16px;
@@ -221,7 +262,6 @@ header {
     }
 }
 
-
 /* Recibo */
 .tabla-recibo {
     width: 100%;
@@ -234,6 +274,8 @@ header {
     padding: 10px;
     border-bottom: 1px solid #ddd;
     text-align: left;
+    position: relative;
+    top: -3rem;
 }
 
 .columna-precio-recibo {
@@ -249,4 +291,51 @@ header {
     justify-content: space-between;
     align-items: center;
     margin-top: 20px;
+}
+
+.fila-resumen {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+    font-weight: 200;
+    font-size: 14px;
+    color: black;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.fila-resumen:hover {
+    transform: translateX(5px);
+    opacity: 0.9;
+}
+
+.boton-pagar {
+    background-color: #f7cf5c;
+    border: none;
+    height: 30px;
+    width: 150px;
+    border-radius: 5px;
+    position: relative;
+    bottom: -20rem;
+    left: 15rem;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.boton-pagar:hover {
+    background-color: #e9c14a;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
