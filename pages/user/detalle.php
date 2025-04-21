@@ -111,9 +111,11 @@ $productos_relacionados = array_filter($productos_relacionados, function($p) use
     </div>
 </header>
 
+
+
+
 <div class="container">
     <?php if ($producto): ?>
-        <!-- Detalle del producto principal -->
         <div class="producto-principal">
             <div class="producto-imagen">
                 <img src="../../assets/img/Bonice-Doble-Surtido-638978_d-removebg-preview.png">
@@ -126,11 +128,12 @@ $productos_relacionados = array_filter($productos_relacionados, function($p) use
                     <?= isset($producto['stock']) ? htmlspecialchars($producto['stock']) : 'N/A' ?> artículos)
                 </p>
                 <p class="producto-precio">$<?= number_format($producto['precio'], 0, ',', '.') ?></p>
-                <a href="../../index.php?page=user/carrito&agregar=<?= $producto_id ?>" class="btn-agregar">Agregar al carrito</a>
+
+                <!-- Botón con funcionalidad AJAX -->
+                <button class="btn-agregar" onclick="agregarAlCarrito(<?= $producto_id ?>)">Agregar al carrito</button>
             </div>
         </div>
 
-        <!-- Línea rosa superior -->
         <div class="mid-line"></div>
 
         <!-- Productos relacionados -->
