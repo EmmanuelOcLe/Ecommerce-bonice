@@ -104,9 +104,11 @@ require_once __DIR__ . '/../../config/db.php';
     </div>
 </header>
 
+
+
+
 <div class="container">
     <?php if ($producto): ?>
-        <!-- Detalle del producto principal -->
         <div class="producto-principal">
             <div class="producto-imagen">
                 <?php
@@ -177,6 +179,7 @@ require_once __DIR__ . '/../../config/db.php';
 </div>
 
 <?php include __DIR__ . "/../../includes/footer.php"; ?>
+
 
 </div>
 </body>
