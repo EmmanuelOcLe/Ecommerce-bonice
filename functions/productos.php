@@ -23,7 +23,7 @@ function crearProducto($nombre, $descripcion, $precio, $stock, $categoria_id, $i
     global $conexion;
 
     $nombreImagen = basename($imagen["name"]);
-    $rutaDestino = __DIR__ . "/../assets/img/" . $nombreImagen;
+    $rutaDestino = __DIR__ . "/../assets/img/" . $nombreImagen; // ✅ Misma ruta que en la vista
 
     if (!move_uploaded_file($imagen["tmp_name"], $rutaDestino)) {
         die("Error al subir la imagen.");
@@ -70,9 +70,8 @@ function actualizarProducto($id, $nombre, $descripcion, $precio, $stock, $catego
     global $conexion;
 
     if ($imagen && $imagen['size'] > 0) {
-        // Si se sube una nueva imagen
         $nombreImagen = basename($imagen["name"]);
-        $rutaDestino = __DIR__ . "/../assets/img/" . $nombreImagen;
+        $rutaDestino = __DIR__ . "/../assets/img/" . $nombreImagen; // ✅ Ruta consistente
 
         if (!move_uploaded_file($imagen["tmp_name"], $rutaDestino)) {
             die("Error al subir la nueva imagen.");
@@ -88,7 +87,6 @@ function actualizarProducto($id, $nombre, $descripcion, $precio, $stock, $catego
 
         $stmt->bind_param("ssdissi", $nombre, $descripcion, $precio, $stock, $categoria_id, $nombreImagen, $id);
     } else {
-        // Si NO se sube nueva imagen, no se actualiza ese campo
         $stmt = $conexion->prepare("UPDATE productos 
             SET nombre = ?, descripcion = ?, precio = ?, stock = ?, categoria_id = ?
             WHERE id = ?");

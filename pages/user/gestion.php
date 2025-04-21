@@ -11,7 +11,8 @@
 <body>
 <div class="checkout-container">
         <div class="logo-container">
-            <img src="logo.png" alt="BON ICE Logo" class="logo">
+            <img src="../../assets/img/logo-bonice.png" alt="BON ICE Logo" class="logo">
+            <h1>Metodo de Pago</h1>
         </div>
         
        <form class="checkout-form" method="POST" action="../../functions/procesar_pedido.php">
@@ -42,6 +43,5 @@
         </form>
     </div>
 
-    
 </body>
 </html>
