@@ -5,6 +5,8 @@ require_once '../functions/carrito.php';
 
 header('Content-Type: application/json');
 
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_SESSION['user_email'])) {
         echo json_encode(['status' => 'error', 'message' => 'Usuario no autenticado']);
@@ -58,4 +60,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Error al guardar el pedido']);
     }
+
+    // Procesas el formulario
+// Guardas el pedido en la base de datos
+
+// Y luego rediriges
+header("Location: detalle_pedido.php?id=$id_pedido");
+exit;
+
 }

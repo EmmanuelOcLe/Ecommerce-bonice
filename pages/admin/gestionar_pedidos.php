@@ -51,6 +51,7 @@ $estados = ['pendiente', 'en proceso', 'enviado', 'entregado'];
         <div>Precio</div>
         <div>Fecha</div>
         <div>Estado</div>
+        <div>Detalles</div> <!-- Nueva columna -->
       </div>
 
       <?php while ($pedido = mysqli_fetch_assoc($resultado)) : ?>
@@ -69,6 +70,12 @@ $estados = ['pendiente', 'en proceso', 'enviado', 'entregado'];
                 <?php endforeach; ?>
               </select>
               <button type="submit" name="cambiar_estado" class="button-warning">Actualizar</button>
+            </form>
+          </div>
+          <div>
+          <form action="pages/admin/ver_detalle_pedido.php" method="POST">
+                <input type="hidden" name="pedido_id" value="<?php echo $pedido['id']; ?>">
+                <button type="submit">Ver Detalles</button>
             </form>
           </div>
         </div>
