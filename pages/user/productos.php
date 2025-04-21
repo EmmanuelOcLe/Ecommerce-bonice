@@ -33,12 +33,30 @@ $productos = listarProductos();
 
 <!-- TOAST CSS -->
 <style>
+
+.view-more-button {
+    display: inline-block;
+    padding: 10px 45px;
+    color: black;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    margin-bottom: 10%;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.view-more-button:hover {
+    text-decoration: underline;
+}
+
+
 .notificacion-toast {
     position: fixed;
     top: 20px;
     right: 20px;
     background-color: #4caf50;
-    color: #fff;
+    color: #000000;
     padding: 12px 20px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -48,6 +66,8 @@ $productos = listarProductos();
     z-index: 9999;
 }
 
+
+
 .notificacion-toast.mostrar {
     opacity: 1;
     transform: translateY(0);
@@ -55,6 +75,9 @@ $productos = listarProductos();
 
 .notificacion-toast.error {
     background-color: #e74c3c;
+}
+.product-description{
+    font-weight: 400;
 }
 </style>
 

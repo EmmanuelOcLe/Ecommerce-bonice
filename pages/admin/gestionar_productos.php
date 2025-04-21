@@ -4,7 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION["user"]) || $_SESSION["user_rol"] != "admin") {
-    header("Location: /Ecommerce-bonice/index.php?page=home");
+    header("Location: ../../index.php?page=home");
     exit();
 }
 
@@ -13,7 +13,7 @@ require_once(__DIR__ . '/../../functions/productos.php');
 //elimina el producto
 if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["id"]) && isset($_GET["page"]) && $_GET["page"] === "admin/gestionar_productos") {
   eliminarProducto($_GET["id"]);
-  header("Location: /Ecommerce-bonice/index.php?page=admin/gestionar_productos");
+  header("Location: index.php?page=admin/gestionar_productos");
   exit();
 }
 
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["crear_producto"])) {
         $_POST["categoria_id"],
         $_FILES["imagen"]
     );
-    header("Location: /Ecommerce-bonice/index.php?page=admin/gestionar_productos");
+    header("Location: index.php?page=admin/gestionar_productos");
     exit();
 }
 
@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["editar_producto"])) {
         $_POST["categoria_id"],
         $_FILES["imagen"]
     );
-    header("Location: /Ecommerce-bonice/index.php?page=admin/gestionar_productos");
+    header("Location: index.php?page=admin/gestionar_productos");
     exit();
 }
 
@@ -172,7 +172,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
     <div >
 
       <form method="GET" action="index.php">
-      <input type="hidden" name="page" value="admin/gestionar_productos">
+        <input type="hidden" name="page" value="admin/gestionar_productos">
         <input type="hidden" name="id" id="id_eliminar">
         <button type="submit" >Eliminar</button>
       </form>

@@ -14,7 +14,22 @@
 .gestionar-categorias-container h1 {
   margin: 1em auto;
 }
-
+.crear-container input[type="submit"]{
+  text-decoration: none;
+  background-color: #C40069;
+  border: none;
+  border-radius: 5px;
+  padding: 1em;
+  position: absolute;
+  color: #fff;
+  transition: all 150ms;
+  top: 5%;
+  left: 10%;
+}
+.crear-container input[type="submit"]:hover{
+  background-color: #ff2197;
+  cursor: pointer;
+}
 .categoria-row {
   width: 90%;
   margin: 5px auto;

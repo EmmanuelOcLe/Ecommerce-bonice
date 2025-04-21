@@ -35,7 +35,7 @@ function agregarAlCarrito($idProducto, $cantidad = 1) {
                 'id' => $producto['id'],
                 'nombre' => $producto['nombre'],
                 'descripcion' => $producto['descripcion'],
-                'imagen' => 'uploads/productos/' . $producto['imagen'], // Ruta corregida
+                'imagen' => '../../uploads/productos/' . $producto['imagen'], // Ruta corregida
                 'precio' => $producto['precio'],
                 'cantidad' => $cantidad
             ];

@@ -182,6 +182,7 @@ $productosEnCarrito = obtenerCarrito();
                 <thead>
                     <tr>
                         <th>Producto</th>
+                        <br>
                         <th>Precio</th>
                     </tr>
                 </thead>

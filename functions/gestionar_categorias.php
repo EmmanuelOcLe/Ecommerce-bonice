@@ -28,4 +28,12 @@ if (isset($_GET['editar'])) {
     $resultado = mysqli_query($conexion, "SELECT * FROM categorias WHERE id = $id");
     $categoria_editar = mysqli_fetch_assoc($resultado);
 }
+else if (isset($_GET["eliminar"]))
+{
+  $id = $_GET["eliminar"];
+  if(mysqli_query($conexion, "DELETE FROM categorias WHERE id = $id"))
+  {
+    header("Location: ../..a/index.php");
+  }
+}
 ?>

@@ -244,3 +244,18 @@ img{
   background-color: crimson;
   color: white;
 }
+.btn-editar{
+  font-size: 25px;
+  color: #ff0088;
+  border: none;
+  margin-right: 0.5em;
+}
+.btn-eliminar{
+  font-size: 25px;
+  color: #ff0088;
+  border: none;
+}
+.btn-editar:hover, .btn-eliminar:hover{
+  color: #C40069;
+  cursor: pointer;
+}

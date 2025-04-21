@@ -109,8 +109,11 @@
 
 
     <div class="contenedor gestionar-categorias-container">
+      <!-- <form class="crear-container" action="../functions/gestionar_categorias.php" method="POST">
+        <input type="submit" value="Crear categoría">
+      </form> -->
+
       <h1>GESTIONAR CATEGORÍAS</h1>
-      <a href="../../index.php" class="btn-retorno">← Volver al inicio</a>
 
       <?php if ($categoria_editar): ?>
         <div class="modal-overlay">
@@ -137,8 +140,11 @@
           <div><?= $cat['id'] ?></div>
           <div><?= $cat['nombre'] ?></div>
           <div>
-            <a href="?editar=<?= $cat['id'] ?>">
+            <a href="?editar=<?= $cat['id']; ?>">
               <i class="bi bi-pencil-fill"></i>
+            </a>
+            <a href="?eliminar=<?= $cat['id']; ?>" onclick="return confirm('Seguro que desea eliminar?')">
+              <i class="bi bi-trash-fill"></i>
             </a>
           </div>
         </div>

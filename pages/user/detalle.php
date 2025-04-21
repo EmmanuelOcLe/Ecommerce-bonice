@@ -139,7 +139,6 @@ require_once __DIR__ . '/../../config/db.php';
 
         <!-- Productos relacionados -->
         <div class="productos-relacionados">
-            <button class="nav-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
             <div class="productos-carousel">
                 <?php 
                 $count = 0;
@@ -168,7 +167,6 @@ require_once __DIR__ . '/../../config/db.php';
                     </div>
                 <?php endforeach; ?>
             </div>
-            <button class="nav-btn next-btn"><i class="fas fa-chevron-right"></i></button>
         </div>
     <?php else: ?>
         <div class="producto-no-encontrado">
