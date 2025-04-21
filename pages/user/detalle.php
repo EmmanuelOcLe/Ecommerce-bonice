@@ -116,7 +116,7 @@ $productos_relacionados = array_filter($productos_relacionados, function($p) use
         <!-- Detalle del producto principal -->
         <div class="producto-principal">
             <div class="producto-imagen">
-                <img src="../../assets/img/<?= htmlspecialchars($producto['imagen']) ?>" alt="<?= htmlspecialchars($producto['nombre']) ?>">
+                <img src="../../assets/img/Bonice-Doble-Surtido-638978_d-removebg-preview.png">
             </div>
             <div class="producto-info">
                 <h1 class="producto-titulo"><?= strtoupper(htmlspecialchars($producto['nombre'])) ?></h1>
@@ -135,7 +135,6 @@ $productos_relacionados = array_filter($productos_relacionados, function($p) use
 
         <!-- Productos relacionados -->
         <div class="productos-relacionados">
-            <button class="nav-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
 
             <div class="productos-carousel">
                 <?php 
@@ -145,7 +144,7 @@ $productos_relacionados = array_filter($productos_relacionados, function($p) use
                     $count++;
                 ?>
                     <div class="producto-relacionado">
-                        <img src="../../assets/img/<?= htmlspecialchars($prod['imagen']) ?>" alt="<?= htmlspecialchars($prod['nombre']) ?>">
+                        <img src="../../assets/img/producto1-no-bg.png">
                         <h3><?= strtoupper(htmlspecialchars($prod['nombre'])) ?></h3>
                         <p class="disponibilidad">
                             Disponibilidad: En stock (
@@ -158,8 +157,6 @@ $productos_relacionados = array_filter($productos_relacionados, function($p) use
                     </div>
                 <?php endforeach; ?>
             </div>
-
-            <button class="nav-btn next-btn"><i class="fas fa-chevron-right"></i></button>
         </div>
     <?php else: ?>
         <div class="producto-no-encontrado">
@@ -170,6 +167,7 @@ $productos_relacionados = array_filter($productos_relacionados, function($p) use
 </div>
 
 <?php include "../../includes/footer.php"; ?>
+
 
 </div>
 </body>
