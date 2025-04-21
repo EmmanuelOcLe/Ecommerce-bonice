@@ -12,20 +12,24 @@ if (!isset($_SESSION["user"]) || $_SESSION["user_rol"] != "admin") {
 // Cambiar estado si se envió el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cambiar_estado'])) {
     $pedido_id = intval($_POST['pedido_id']);
-    $estado_actual = $_POST['estado_actual'];
+    $nuevo_estado = $_POST['nuevo_estado'];
 
-    $nuevo_estado = ($estado_actual === 'confirmado') ? 'pendiente' : 'confirmado';
-
-    $update_sql = "UPDATE pedidos SET estado = ? WHERE id = ?";
-    $stmt = mysqli_prepare($conexion, $update_sql);
-    mysqli_stmt_bind_param($stmt, "si", $nuevo_estado, $pedido_id);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
+    $estados_validos = ['pendiente', 'en proceso', 'enviado', 'entregado'];
+    if (in_array($nuevo_estado, $estados_validos)) {
+        $update_sql = "UPDATE pedidos SET estado = ? WHERE id = ?";
+        $stmt = mysqli_prepare($conexion, $update_sql);
+        mysqli_stmt_bind_param($stmt, "si", $nuevo_estado, $pedido_id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
 }
 
 // Obtener pedidos actualizados
 $sql = "SELECT id, coste, fecha, estado FROM pedidos ORDER BY fecha DESC";
 $resultado = mysqli_query($conexion, $sql);
+
+// Lista de estados
+$estados = ['pendiente', 'en proceso', 'enviado', 'entregado'];
 ?>
 
 <!DOCTYPE html>
@@ -55,13 +59,16 @@ $resultado = mysqli_query($conexion, $sql);
           <div>$<?= number_format($pedido['coste'], 0, ',', '.') ?></div>
           <div><?= htmlspecialchars($pedido['fecha']) ?></div>
           <div>
-            <form method="POST" style="display:inline;">
+            <form method="POST" style="display:flex; align-items:center; gap: 0.5rem;">
               <input type="hidden" name="pedido_id" value="<?= $pedido['id'] ?>">
-              <input type="hidden" name="estado_actual" value="<?= $pedido['estado'] ?>">
-              <button type="submit" name="cambiar_estado"
-                class="<?= $pedido['estado'] == 'pendiente' ? 'button-warning' : 'button-success' ?>">
-                <?= ucfirst($pedido['estado']) ?>
-              </button>
+              <select name="nuevo_estado">
+                <?php foreach ($estados as $estado): ?>
+                  <option value="<?= $estado ?>" <?= $estado == $pedido['estado'] ? 'selected' : '' ?>>
+                    <?= ucfirst($estado) ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>
+              <button type="submit" name="cambiar_estado" class="button-warning">Actualizar</button>
             </form>
           </div>
         </div>
@@ -71,5 +78,3 @@ $resultado = mysqli_query($conexion, $sql);
   </div>
 </body>
 </html>
-
-

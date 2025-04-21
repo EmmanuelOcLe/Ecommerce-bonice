@@ -173,3 +173,62 @@ img{
 .button-success:hover {
   opacity: 0.9;
 }
+
+
+/* Estilo general del select y botón */
+.gestionar-pedidos-row select {
+  padding: 5px 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* Botón de actualizar */
+.gestionar-pedidos-row button.button-warning {
+  background-color: #ffcc00;
+  color: #000;
+  border: none;
+  padding: 5px 10px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.gestionar-pedidos-row button.button-warning:hover {
+  background-color: #e6b800;
+}
+
+.estado-label {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+.estado-pendiente {
+  background-color: #ffe082;
+  color: #664d03;
+}
+
+.estado-en-proceso {
+  background-color: #81d4fa;
+  color: #01579b;
+}
+
+.estado-enviado {
+  background-color: #a5d6a7;
+  color: #1b5e20;
+}
+
+.estado-entregado {
+  background-color: #c8e6c9;
+  color: #2e7d32;
+}
+
+.estado-desconocido {
+  background-color: #e0e0e0;
+  color: #424242;
+}

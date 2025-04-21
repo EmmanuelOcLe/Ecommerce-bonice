@@ -12,7 +12,6 @@ $productos = listarProductos();
         <?php if (!empty($productos)): ?>
             <?php foreach ($productos as $producto): ?>
                 <div class="product-card">
-                    <!-- Enlace a la página de detalle del producto con el ID dinámico -->
                     <a href="pages/user/detalle.php?producto=<?php echo $producto['id']; ?>">
                     <img src="./uploads/productos/<?php echo $producto['imagen']; ?>" class="product-image" alt="<?php echo $producto['nombre']; ?>">
 
@@ -22,10 +21,7 @@ $productos = listarProductos();
                     <p class="product-description"><?php echo $producto['descripcion']; ?></p>
                     <p class="product-price"><strong>$<?php echo number_format($producto['precio'], 2); ?></strong></p>
 
-                    <!-- Enlace "Ver Más" con el ID dinámico -->
                     <a href="pages/user/detalle.php?producto=<?php echo $producto['id']; ?>" class="view-more-button">Ver Más</a>
-
-                    <!-- Botón para agregar al carrito con AJAX -->
                     <button class="btn-agregar" onclick="agregarAlCarrito(<?php echo $producto['id']; ?>)">Agregar al carrito</button>
                 </div>
             <?php endforeach; ?>

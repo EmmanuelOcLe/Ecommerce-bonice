@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . "/../../config/db.php";
 include_once(__DIR__ . '/../../functions/carrito.php');
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -34,10 +35,89 @@ $productosEnCarrito = obtenerCarrito();
     <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="../../assets/css/global.css">
     <link rel="stylesheet" href="../../assets/css/carrito.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
 
-<?php include_once '../../includes/header-usuario.php'; ?>
+<div class="todo">
+
+<header>
+    <div class="header-container">
+
+        <div class="img-container">
+            <img src="../../assets/img/bonice.png" alt="logo bonice" class="logo-bonice" style="width: 25%;">
+        </div>
+
+        <nav class="navbar">
+            <div class="container-fluid">
+
+                <?php if (isset($_SESSION["user"])): ?>
+                    <div class="admin-user-icon">
+                        <i class="bi bi-person-circle"></i>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+
+                    <div class="admin-user-options">
+                        <?php if (isset($_SESSION["user_rol"]) && $_SESSION["user_rol"] == "admin"): ?>
+                            <a href="../../index.php?page=admin/gestionar_productos">Gestionar productos</a>
+                            <a href="../admin/gestionar_categorias.php">Gestionar categorías</a>
+                            <a href="../../index.php?page=admin/gestionar_pedidos">Gestionar pedidos</a>
+                        <?php endif; ?>
+                        <a href="../../functions/cerrar_sesion.php">Cerrar Sesión</a>
+                    </div>
+
+                <?php endif; ?>
+
+                <div class="navbar-nav">
+                    <?php
+                    $categorias_menu = mysqli_query($conexion, "SELECT * FROM categorias ORDER BY id");
+                    $urls_por_id = [
+                        1 => "../../index.php?page=home",
+                        2 => "../../index.php?page=user/productos",
+                        3 => "../../index.php?page=user/quienes",
+                        4 => "../../index.php?page=user/equipo"
+                    ];
+
+                    while ($cat = mysqli_fetch_assoc($categorias_menu)):
+                        $id_categoria = $cat['id'];
+                        $nombre_categoria = $cat['nombre'];
+                        $url = $urls_por_id[$id_categoria] ?? "index.php?page=user/category&id=$id_categoria";
+                    ?>
+                        <a class="nav-link" href="<?= $url ?>"><?= $nombre_categoria ?></a>
+                    <?php endwhile; ?>
+                </div>
+
+                <!-- Ícono de carrito con dropdown -->
+                <div class="carrito-icono">
+                    <div class="dropdown-carrito">
+                        <a href="../user/carrito.php" title="Ver carrito">
+                            <i class="bi bi-cart3" style="font-size: 1.5rem;"></i>
+                        </a>
+                        <?php if (!empty($productosEnCarrito)): ?>
+                            <div class="carrito-dropdown">
+                                <ul>
+                                    <?php foreach ($productosEnCarrito as $producto): ?>
+                                        <li>
+                                            <?php echo htmlspecialchars($producto['nombre']); ?> -
+                                            $<?php echo number_format($producto['precio'], 1); ?>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                                <a href="../user/carrito.php" class="ver-carrito">Ver carrito completo</a>
+                            </div>
+                        <?php else: ?>
+                            <div class="carrito-dropdown">
+                                <p>Carrito vacío</p>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+
+    </div>
+</header>
 
 <main>
     <div class="contenido-principal">
@@ -63,7 +143,8 @@ $productosEnCarrito = obtenerCarrito();
                         <?php foreach ($productosEnCarrito as $producto): ?>
                             <tr>
                                 <td class="columna-imagen">
-                                    <img src="../../uploads/productos/<?php echo htmlspecialchars($producto['imagen'] ?? 'imagen_default.png'); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                                    <img src="../../assets/img/<?php echo htmlspecialchars($producto['imagen'] ?? 'imagen_default.png'); ?>"
+                                         alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
                                 </td>
                                 <td class="columna-nombre">
                                     <?php echo strtoupper(htmlspecialchars($producto['nombre'])); ?><br>
@@ -99,7 +180,7 @@ $productosEnCarrito = obtenerCarrito();
                 </tbody>
             </table>
         </div>
-
+    
         <div class="resumen-pedido">
             <h3>RESUMEN DE TU PEDIDO</h3>
             <table class="tabla-recibo">
@@ -150,7 +231,9 @@ $productosEnCarrito = obtenerCarrito();
     </div>
 </main>
 
-<?php include_once '../../includes/footer.php'; ?>
+<?php include_once __DIR__ . '/../../includes/footer.php'; ?>
+
+</div>
 
 </body>
 </html>

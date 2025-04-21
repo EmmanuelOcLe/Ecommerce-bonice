@@ -24,65 +24,89 @@
 <body>
   <div class="todo">
 
-  <header>
+  <?php
+  include_once('../../functions/carrito.php');
+  $productosEnCarrito = obtenerCarrito();
+?>
+
+<header>
     <div class="header-container">
 
-            <div class="img-container">
-                <img src="../../assets/img/bonice.png" alt="logo bonice" class="logo-bonice" style="width: 25%;">
-            </div>
+        <div class="img-container">
+            <img src="../../assets/img/bonice.png" alt="logo bonice" class="logo-bonice" style="width: 25%;">
+        </div>
 
-            <nav class="navbar">
-                <div class="container-fluid">
+        <nav class="navbar">
+            <div class="container-fluid">
 
-                    <?php if (isset($_SESSION["user_rol"]) && $_SESSION["user_rol"] == "admin"): ?>
-                        <div class="admin-user-icon">
-                            <i class="bi bi-person-circle"></i>
-                            <i class="bi bi-chevron-down"></i>
-                        </div>
+                <?php if (isset($_SESSION["user"])): ?>
+                    <div class="admin-user-icon">
+                        <i class="bi bi-person-circle"></i>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
 
-                        <div class="admin-user-options">
+                    <div class="admin-user-options">
+                        <?php if (isset($_SESSION["user_rol"]) && $_SESSION["user_rol"] == "admin"): ?>
                             <a href="../../index.php?page=admin/gestionar_productos">Gestionar productos</a>
                             <a href="gestionar_categorias.php">Gestionar categorías</a>
                             <a href="../../index.php?page=admin/gestionar_pedidos">Gestionar pedidos</a>
-                            <a href="../../functions/cerrar_sesion.php">Cerrar Sesión</a>
-                        </div>
-                    <?php endif; ?>
-
-                    <div class="navbar-nav">
-                        <?php
-                        // Cargar las categorías desde la BD
-                        $categorias_menu = mysqli_query($conexion, "SELECT * FROM categorias ORDER BY id");
-
-                        // Asignar rutas fijas por ID
-                        $urls_por_id = [
-                            1 => "../../index.php?page=home",              // Inicio
-                            2 => "../../index.php?page=user/productos",    // Productos
-                            3 => "../../index.php?page=user/quienes",      // Quienes Somos
-                            4 => "../../index.php?page=../../user/equipo"        // Nuestro Equipo
-                          
-                        ];
-
-                        while ($cat = mysqli_fetch_assoc($categorias_menu)):
-                            $id_categoria = $cat['id'];
-                            $nombre_categoria = $cat['nombre'];
-
-                            // Determinar la URL según el ID
-                            if (array_key_exists($id_categoria, $urls_por_id)) {
-                                $url = $urls_por_id[$id_categoria];
-                            } else {
-                                // Si no está en el array, usa la genérica
-                                $url = "index.php?page=user/category&id=$id_categoria";
-                            }
-                        ?>
-                            <a class="nav-link" href="<?= $url ?>"><?= $nombre_categoria ?></a>
-                        <?php endwhile; ?>
+                        <?php endif; ?>
+                        <a href="../../functions/cerrar_sesion.php">Cerrar Sesión</a>
                     </div>
 
-                </div>
-            </nav>
+                <?php endif; ?>
 
-        </div>
-    </header>
+                <div class="navbar-nav">
+                    <?php
+                    $categorias_menu = mysqli_query($conexion, "SELECT * FROM categorias ORDER BY id");
+                    $urls_por_id = [
+                        1 => "../../index.php?page=home",
+                        2 => "../../index.php?page=user/productos",
+                        3 => "../../index.php?page=user/quienes",
+                        4 => "../../index.php?page=user/equipo"
+                    ];
+
+                    while ($cat = mysqli_fetch_assoc($categorias_menu)):
+                        $id_categoria = $cat['id'];
+                        $nombre_categoria = $cat['nombre'];
+                        $url = $urls_por_id[$id_categoria] ?? "index.php?page=user/category&id=$id_categoria";
+                    ?>
+                        <a class="nav-link" href="<?= $url ?>"><?= $nombre_categoria ?></a>
+                    <?php endwhile; ?>
+                </div>
+
+                <!-- Ícono de carrito con dropdown -->
+                <div class="carrito-icono">
+                    <div class="dropdown-carrito">
+                        <a href="../user/carrito.php" title="Ver carrito">
+                            <i class="bi bi-cart3" style="font-size: 1.5rem;"></i>
+                        </a>
+                        <?php if (!empty($productosEnCarrito)): ?>
+                            <div class="carrito-dropdown">
+                                <ul>
+                                    <?php foreach ($productosEnCarrito as $producto): ?>
+                                        <li>
+                                            <?php echo htmlspecialchars($producto['nombre']); ?> -
+                                            $<?php echo number_format($producto['precio'], 1); ?>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                                <a href="../user/carrito.php" class="ver-carrito">Ver carrito completo</a>
+                            </div>
+                        <?php else: ?>
+                            <div class="carrito-dropdown">
+                                <p>Carrito vacío</p>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+
+    </div>
+</header>
+
 
     <div class="contenedor gestionar-categorias-container">
       <h1>GESTIONAR CATEGORÍAS</h1>
