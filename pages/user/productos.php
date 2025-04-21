@@ -13,8 +13,8 @@ $productos = listarProductos();
             <?php foreach ($productos as $producto): ?>
                 <div class="product-card">
                     <a href="pages/user/detalle.php?producto=<?php echo $producto['id']; ?>">
-                    <img src="./uploads/productos/<?php echo $producto['imagen']; ?>" class="product-image" alt="<?php echo $producto['nombre']; ?>">
-
+                        <!-- ✅ Ruta corregida -->
+                        <img src="assets/img/<?php echo $producto['imagen']; ?>" class="product-image" alt="<?php echo $producto['nombre']; ?>">
                         <h3 class="product-name"><?php echo $producto['nombre']; ?></h3>
                     </a>
 

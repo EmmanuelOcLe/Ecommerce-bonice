@@ -20,7 +20,7 @@ $productosEnCarrito = obtenerCarrito();
         <div class="header-container">
 
             <div class="img-container">
-                <img src="../../assets/img/bonice.png" alt="logo bonice" class="logo-bonice">
+                <img src="assets/img/bonice.png" alt="logo bonice" class="logo-bonice">
             </div>
 
             <nav class="navbar">

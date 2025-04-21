@@ -101,3 +101,23 @@ function actualizarProducto($id, $nombre, $descripcion, $precio, $stock, $catego
     $stmt->execute();
     $stmt->close();
 }
+
+function buscarProductosPorNombre($nombre) {
+    global $conexion;
+
+    $stmt = $conexion->prepare("SELECT * FROM productos WHERE nombre LIKE ?");
+    $like = '%' . $nombre . '%';
+    $stmt->bind_param("s", $like);
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+    $productos = [];
+
+    while ($fila = $resultado->fetch_assoc()) {
+        $productos[] = $fila;
+    }
+
+    $stmt->close();
+    return $productos;
+}
+

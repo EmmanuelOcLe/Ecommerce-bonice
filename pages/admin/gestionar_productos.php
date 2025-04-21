@@ -47,7 +47,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["editar_producto"])) {
     exit();
 }
 
-$productos = listarProductos();
+$productos = [];
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
+    $nombreBuscado = $_POST["buscar_nombre"];
+    $productos = buscarProductosPorNombre($nombreBuscado);
+} else {
+    $productos = listarProductos();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -69,12 +77,12 @@ $productos = listarProductos();
       <div class="separador"></div>
 
       <div class="gestion-productos-container">
-        <div class="input-field-container">
-          <input type="text" placeholder="Ingrese el nombre del producto">
-          <button>Buscar</button>
-          <span>|</span>
-          <button type="button" id="abrirModal">Crear Producto</button>
-        </div>
+        <form method="POST" class="input-field-container">
+            <input type="text" name="buscar_nombre" placeholder="Ingrese el nombre del producto">
+            <button type="submit" name="buscar">Buscar</button>
+            <span>|</span>
+            <button type="button" id="abrirModal">Crear Producto</button>
+        </form>
 
         <div class="productos-container">
           <div class="productos-row encabezado">

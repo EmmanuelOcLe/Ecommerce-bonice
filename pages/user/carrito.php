@@ -6,19 +6,16 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Si se agregó un producto, agrégalo al carrito
 if (isset($_GET['agregar'])) {
     $idProducto = intval($_GET['agregar']);
     agregarAlCarrito($idProducto);
 
-    // Si es una petición AJAX, no redirigir
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
         strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
         http_response_code(200);
         exit;
     }
 
-    // Redirige normalmente solo si NO es AJAX
     header("Location: carrito.php");
     exit();
 }
@@ -30,7 +27,6 @@ $productosEnCarrito = obtenerCarrito();
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="../../assets/css/global.css">
@@ -40,32 +36,27 @@ $productosEnCarrito = obtenerCarrito();
 <body>
 
 <div class="todo">
-
 <header>
     <div class="header-container">
-
         <div class="img-container">
             <img src="../../assets/img/bonice.png" alt="logo bonice" class="logo-bonice" style="width: 25%;">
         </div>
 
         <nav class="navbar">
             <div class="container-fluid">
-
                 <?php if (isset($_SESSION["user"])): ?>
                     <div class="admin-user-icon">
                         <i class="bi bi-person-circle"></i>
                         <i class="bi bi-chevron-down"></i>
                     </div>
-
                     <div class="admin-user-options">
-                        <?php if (isset($_SESSION["user_rol"]) && $_SESSION["user_rol"] == "admin"): ?>
+                        <?php if ($_SESSION["user_rol"] == "admin"): ?>
                             <a href="../../index.php?page=admin/gestionar_productos">Gestionar productos</a>
                             <a href="../admin/gestionar_categorias.php">Gestionar categorías</a>
                             <a href="../../index.php?page=admin/gestionar_pedidos">Gestionar pedidos</a>
                         <?php endif; ?>
                         <a href="../../functions/cerrar_sesion.php">Cerrar Sesión</a>
                     </div>
-
                 <?php endif; ?>
 
                 <div class="navbar-nav">
@@ -77,7 +68,6 @@ $productosEnCarrito = obtenerCarrito();
                         3 => "../../index.php?page=user/quienes",
                         4 => "../../index.php?page=user/equipo"
                     ];
-
                     while ($cat = mysqli_fetch_assoc($categorias_menu)):
                         $id_categoria = $cat['id'];
                         $nombre_categoria = $cat['nombre'];
@@ -87,7 +77,6 @@ $productosEnCarrito = obtenerCarrito();
                     <?php endwhile; ?>
                 </div>
 
-                <!-- Ícono de carrito con dropdown -->
                 <div class="carrito-icono">
                     <div class="dropdown-carrito">
                         <a href="../user/carrito.php" title="Ver carrito">
@@ -98,8 +87,7 @@ $productosEnCarrito = obtenerCarrito();
                                 <ul>
                                     <?php foreach ($productosEnCarrito as $producto): ?>
                                         <li>
-                                            <?php echo htmlspecialchars($producto['nombre']); ?> -
-                                            $<?php echo number_format($producto['precio'], 1); ?>
+                                            <?= htmlspecialchars($producto['nombre']) ?> - $<?= number_format($producto['precio'], 1) ?>
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>
@@ -112,22 +100,15 @@ $productosEnCarrito = obtenerCarrito();
                         <?php endif; ?>
                     </div>
                 </div>
-
             </div>
         </nav>
-
     </div>
 </header>
 
 <main>
     <div class="contenido-principal">
 
-        <div class="barra-busqueda">
-            <input type="text" placeholder="Buscar productos...">
-        </div>
-
         <div class="seccion-carrito">
-
             <table class="tabla-carrito">
                 <thead>
                     <tr>
@@ -143,30 +124,44 @@ $productosEnCarrito = obtenerCarrito();
                         <?php foreach ($productosEnCarrito as $producto): ?>
                             <tr>
                                 <td class="columna-imagen">
-                                    <img src="../../assets/img/<?php echo htmlspecialchars($producto['imagen'] ?? 'imagen_default.png'); ?>"
-                                         alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                                <?php
+                                // Obtiene el nombre de la imagen o asigna una por defecto
+                                $nombreImagen = !empty($producto['imagen']) ? $producto['imagen'] : 'imagen_default.png';
+
+                                // Ruta absoluta del sistema (para verificar existencia en disco)
+                                $rutaSistema = __DIR__ . "/../../assets/img/" . $nombreImagen;
+
+                                // Ruta relativa desde el navegador (para mostrarla en <img>)
+                                $rutaRelativa = "../../assets/img/" . $nombreImagen;
+
+                                // Si la imagen no existe en el sistema, usa la imagen por defecto
+                                if (!file_exists($rutaSistema)) {
+                                    $rutaRelativa = "../../assets/img/imagen_default.png";
+                                }
+                                ?>
+                                    <img src="<?= htmlspecialchars($rutaRelativa) ?>" alt="<?= htmlspecialchars($producto['nombre']) ?>" class="imagen-producto">
                                 </td>
                                 <td class="columna-nombre">
-                                    <?php echo strtoupper(htmlspecialchars($producto['nombre'])); ?><br>
-                                    x <?php echo htmlspecialchars($producto['descripcion'] ?? ''); ?>
+                                    <?= strtoupper(htmlspecialchars($producto['nombre'])) ?><br>
+                                    x <?= htmlspecialchars($producto['descripcion'] ?? '') ?>
                                 </td>
-                                <td class="columna-precio">$<?php echo number_format($producto['precio'], 1); ?></td>
+                                <td class="columna-precio">$<?= number_format($producto['precio'], 1) ?></td>
                                 <td class="columna-cantidad">
                                     <div class="control-cantidad">
-                                        <form method="POST" action="../../functions/carrito.php" style="display: inline;">
-                                            <input type="hidden" name="aumentar" value="<?php echo $producto['id']; ?>">
+                                        <form method="POST" action="../../functions/carrito.php" style="display:inline;">
+                                            <input type="hidden" name="aumentar" value="<?= $producto['id'] ?>">
                                             <button class="boton-cantidad aumentar" type="submit">+</button>
                                         </form>
-                                        <span class="cantidad"><?php echo $producto['cantidad']; ?></span>
-                                        <form method="POST" action="../../functions/carrito.php" style="display: inline;">
-                                            <input type="hidden" name="disminuir" value="<?php echo $producto['id']; ?>">
+                                        <span class="cantidad"><?= $producto['cantidad'] ?></span>
+                                        <form method="POST" action="../../functions/carrito.php" style="display:inline;">
+                                            <input type="hidden" name="disminuir" value="<?= $producto['id'] ?>">
                                             <button class="boton-cantidad disminuir" type="submit">-</button>
                                         </form>
                                     </div>
                                 </td>
                                 <td class="columna-eliminar">
                                     <form method="POST" action="../../functions/carrito.php">
-                                        <input type="hidden" name="eliminar" value="<?php echo $producto['id']; ?>">
+                                        <input type="hidden" name="eliminar" value="<?= $producto['id'] ?>">
                                         <button type="submit" class="boton-eliminar">×</button>
                                     </form>
                                 </td>
@@ -174,13 +169,13 @@ $productosEnCarrito = obtenerCarrito();
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="5" style="text-align: center;">No hay productos en el carrito.</td>
+                            <td colspan="5" style="text-align:center;">No hay productos en el carrito.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
         </div>
-    
+
         <div class="resumen-pedido">
             <h3>RESUMEN DE TU PEDIDO</h3>
             <table class="tabla-recibo">
@@ -198,8 +193,8 @@ $productosEnCarrito = obtenerCarrito();
                         $total += $subtotal;
                     ?>
                         <tr>
-                            <td class="columna-nombre-recibo"><?php echo htmlspecialchars($producto['nombre']); ?> x<?php echo $producto['cantidad']; ?></td>
-                            <td class="columna-precio-recibo">$<?php echo number_format($subtotal, 3); ?></td>
+                            <td><?= htmlspecialchars($producto['nombre']) ?> x<?= $producto['cantidad'] ?></td>
+                            <td>$<?= number_format($subtotal, 3) ?></td>
                         </tr>
                     <?php endforeach; ?>
                     <tr>
@@ -207,23 +202,18 @@ $productosEnCarrito = obtenerCarrito();
                             <div class="resumen-pago">
                                 <div class="fila-resumen">
                                     <span class="etiqueta">Cantidad de productos:</span>
-                                    <span class="valor"><?php echo count($productosEnCarrito); ?></span>
-                                    
+                                    <span class="valor"><?= count($productosEnCarrito) ?></span>
                                 </div>
-
                                 <p>------------------------------------------------------------</p>
-
                                 <div class="fila-resumen">
                                     <span class="etiqueta">Total a Pagar:</span>
-                                    <span class="valor">$<?php echo number_format($total); ?></span>
+                                    <span class="valor">$<?= number_format($total) ?></span>
                                 </div>
+                                <form method="POST" action="../../pages/user/gestion.php">
+                                <button type="submit" class="boton-pagar">Pagar</button>
+                                </form>
                             </div>
                         </td>
-                    </tr>
-                    <tr>
-                        <form method="POST" action="../../pages/user/gestion.php">
-                            <button type="submit" class="boton-pagar">Pagar</button>
-                        </form>
                     </tr>
                 </tbody>
             </table>
@@ -234,6 +224,5 @@ $productosEnCarrito = obtenerCarrito();
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
 
 </div>
-
 </body>
 </html>
