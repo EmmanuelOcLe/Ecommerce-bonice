@@ -115,65 +115,100 @@ $productos_relacionados = array_filter($productos_relacionados, function($p) use
 
 
 
-    <div class="container">
-        <?php if ($producto): ?>
-            <!-- Detalle del producto principal -->
-            <div class="producto-principal">
-                <div class="producto-imagen">
-                    <img src="../../uploads/productos/<?= htmlspecialchars($producto['imagen']) ?>" alt="<?= htmlspecialchars($producto['nombre']) ?>">
-                </div>
-                <div class="producto-info">
-                    <h1 class="producto-titulo"><?= strtoupper(htmlspecialchars($producto['nombre'])) ?></h1>
-                    <p class="producto-descripcion"><?= htmlspecialchars($producto['descripcion']) ?></p>
-                    <p class="producto-disponibilidad">
-                        Disponibilidad: En stock (
-                        <?= isset($producto['stock']) ? htmlspecialchars($producto['stock']) : 'N/A' ?> artículos)
-                    </p>
-                    <p class="producto-precio">$<?= number_format($producto['precio'], 0, ',', '.') ?></p>
-                    <a href="../../index.php?page=user/carrito&agregar=<?= $producto_id ?>" class="btn-agregar">Agregar al carrito</a>
-                </div>
+
+<div class="container">
+    <?php if ($producto): ?>
+        <div class="producto-principal">
+            <div class="producto-imagen">
+                <img src="../../uploads/productos/<?= htmlspecialchars($producto['imagen']) ?>" alt="<?= htmlspecialchars($producto['nombre']) ?>">
             </div>
-    
-            <!-- Línea rosa superior -->
-            <div class="mid-line"></div>
-    
-            <!-- Productos relacionados -->
-            <div class="productos-relacionados">
-                <button class="nav-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
-    
-                <div class="productos-carousel">
-                    <?php 
-                    $count = 0;
-                    foreach ($productos_relacionados as $prod):
-                        if ($count >= 3) break;
-                        $count++;
-                    ?>
-                        <div class="producto-relacionado">
-                            <img src="../../uploads/productos/<?= htmlspecialchars($prod['imagen']) ?>" alt="<?= htmlspecialchars($prod['nombre']) ?>">
-                            <h3><?= strtoupper(htmlspecialchars($prod['nombre'])) ?></h3>
-                            <p class="disponibilidad">
-                                Disponibilidad: En stock (
-                                <?= isset($prod['stock']) ? htmlspecialchars($prod['stock']) : 'N/A' ?> artículos)
-                            </p>
-                            <p class="precio">$<?= number_format($prod['precio'], 0, ',', '.') ?></p>
-                            <a href="../../index.php?page=user/detalle&producto=<?= $prod['id'] ?>">
-                                <button class="btn-ver-mas">Ver Más</button>
-                            </a>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-    
-                <button class="nav-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+            <div class="producto-info">
+                <h1 class="producto-titulo"><?= strtoupper(htmlspecialchars($producto['nombre'])) ?></h1>
+                <p class="producto-descripcion"><?= htmlspecialchars($producto['descripcion']) ?></p>
+                <p class="producto-disponibilidad">
+                    Disponibilidad: En stock (
+                    <?= isset($producto['stock']) ? htmlspecialchars($producto['stock']) : 'N/A' ?> artículos)
+                </p>
+                <p class="producto-precio">$<?= number_format($producto['precio'], 0, ',', '.') ?></p>
+
+                <!-- Botón con funcionalidad AJAX -->
+                <button class="btn-agregar" onclick="agregarAlCarrito(<?= $producto_id ?>)">Agregar al carrito</button>
             </div>
-        <?php else: ?>
-            <div class="producto-no-encontrado">
-                <p>Producto no encontrado.</p>
-                <a href="../../index.php?page=user/productos" class="volver">← Volver a Productos</a>
+        </div>
+
+        <div class="mid-line"></div>
+
+        <!-- Productos relacionados -->
+        <div class="productos-relacionados">
+            <button class="nav-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+            <div class="productos-carousel">
+                <?php 
+                $count = 0;
+                foreach ($productos_relacionados as $prod):
+                    if ($count >= 3) break;
+                    $count++;
+                ?>
+                    <div class="producto-relacionado">
+                        <img src="../../uploads/productos/<?= htmlspecialchars($prod['imagen']) ?>" alt="<?= htmlspecialchars($prod['nombre']) ?>">
+                        <h3><?= strtoupper(htmlspecialchars($prod['nombre'])) ?></h3>
+                        <p class="disponibilidad">
+                            Disponibilidad: En stock (
+                            <?= isset($prod['stock']) ? htmlspecialchars($prod['stock']) : 'N/A' ?> artículos)
+                        </p>
+                        <p class="precio">$<?= number_format($prod['precio'], 0, ',', '.') ?></p>
+                        <a href="../../index.php?page=user/detalle&producto=<?= $prod['id'] ?>">
+                            <button class="btn-ver-mas">Ver Más</button>
+                        </a>
+                    </div>
+                <?php endforeach; ?>
             </div>
-        <?php endif; ?>
-    </div>
+            <button class="nav-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    <?php else: ?>
+        <div class="producto-no-encontrado">
+            <p>Producto no encontrado.</p>
+            <a href="../../index.php?page=user/productos" class="volver">← Volver a Productos</a>
+        </div>
+    <?php endif; ?>
+</div>
 
     <?php include "../../includes/footer.php"; ?>
+</div>
+<!-- TOAST JS + AJAX -->
+<script>
+function agregarAlCarrito(idProducto) {
+    fetch(`../user/carrito.php?agregar=${idProducto}`, {
+        method: 'GET',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(res => {
+        if (res.ok) {
+            mostrarNotificacion("Producto agregado al carrito");
+        } else {
+            throw new Error("No se pudo agregar");
+        }
+    })
+    .catch(() => {
+        mostrarNotificacion("Error al agregar al carrito", true);
+    });
+}
+
+function mostrarNotificacion(mensaje, esError = false) {
+    const noti = document.createElement("div");
+    noti.className = `notificacion-toast ${esError ? 'error' : ''}`;
+    noti.innerText = mensaje;
+    document.body.appendChild(noti);
+
+    setTimeout(() => {
+        noti.classList.add("mostrar");
+        setTimeout(() => {
+            noti.classList.remove("mostrar");
+            setTimeout(() => document.body.removeChild(noti), 300);
+        }, 2500);
+    }, 100);
+}
+</script>
+
 
 </div>
 </body>
