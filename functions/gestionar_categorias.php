@@ -1,39 +1,51 @@
 <?php
+require_once __DIR__ . '/../config/db.php';
 
-if (!isset($_SESSION["user"]))
-{
-header ("Location: ../index.php");
-exit();
+function obtenerCategorias() {
+    global $conexion;
+    return mysqli_query($conexion, "SELECT * FROM categorias ORDER BY id");
 }
 
-  require_once('../../config/db.php');
+function obtenerCategoriaPorId($id) {
+    global $conexion;
+    $id = intval($id);
+    $query = "SELECT * FROM categorias WHERE id = ?";
+    $stmt = mysqli_prepare($conexion, $query);
+    mysqli_stmt_bind_param($stmt, "i", $id);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
+    return mysqli_fetch_assoc($resultado);
+}
 
-// Lógica para actualizar una categoría
+function eliminarCategoria($id) {
+    global $conexion;
+    $id = intval($id);
+    if ($id > 0) {
+        $query = "DELETE FROM categorias WHERE id = ?";
+        $stmt = mysqli_prepare($conexion, $query);
+        mysqli_stmt_bind_param($stmt, "i", $id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
+}
+
+// Lógica de actualización
 if (isset($_POST['actualizar'])) {
-    $id = $_POST['id'];
-    $nombre = $_POST['nombre'];
-    $query = "UPDATE categorias SET nombre = '$nombre' WHERE id = $id";
-    mysqli_query($conexion, $query);
-    header("Location: gestionar_categorias.php");
-    exit();
-}
+    $id = intval($_POST['id']);
+    $nombre = mysqli_real_escape_string($conexion, $_POST['nombre']);
+    if ($id > 0 && !empty($nombre)) {
+        $query = "UPDATE categorias SET nombre = ? WHERE id = ?";
+        $stmt = mysqli_prepare($conexion, $query);
+        mysqli_stmt_bind_param($stmt, "si", $nombre, $id);
+        $resultado = mysqli_stmt_execute($stmt);
 
-// Obtener todas las categorías
-$categorias = mysqli_query($conexion, "SELECT * FROM categorias");
-
-// Si se quiere editar una categoría específica
-$categoria_editar = null;
-if (isset($_GET['editar'])) {
-    $id = $_GET['editar'];
-    $resultado = mysqli_query($conexion, "SELECT * FROM categorias WHERE id = $id");
-    $categoria_editar = mysqli_fetch_assoc($resultado);
-}
-else if (isset($_GET["eliminar"]))
-{
-  $id = $_GET["eliminar"];
-  if(mysqli_query($conexion, "DELETE FROM categorias WHERE id = $id"))
-  {
-    header("Location: ../..a/index.php");
-  }
+        if ($resultado) {
+            header("Location: index.php?page=admin/gestionar_categorias");
+            exit();
+        } else {
+            echo "Error al actualizar la categoría.";
+        }
+        mysqli_stmt_close($stmt);
+    }
 }
 ?>
