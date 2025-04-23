@@ -4,7 +4,14 @@ require_once __DIR__ . '/../../functions/carrito.php';
 require_once __DIR__ . '/../../config/db.php';
 
 $productosEnCarrito = obtenerCarrito();
+
+
+if (!isset($_SESSION['user'])) {
+    header("Location: ../login-page.php");
+    exit;
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">

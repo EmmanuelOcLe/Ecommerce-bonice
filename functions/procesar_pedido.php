@@ -3,8 +3,14 @@ session_start();
 require_once '../config/db.php';
 require_once '../functions/carrito.php';
 
+
 header('Content-Type: application/json');
 
+
+if (!isset($_SESSION['user'])) {
+    header("Location: ../../pages/login-page.php?error=no_session");
+    exit;
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_SESSION['user_email'])) {
         echo json_encode(['status' => 'error', 'message' => 'Usuario no autenticado']);
@@ -58,4 +64,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Error al guardar el pedido']);
     }
+    
 }
