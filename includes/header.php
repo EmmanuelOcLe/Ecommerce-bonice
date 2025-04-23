@@ -2,8 +2,9 @@
 // header.php
 
 // 1) Incluir configuración y funciones con rutas absolutas
-include_once($_SERVER['DOCUMENT_ROOT'] . '/Ecommerce-bonice/config/db.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/Ecommerce-bonice/functions/carrito.php');
+include_once(__DIR__ . '/../config/db.php');
+include_once(__DIR__ . '/../functions/carrito.php');
+
 
 // 2) Iniciar sesión si no hay una activa
 if (session_status() === PHP_SESSION_NONE) {

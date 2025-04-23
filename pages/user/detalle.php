@@ -34,6 +34,8 @@ require_once __DIR__ . '/../../config/db.php';
 <body>
 <div class="todo">
 
+
+
 <header>
     <div class="header-container">
         <div class="img-container">
@@ -79,7 +81,7 @@ require_once __DIR__ . '/../../config/db.php';
 
                 <div class="carrito-icono">
                     <div class="dropdown-carrito">
-                        <a href="carrito.php" title="Ver carrito">
+                        <a href="../../index.php?page=user/carrito" title="Ver carrito">
                             <i class="bi bi-cart3" style="font-size: 1.5rem;"></i>
                         </a>
                         <?php if (!empty($productosEnCarrito)): ?>
@@ -92,7 +94,7 @@ require_once __DIR__ . '/../../config/db.php';
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>
-                                <a href="carrito.php" class="ver-carrito">Ver carrito completo</a>
+                                <a href="../../index.php?page=user/carrito" class="ver-carrito">Ver carrito completo</a>
                             </div>
                         <?php else: ?>
                             <div class="carrito-dropdown"><p>Carrito vacío</p></div>
@@ -130,7 +132,7 @@ require_once __DIR__ . '/../../config/db.php';
                 <p class="producto-precio">
                     $<?= number_format($producto['precio'], 0, ',', '.') ?>
                 </p>
-                <a href="carrito.php?agregar=<?= $producto_id ?>" class="btn-agregar">Agregar al carrito</a>
+                <button id="btn-agregar-carrito" data-producto-id="<?= $producto_id ?>" class="btn-agregar">Agregar al carrito</button>
             </div>
         </div>
 
@@ -177,6 +179,42 @@ require_once __DIR__ . '/../../config/db.php';
 </div>
 
 <?php include __DIR__ . "/../../includes/footer.php"; ?>
+
+<script>
+document.getElementById('btn-agregar-carrito').addEventListener('click', function() {
+    var productoId = this.getAttribute('data-producto-id');
+    
+    // Realizar la solicitud AJAX
+    fetch('carrito.php?agregar=' + productoId)
+        .then(response => {
+            var toast = document.createElement('div');
+            toast.classList.add('notificacion-toast');
+            
+            if (response.status === 200) {
+                toast.textContent = 'Producto agregado al carrito';
+                toast.classList.add('mostrar');
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.classList.remove('mostrar');
+                    document.body.removeChild(toast);
+                }, 3000); // Desaparece después de 3 segundos
+            } else if (response.status === 409) {
+                toast.textContent = 'No hay suficiente stock disponible';
+                toast.classList.add('error', 'mostrar');
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.classList.remove('mostrar');
+                    document.body.removeChild(toast);
+                }, 3000); // Desaparece después de 3 segundos
+            }
+        })
+        .catch(error => {
+            console.error('Error al agregar el producto al carrito:', error);
+        });
+});
+</script>
 
 
 </div>

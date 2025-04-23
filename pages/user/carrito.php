@@ -1,7 +1,7 @@
 <?php
 // Incluir la configuración de la base de datos y las funciones necesarias
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Ecommerce-bonice/config/db.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Ecommerce-bonice/functions/carrito.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Bonice/Ecommerce-bonice/config/db.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Bonice/Ecommerce-bonice/functions/carrito.php';
 
 // Iniciar sesión si no está activa
 if (session_status() === PHP_SESSION_NONE) {
@@ -42,7 +42,13 @@ $productosEnCarrito = obtenerCarrito();
 <body>
 
 <div class="todo">
-    
+    <!-- Alerta si se pasa del stock -->
+    <?php if (isset($_SESSION['error_carrito'])): ?>
+        <div class="alerta-error" style="color: #842029; background-color: #f8d7da; border: 1px solid #f5c2c7; padding: 10px; border-radius: 5px; margin: 10px 0;">
+            <?= $_SESSION['error_carrito'] ?>
+        </div>
+        <?php unset($_SESSION['error_carrito']); ?>
+    <?php endif; ?>
 
     <main>
         <div class="contenido-principal">
@@ -86,19 +92,19 @@ $productosEnCarrito = obtenerCarrito();
                                     <td class="columna-precio">$<?= number_format($producto['precio'], 1) ?></td>
                                     <td class="columna-cantidad">
                                         <div class="control-cantidad">
-                                            <form method="POST" action="../../functions/carrito.php" style="display:inline;">
+                                            <form method="POST" action="functions/carrito.php" style="display:inline;">
                                                 <input type="hidden" name="aumentar" value="<?= $producto['id'] ?>">
                                                 <button class="boton-cantidad aumentar" type="submit">+</button>
                                             </form>
                                             <span class="cantidad"><?= $producto['cantidad'] ?></span>
-                                            <form method="POST" action="../../functions/carrito.php" style="display:inline;">
+                                            <form method="POST" action="functions/carrito.php" style="display:inline;">
                                                 <input type="hidden" name="disminuir" value="<?= $producto['id'] ?>">
                                                 <button class="boton-cantidad disminuir" type="submit">-</button>
                                             </form>
                                         </div>
                                     </td>
                                     <td class="columna-eliminar">
-                                        <form method="POST" action="../../functions/carrito.php">
+                                        <form method="POST" action="functions/carrito.php">
                                             <input type="hidden" name="eliminar" value="<?= $producto['id'] ?>">
                                             <button type="submit" class="boton-eliminar">×</button>
                                         </form>
@@ -147,7 +153,7 @@ $productosEnCarrito = obtenerCarrito();
                                         <span class="etiqueta">Total a Pagar:</span>
                                         <span class="valor">$<?= number_format($total) ?></span>
                                     </div>
-                                    <form method="POST" action="../../pages/user/gestion.php">
+                                    <form method="POST" action="pages/user/gestion.php">
                                     <button type="submit" class="boton-pagar">Pagar</button>
                                     </form>
                                 </div>
@@ -158,8 +164,7 @@ $productosEnCarrito = obtenerCarrito();
             </div>
         </div>
     </main>
-
-
 </div>
+
 </body>
 </html>

@@ -12,16 +12,19 @@ $productos = listarProductos();
         <?php if (!empty($productos)): ?>
             <?php foreach ($productos as $producto): ?>
                 <div class="product-card">
+                    <!-- Enlace a la página de detalle del producto con el ID dinámico -->
                     <a href="pages/user/detalle.php?producto=<?php echo $producto['id']; ?>">
-                        <!-- ✅ Ruta corregida -->
-                        <img src="assets/img/<?php echo $producto['imagen']; ?>" class="product-image" alt="<?php echo $producto['nombre']; ?>">
+                        <img src="uploads/productos/<?php echo $producto['imagen']; ?>" class="product-image" alt="<?php echo $producto['nombre']; ?>">
                         <h3 class="product-name"><?php echo $producto['nombre']; ?></h3>
                     </a>
 
                     <p class="product-description"><?php echo $producto['descripcion']; ?></p>
                     <p class="product-price"><strong>$<?php echo number_format($producto['precio'], 2); ?></strong></p>
 
+                    <!-- Enlace "Ver Más" con el ID dinámico -->
                     <a href="pages/user/detalle.php?producto=<?php echo $producto['id']; ?>" class="view-more-button">Ver Más</a>
+
+                    <!-- Botón para agregar al carrito con AJAX -->
                     <button class="btn-agregar" onclick="agregarAlCarrito(<?php echo $producto['id']; ?>)">Agregar al carrito</button>
                 </div>
             <?php endforeach; ?>
@@ -33,30 +36,12 @@ $productos = listarProductos();
 
 <!-- TOAST CSS -->
 <style>
-
-.view-more-button {
-    display: inline-block;
-    padding: 10px 45px;
-    color: black;
-    font-weight: bold;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-    margin-bottom: 10%;
-    cursor: pointer;
-    text-decoration: none;
-}
-
-.view-more-button:hover {
-    text-decoration: underline;
-}
-
-
 .notificacion-toast {
     position: fixed;
     top: 20px;
     right: 20px;
     background-color: #4caf50;
-    color: #000000;
+    color: #fff;
     padding: 12px 20px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -66,8 +51,6 @@ $productos = listarProductos();
     z-index: 9999;
 }
 
-
-
 .notificacion-toast.mostrar {
     opacity: 1;
     transform: translateY(0);
@@ -75,9 +58,6 @@ $productos = listarProductos();
 
 .notificacion-toast.error {
     background-color: #e74c3c;
-}
-.product-description{
-    font-weight: 400;
 }
 </style>
 
