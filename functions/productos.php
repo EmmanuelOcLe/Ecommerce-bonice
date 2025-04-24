@@ -4,18 +4,16 @@ include_once __DIR__ . '/../config/db.php';
 
 function listarProductos() {
     global $conexion;
-
-    $sql = "SELECT * FROM productos";
-    $resultado = $conexion->query($sql);
+    $sql = "SELECT p.*, c.nombre AS nombre_categoria 
+            FROM productos p
+            JOIN categorias c ON p.categoria_id = c.id 
+            ORDER BY p.id DESC";
+    $resultado = mysqli_query($conexion, $sql);
 
     $productos = [];
-
-    if ($resultado && $resultado->num_rows > 0) {
-        while ($fila = $resultado->fetch_assoc()) {
-            $productos[] = $fila;
-        }
+    while ($fila = mysqli_fetch_assoc($resultado)) {
+        $productos[] = $fila;
     }
-
     return $productos;
 }
 
@@ -104,20 +102,18 @@ function actualizarProducto($id, $nombre, $descripcion, $precio, $stock, $catego
 
 function buscarProductosPorNombre($nombre) {
     global $conexion;
+    $nombre = mysqli_real_escape_string($conexion, $nombre);
+    $sql = "SELECT p.*, c.nombre AS nombre_categoria 
+            FROM productos p 
+            JOIN categorias c ON p.categoria_id = c.id 
+            WHERE p.nombre LIKE '%$nombre%' 
+            ORDER BY p.id DESC";
+    $resultado = mysqli_query($conexion, $sql);
 
-    $stmt = $conexion->prepare("SELECT * FROM productos WHERE nombre LIKE ?");
-    $like = '%' . $nombre . '%';
-    $stmt->bind_param("s", $like);
-    $stmt->execute();
-
-    $resultado = $stmt->get_result();
     $productos = [];
-
-    while ($fila = $resultado->fetch_assoc()) {
+    while ($fila = mysqli_fetch_assoc($resultado)) {
         $productos[] = $fila;
     }
-
-    $stmt->close();
     return $productos;
 }
 

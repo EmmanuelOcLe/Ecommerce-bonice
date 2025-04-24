@@ -1,7 +1,7 @@
 <?php
 // Incluir la configuración de la base de datos y las funciones necesarias
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Bonice/Ecommerce-bonice/config/db.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Bonice/Ecommerce-bonice/functions/carrito.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Ecommerce-bonice/config/db.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Ecommerce-bonice/functions/carrito.php';
 
 // Iniciar sesión si no está activa
 if (session_status() === PHP_SESSION_NONE) {

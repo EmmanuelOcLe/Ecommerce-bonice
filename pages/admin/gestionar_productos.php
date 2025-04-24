@@ -9,6 +9,11 @@ if (!isset($_SESSION["user"]) || $_SESSION["user_rol"] != "admin") {
 }
 
 require_once(__DIR__ . '/../../functions/productos.php');
+require_once(__DIR__ . '/../../functions/gestionar_categorias.php');
+
+
+$categorias = obtenerCategorias();
+
 
 //elimina el producto
 if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["id"]) && isset($_GET["page"]) && $_GET["page"] === "admin/gestionar_productos") {
@@ -85,24 +90,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
         </form>
 
         <div class="productos-container">
-          <div class="productos-row encabezado">
-            <div>ID</div>
-            <div>Producto</div>
-            <div>Nombre</div>
-            <div>Precio</div>
-            <div>Cantidad</div>
-            <div>Acciones</div>
-          </div>
+            <div class="productos-row encabezado">
+              <div>ID</div>
+              <div>Producto</div>
+              <div>Nombre</div>
+              <div>Precio</div>
+              <div>Cantidad</div>
+              <div>Categoría</div>
+              <div>Acciones</div>
+            </div>
+
 
           <?php foreach ($productos as $producto): ?>
             <div class="productos-row">
               <div><?= htmlspecialchars($producto['id']) ?></div>
-              <div>
-                <img src="assets/img/<?= htmlspecialchars($producto['imagen']) ?>" alt="Imagen producto" >
-              </div>
-              <div><?= htmlspecialchars($producto['nombre']) ?></div>
-              <div>$<?= number_format($producto['precio'], 0, ',', '.') ?></div>
-              <div><?= htmlspecialchars($producto['stock']) ?></div>
+                <div>
+                  <img src="assets/img/<?= htmlspecialchars($producto['imagen']) ?>" alt="Imagen producto" >
+                </div>
+                <div><?= htmlspecialchars($producto['nombre']) ?></div>
+                <div>$<?= number_format($producto['precio'], 0, ',', '.') ?></div>
+                <div><?= htmlspecialchars($producto['stock']) ?></div>
+                <div><?= htmlspecialchars($producto['nombre_categoria']) ?></div> 
+
               <div>
                 <button class="btn-editar"
                         data-id="<?= $producto['id'] ?>"
@@ -120,6 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
                 </button>
 
               </div>
+              
             </div>
           <?php endforeach; ?>
         </div>
@@ -138,7 +148,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
         <input type="number" name="stock" placeholder="Stock" required>
         <textarea name="descripcion" placeholder="Descripción" required></textarea>
         <input type="file" name="imagen" accept="image/*" required>
-        <input type="hidden" name="categoria_id" value="2">
+        <select name="categoria_id" required>
+        <option value="">Categoría</option>
+        <?php foreach ($categorias as $categoria): ?>
+          <option value="<?= $categoria['id'] ?>"><?= htmlspecialchars($categoria['nombre']) ?></option>
+        <?php endforeach; ?>
+      </select>
+
         <button type="submit" name="crear_producto">Guardar Producto</button>
       </form>
     </div>
@@ -156,7 +172,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
         <input type="number" name="stock" id="stock_editar" placeholder="Stock" required>
         <textarea name="descripcion" id="descripcion_editar" placeholder="Descripción" required></textarea>
         <input type="file" name="imagen">
-        <input type="hidden" name="categoria_id" value="2">
+        <select name="categoria_id" id="categoria_editar" required>
+        <option value="">Categoría</option>
+        <?php foreach ($categorias as $categoria): ?>
+          <option value="<?= $categoria['id'] ?>"><?= htmlspecialchars($categoria['nombre']) ?></option>
+        <?php endforeach; ?>
+      </select>
+
         <button type="submit" name="editar_producto">Guardar Cambios</button>
       </form>
     </div>

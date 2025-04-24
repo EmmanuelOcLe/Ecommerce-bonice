@@ -105,8 +105,8 @@ function crearCategoria($nombre) {
         <div>Acciones</div>
       </div>
 
-      <?php if ($categorias && mysqli_num_rows($categorias) > 0): ?>
-        <?php while ($cat = mysqli_fetch_assoc($categorias)): ?>
+      <?php if ($categorias && count($categorias) > 0): ?>
+        <?php foreach ($categorias as $cat): ?>
           <div class="categoria-row">
             <div><?= $cat['id'] ?></div>
             <div><?= $cat['nombre'] ?></div>
@@ -115,7 +115,7 @@ function crearCategoria($nombre) {
               <a href="index.php?page=admin/gestionar_categorias&eliminar=<?= urlencode($cat['id']) ?>" onclick="return confirm('¿Seguro que desea eliminar esta categoría?')"><i class="bi bi-trash-fill"></i></a>
             </div>
           </div>
-        <?php endwhile; ?>
+        <?php endforeach; ?>
       <?php else: ?>
         <p>No se encontraron categorías.</p>
       <?php endif; ?>
