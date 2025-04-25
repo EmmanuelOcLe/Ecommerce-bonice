@@ -3,14 +3,13 @@ session_start();
 require_once '../config/db.php';
 require_once '../functions/carrito.php';
 
-
 header('Content-Type: application/json');
-
 
 if (!isset($_SESSION['user'])) {
     header("Location: ../../pages/login-page.php?error=no_session");
     exit;
 }
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_SESSION['user_email'])) {
         echo json_encode(['status' => 'error', 'message' => 'Usuario no autenticado']);
@@ -53,16 +52,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $cantidad_total += $producto['cantidad'];
     }
 
+    // Insertar el pedido en la tabla pedidos
     $sqlPedido = "INSERT INTO pedidos (usuario_id, provincia, localidad, direccion, coste, estado, fecha, hora)
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmtPedido = mysqli_prepare($conexion, $sqlPedido);
     mysqli_stmt_bind_param($stmtPedido, "isssdsss", $usuario_id, $provincia, $localidad, $direccion, $coste_total, $estado, $fecha, $hora);
 
     if (mysqli_stmt_execute($stmtPedido)) {
+        $pedido_id = mysqli_insert_id($conexion);  // Obtener el ID del pedido recién insertado
+        
+        // Insertar los productos del carrito en la tabla lineas_pedidos
+        $sqlLinea = "INSERT INTO lineas_pedidos (pedido_id, producto_id, cantidad) VALUES (?, ?, ?)";
+        $stmtLinea = mysqli_prepare($conexion, $sqlLinea);
+
+        foreach ($carrito as $producto) {
+            $producto_id = $producto['id'];
+            $cantidad = $producto['cantidad'];
+            mysqli_stmt_bind_param($stmtLinea, "iii", $pedido_id, $producto_id, $cantidad);
+            mysqli_stmt_execute($stmtLinea);
+        }
+
+        // Limpiar el carrito
         $_SESSION['carrito'] = [];
+
         echo json_encode(['status' => 'success']);
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Error al guardar el pedido']);
     }
-    
 }
+?>

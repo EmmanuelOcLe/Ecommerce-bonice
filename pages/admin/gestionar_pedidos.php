@@ -2,7 +2,8 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once 'config/db.php';
+require_once __DIR__ . '/../../config/db.php';
+
 
 if (!isset($_SESSION["user"]) || $_SESSION["user_rol"] != "admin") {
     header("Location: index.php");
@@ -40,6 +41,8 @@ $estados = ['pendiente', 'en proceso', 'enviado', 'entregado'];
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/global.css">
   <link rel="stylesheet" href="assets/css/pedidos.css">
+  <link rel="stylesheet" href="assets/css/boton-detalles.css">
+
   <title>Gestionar pedidos</title>
 </head>
 <body>
@@ -54,25 +57,29 @@ $estados = ['pendiente', 'en proceso', 'enviado', 'entregado'];
       </div>
 
       <?php while ($pedido = mysqli_fetch_assoc($resultado)) : ?>
-        <div class="gestionar-pedidos-row">
-          <div><?= htmlspecialchars($pedido['id']) ?></div>
-          <div>$<?= number_format($pedido['coste'], 0, ',', '.') ?></div>
-          <div><?= htmlspecialchars($pedido['fecha']) ?></div>
-          <div>
-            <form method="POST" style="display:flex; align-items:center; gap: 0.5rem;">
-              <input type="hidden" name="pedido_id" value="<?= $pedido['id'] ?>">
-              <select name="nuevo_estado">
-                <?php foreach ($estados as $estado): ?>
-                  <option value="<?= $estado ?>" <?= $estado == $pedido['estado'] ? 'selected' : '' ?>>
-                    <?= ucfirst($estado) ?>
-                  </option>
-                <?php endforeach; ?>
-              </select>
-              <button type="submit" name="cambiar_estado" class="button-warning">Actualizar</button>
-            </form>
-          </div>
-        </div>
-      <?php endwhile; ?>
+  <div class="gestionar-pedidos-row">
+    <div><?= htmlspecialchars($pedido['id']) ?></div>
+    <div>$<?= number_format($pedido['coste'], 0, ',', '.') ?></div>
+    <div><?= htmlspecialchars($pedido['fecha']) ?></div>
+    <div>
+      <form method="POST" style="display:flex; align-items:center; gap: 0.5rem;">
+        <input type="hidden" name="pedido_id" value="<?= $pedido['id'] ?>">
+        <select name="nuevo_estado">
+          <?php foreach ($estados as $estado): ?>
+            <option value="<?= $estado ?>" <?= $estado == $pedido['estado'] ? 'selected' : '' ?>>
+              <?= ucfirst($estado) ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+        <button type="submit" name="cambiar_estado" class="button-warning">Actualizar</button>
+      </form>
+    </div>
+    <form action="pages/admin/detalle_pedido.php" method="GET">
+      <input type="hidden" name="id" value="<?= $pedido['id'] ?>">
+      <button type="submit" class="boton-detalles">Detalles</button>
+    </form>
+  </div>
+<?php endwhile; ?>
 
     </div>
   </div>
