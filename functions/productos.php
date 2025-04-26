@@ -1,16 +1,20 @@
 <?php
 
 include_once __DIR__ . '/../config/db.php';
-
 function listarProductos($categoriaId = null) {
     global $conexion;
 
     if ($categoriaId) {
-        $query = "SELECT * FROM productos WHERE categoria_id = ?";
+        $query = "SELECT p.*, c.nombre AS nombre_categoria 
+                    FROM productos p 
+                    JOIN categorias c ON p.categoria_id = c.id 
+                    WHERE p.categoria_id = ?";
         $stmt = mysqli_prepare($conexion, $query);
         mysqli_stmt_bind_param($stmt, "i", $categoriaId);
     } else {
-        $query = "SELECT * FROM productos";
+        $query = "SELECT p.*, c.nombre AS nombre_categoria 
+                    FROM productos p 
+                    JOIN categorias c ON p.categoria_id = c.id";
         $stmt = mysqli_prepare($conexion, $query);
     }
 

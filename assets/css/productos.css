@@ -202,15 +202,15 @@ img{
 }
 
 .modal {
-  display: none; /* oculto por defecto */
+  display: none; 
   position: fixed;
   z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto; /* si hay mucho contenido */
-  background-color: rgba(0, 0, 0, 0.5); /* fondo oscuro semitransparente */
+  overflow: auto; 
+  background-color: rgba(0, 0, 0, 0.5); 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -232,7 +232,9 @@ img{
   position: relative;
   animation: fadeIn 0.3s ease;
   text-align: center;
-
+  left: 50%;
+  top: 10rem;
+  transform: translateX(-50%);
 }
 
 .logo-bonice {
