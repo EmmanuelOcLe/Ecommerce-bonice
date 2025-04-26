@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cambiar_estado'])) {
 }
 
 // Obtener pedidos actualizados
-$sql = "SELECT id, coste, fecha, estado FROM pedidos ORDER BY fecha DESC";
+$sql = "SELECT id, coste, fecha, estado FROM pedidos ORDER BY id DESC";
 $resultado = mysqli_query($conexion, $sql);
 
 // Lista de estados
