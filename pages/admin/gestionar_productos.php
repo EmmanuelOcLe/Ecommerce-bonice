@@ -140,9 +140,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
   <!-- MODAL CREAR PRODUCTO -->
   <div id="modalCrear" class="modal">
     <div class="modal-content">
+
       <span class="cerrar" id="cerrarModal">&times;</span>
       <h2>Crear Producto</h2>
-      <form method="POST" enctype="multipart/form-data">
+      <img src="assets/img/logo-bonice.png" alt="Bonice Logo" class="logo-bonice">
+      <form method="POST" enctype="multipart/form-data" class="formulario-productos">
         <input type="text" name="nombre" placeholder="Nombre del producto" required>
         <input type="number" step="0.01" name="precio" placeholder="Precio" required>
         <input type="number" name="stock" placeholder="Stock" required>
@@ -155,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
         <?php endforeach; ?>
       </select>
 
-        <button type="submit" name="crear_producto">Guardar Producto</button>
+        <button type="submit" name="crear_producto" class="btn-productos">Guardar Producto</button>
       </form>
     </div>
   </div>
@@ -164,8 +166,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
   <div id="modalEditar" class="modal">
     <div class="modal-content">
       <span class="cerrar" id="cerrarEditar">&times;</span>
+      
       <h2>Editar Producto</h2>
-      <form method="POST" enctype="multipart/form-data">
+
+      <img src="assets/img/logo-bonice.png" alt="Bonice Logo" class="logo-bonice">
+      <form method="POST" enctype="multipart/form-data"  class="formulario-productos">
         <input type="hidden" name="id_editar" id="id_editar">
         <input type="text" name="nombre" id="nombre_editar" placeholder="Nombre" required>
         <input type="number" name="precio" id="precio_editar" placeholder="Precio" required>
@@ -179,7 +184,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
         <?php endforeach; ?>
       </select>
 
-        <button type="submit" name="editar_producto">Guardar Cambios</button>
+        <button type="submit" name="editar_producto" class="btn-productos">Guardar Cambios</button>
       </form>
     </div>
   </div>
@@ -189,18 +194,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
 <div id="modalEliminar" class="modal" >
   <div class="modal-content">
     <span class="cerrar" id="cerrarEliminar">&times;</span>
-    <h2>¿Eliminar producto?</h2>
+    <h2>Eliminar producto</h2>
+    <img src="assets/img/logo-bonice.png" alt="Bonice Logo" class="logo-bonice">
+
     <p id="mensajeEliminar"></p>
     <div >
 
-      <form method="GET" action="index.php">
+      <form method="GET" action="index.php"  class="formulario-productos">
         <input type="hidden" name="page" value="admin/gestionar_productos">
         <input type="hidden" name="id" id="id_eliminar">
-        <button type="submit" >Eliminar</button>
+        <button type="submit" class="btn-productos">Eliminar</button>
+        <button id="cancelarEliminar" class="btn-productos">Cancelar</button>
       </form>
 
 
-      <button id="cancelarEliminar">Cancelar</button>
+      
     </div>
   </div>
 </div>
