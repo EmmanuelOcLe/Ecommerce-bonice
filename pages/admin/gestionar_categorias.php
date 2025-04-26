@@ -33,7 +33,6 @@ if (isset($_GET['eliminar'])) {
 if (isset($_POST['crear_categoria'])) {
     $nombre_categoria = $_POST['nombre_categoria'];
     if (!empty($nombre_categoria)) {
-        // Función para crear la nueva categoría en la base de datos
         crearCategoria($nombre_categoria);
         header("Location: index.php?page=admin/gestionar_categorias");
         exit();

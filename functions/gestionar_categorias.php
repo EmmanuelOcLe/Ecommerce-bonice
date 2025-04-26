@@ -13,7 +13,6 @@ function obtenerCategorias() {
         }
     }
 
-    // Cerramos el resultado para liberar memoria
     if ($resultado) {
         mysqli_free_result($resultado);
     }
@@ -34,7 +33,6 @@ function obtenerCategoriaPorId($id) {
 
         $categoria = mysqli_fetch_assoc($resultado);
 
-        // Cerramos el statement y liberamos el resultado
         mysqli_stmt_close($stmt);
         if ($resultado) {
             mysqli_free_result($resultado);

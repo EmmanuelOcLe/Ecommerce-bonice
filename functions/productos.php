@@ -2,20 +2,31 @@
 
 include_once __DIR__ . '/../config/db.php';
 
-function listarProductos() {
+function listarProductos($categoriaId = null) {
     global $conexion;
-    $sql = "SELECT p.*, c.nombre AS nombre_categoria 
-            FROM productos p
-            JOIN categorias c ON p.categoria_id = c.id 
-            ORDER BY p.id DESC";
-    $resultado = mysqli_query($conexion, $sql);
+
+    if ($categoriaId) {
+        $query = "SELECT * FROM productos WHERE categoria_id = ?";
+        $stmt = mysqli_prepare($conexion, $query);
+        mysqli_stmt_bind_param($stmt, "i", $categoriaId);
+    } else {
+        $query = "SELECT * FROM productos";
+        $stmt = mysqli_prepare($conexion, $query);
+    }
+
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
 
     $productos = [];
-    while ($fila = mysqli_fetch_assoc($resultado)) {
-        $productos[] = $fila;
+    while ($producto = mysqli_fetch_assoc($resultado)) {
+        $productos[] = $producto;
     }
+
+    mysqli_stmt_close($stmt);
+
     return $productos;
 }
+
 
 function crearProducto($nombre, $descripcion, $precio, $stock, $categoria_id, $imagen) {
     global $conexion;
