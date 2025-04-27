@@ -42,6 +42,8 @@ $resultado = mysqli_stmt_get_result($stmtPedidos);
   <link rel="stylesheet" href="../../assets/css/style.css">
   <link rel="stylesheet" href="../../assets/css/global.css">
   <link rel="stylesheet" href="../../assets/css/pedidos.css">
+  <link rel="stylesheet" href="../../assets/css/boton-detalles.css">
+  <link rel="stylesheet" href="../../assets/css/producto-detalle.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <title>Mis pedidos</title>
 
@@ -55,83 +57,79 @@ $resultado = mysqli_stmt_get_result($stmtPedidos);
 ?>
 
 <header>
-    <div class="header-container">
+<div class="header-container">
+    <!-- Logo -->
+    <div class="img-container">
+      <a href="index.php?page=home">
+        <img src="../../assets/img/bonice.png" alt="Logo Bonice" class="logo-bonice" style="width:25%;">
+      </a>
+    </div>
 
-        <div class="img-container">
-            <img src="../../assets/img/bonice.png" alt="logo bonice" class="logo-bonice" width="25%">
+    <!-- Navegación -->
+    <nav class="navbar">
+      <div class="container-fluid">
+
+        <!-- Opciones de usuario/admin -->
+        <?php if (isset($_SESSION["user"])): ?>
+          <div class="admin-user-icon">
+            <i class="bi bi-person-circle"></i>
+            <i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="admin-user-options">
+            <?php if ($_SESSION["user_rol"] === "admin"): ?>
+              <a href="../../index.php?page=admin/gestionar_productos">Gestionar productos</a>
+              <a href="../../index.php?page=admin/gestionar_categorias">Gestionar categorías</a>
+              <a href="../../index.php?page=admin/gestionar_pedidos">Gestionar pedidos</a>
+            <?php endif; ?>
+            <a href="../../functions/cerrar_sesion.php">Cerrar Sesión</a>
+          </div>
+        <?php endif; ?>
+
+        <!-- Enlaces principales -->
+        <div class="navbar-nav">
+          <a class="nav-link" href="../../index.php?page=home">Inicio</a>
+
+          <!-- Dropdown de “Productos” -->
+          <div class="dropdown-productos">
+            <a class="nav-link" href="../../index.php?page=user/productos">Productos</a>
+            <div class="dropdown-content">
+              <?php
+                $categorias_menu = mysqli_query($conexion, "SELECT * FROM categorias ORDER BY id");
+                while ($cat = mysqli_fetch_assoc($categorias_menu)):
+              ?>
+                <a href="../../index.php?page=user/productos&categoria=<?= $cat['id'] ?>">
+                  <?= htmlspecialchars($cat['nombre']) ?>
+                </a>
+              <?php endwhile; ?>
+            </div>
+          </div>
+
+          <a class="nav-link" href="../../index.php?page=user/quienes">Quiénes Somos</a>
+          <a class="nav-link" href="../../index.php?page=user/equipo">Nuestro Equipo</a>
         </div>
 
-        <nav class="navbar">
-            <div class="container-fluid">
-
-                <?php if (isset($_SESSION["user"])): ?>
-                    <div class="admin-user-icon">
-                        <i class="bi bi-person-circle"></i>
-                        <i class="bi bi-chevron-down"></i>
-                    </div>
-
-                    <div class="admin-user-options">
-                        <?php if (isset($_SESSION["user_rol"]) && $_SESSION["user_rol"] == "admin"): ?>
-                            <a href="../../index.php?page=admin/gestionar_productos">Gestionar productos</a>
-                            <a href="../admin/gestionar_categorias.php">Gestionar categorías</a>
-                            <a href="../../index.php?page=admin/gestionar_pedidos">Gestionar pedidos</a>
-                        <?php else: ?>
-                            <a href="mis_pedidos.php">Mis pedidos</a>
-                        <?php endif; ?>
-                        <a href="../../functions/cerrar_sesion.php">Cerrar Sesión</a>
-                    </div>
-
-                <?php endif; ?>
-
-                <div class="navbar-nav">
-                    <?php
-                    $categorias_menu = mysqli_query($conexion, "SELECT * FROM categorias ORDER BY id");
-                    $urls_por_id = [
-                        1 => "../../index.php?page=home",
-                        2 => "../../index.php?page=user/productos",
-                        3 => "../../index.php?page=user/quienes",
-                        4 => "../../index.php?page=user/equipo"
-                    ];
-
-                    while ($cat = mysqli_fetch_assoc($categorias_menu)):
-                        $id_categoria = $cat['id'];
-                        $nombre_categoria = $cat['nombre'];
-                        $url = $urls_por_id[$id_categoria] ?? "index.php?page=user/category&id=$id_categoria";
-                    ?>
-                        <a class="nav-link" href="<?= $url ?>"><?= $nombre_categoria ?></a>
-                    <?php endwhile; ?>
-                </div>
-
-                <!-- Ícono de carrito con dropdown -->
-                <div class="carrito-icono">
-                    <div class="dropdown-carrito">
-                        <a href="../../pages/user/carrito.php" title="Ver carrito">
-                            <i class="bi bi-cart3" style="font-size: 1.5rem;"></i>
-                        </a>
-                        <?php if (!empty($productosEnCarrito)): ?>
-                            <div class="carrito-dropdown">
-                                <ul>
-                                    <?php foreach ($productosEnCarrito as $producto): ?>
-                                        <li>
-                                            <?php echo htmlspecialchars($producto['nombre']); ?> -
-                                            $<?php echo number_format($producto['precio'], 1); ?>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
-                                <a href="../../pages/user/carrito.php" class="ver-carrito">Ver carrito completo</a>
-                            </div>
-                        <?php else: ?>
-                            <div class="carrito-dropdown">
-                                <p>Carrito vacío</p>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-
+        <!-- Carrito -->
+        <div class="carrito-icono">
+          <a href="index.php?page=user/carrito" title="Ver carrito">
+            <img class="carrito" src="../../assets/img/Shopping_car.png" alt="Icono carrito">
+          </a>
+          <?php if (!empty($productosEnCarrito)): ?>
+            <div class="carrito-dropdown">
+              <ul>
+                <?php foreach ($productosEnCarrito as $p): ?>
+                  <li><?= htmlspecialchars($p['nombre']) ?> – $<?= number_format($p['precio'], 1) ?></li>
+                <?php endforeach; ?>
+              </ul>
+              <a href="../../index.php?page=user/carrito" class="ver-carrito">Ver carrito completo</a>
             </div>
-        </nav>
+          <?php else: ?>
+            <div class="carrito-dropdown"><p>Carrito vacío</p></div>
+          <?php endif; ?>
+        </div>
 
-    </div>
+      </div>
+    </nav>
+  </div>
 </header>
 
 
@@ -154,16 +152,21 @@ $resultado = mysqli_stmt_get_result($stmtPedidos);
           default         => 'estado-desconocido',
         };
       ?>
-      <div class="gestionar-pedidos-row">
-        <div><?= htmlspecialchars($pedido['id']) ?></div>
-        <div>$<?= number_format($pedido['coste'], 0, ',', '.') ?></div>
-        <div><?= htmlspecialchars($pedido['fecha']) ?></div>
-        <div>
-          <span class="estado-label <?= $estado_clase ?>">
-            <?= ucfirst($pedido['estado']) ?>
-          </span>
-        </div>
-      </div>
+            <div class="gestionar-pedidos-row">
+              <div><?= htmlspecialchars($pedido['id']) ?></div>
+              <div>$<?= number_format($pedido['coste'], 0, ',', '.') ?></div>
+              <div><?= htmlspecialchars($pedido['fecha']) ?></div>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                <span class="estado-label <?= $estado_clase ?>">
+                  <?= ucfirst($pedido['estado']) ?>
+                </span>
+                
+                <form action="detalle_pedido.php" method="GET">
+                  <input type="hidden" name="id" value="<?= $pedido['id'] ?>">
+                  <button type="submit" class="boton-detalles">Detalles</button>
+                </form>
+              </div>
+            </div>
     <?php endwhile; ?>
 
   </div>

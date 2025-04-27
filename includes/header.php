@@ -37,12 +37,14 @@ $productosEnCarrito = obtenerCarrito();
             <i class="bi bi-chevron-down"></i>
           </div>
           <div class="admin-user-options">
-            <?php if ($_SESSION["user_rol"] === "admin"): ?>
-              <a href="index.php?page=admin/gestionar_productos">Gestionar productos</a>
-              <a href="index.php?page=admin/gestionar_categorias">Gestionar categorías</a>
-              <a href="index.php?page=admin/gestionar_pedidos">Gestionar pedidos</a>
-            <?php endif; ?>
-            <a href="functions/cerrar_sesion.php">Cerrar Sesión</a>
+          <?php if (isset($_SESSION["user_rol"]) && $_SESSION["user_rol"] == "admin"): ?>
+                          <a href="index.php?page=admin/gestionar_productos">Gestionar productos</a>
+                          <a href="pages/admin/gestionar_categorias.php">Gestionar categorías</a>
+                          <a href="index.php?page=admin/gestionar_pedidos">Gestionar pedidos</a>
+                      <?php else: ?>
+                  <a href="pages/user/mis_pedidos.php">Mis pedidos</a>
+                  <?php endif; ?>
+              <a href="functions/cerrar_sesion.php">Cerrar Sesión</a>
           </div>
         <?php endif; ?>
 

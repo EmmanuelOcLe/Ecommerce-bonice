@@ -42,6 +42,7 @@ $estados = ['pendiente', 'en proceso', 'enviado', 'entregado'];
   <link rel="stylesheet" href="assets/css/global.css">
   <link rel="stylesheet" href="assets/css/pedidos.css">
   <link rel="stylesheet" href="assets/css/boton-detalles.css">
+  <link rel="stylesheet" href="../../assets/css/producto-detalle.css">
 
   <title>Gestionar pedidos</title>
 </head>

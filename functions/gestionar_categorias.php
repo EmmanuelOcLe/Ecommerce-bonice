@@ -1,4 +1,8 @@
 <?php
+if (!isset($_SESSION["user"]) || $_SESSION["user_rol"] != "admin")
+{
+    header ("Location: ../index.php");
+}
 require_once __DIR__ . '/../config/db.php';
 
 function obtenerCategorias() {
@@ -49,6 +53,24 @@ function eliminarCategoria($id) {
     $id = intval($id);
 
     if ($id > 0) {
+        $query = "DELETE FROM lineas_pedidos WHERE producto_id IN (SELECT id FROM productos WHERE categoria_id = ?)";
+        $stmt = mysqli_prepare($conexion, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, "i", $id);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+        }
+
+
+        $query = "DELETE FROM productos WHERE categoria_id = ?";
+        $stmt = mysqli_prepare($conexion, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, "i", $id);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+        }
+
+
         $query = "DELETE FROM categorias WHERE id = ?";
         $stmt = mysqli_prepare($conexion, $query);
         if ($stmt) {
@@ -72,7 +94,7 @@ if (isset($_POST['actualizar'])) {
             $resultado = mysqli_stmt_execute($stmt);
 
             if ($resultado) {
-                header("Location: index.php?page=admin/gestionar_categorias");
+                header("Location: gestionar_categorias.php");
                 exit();
             } else {
                 echo "Error al actualizar la categoría.";
