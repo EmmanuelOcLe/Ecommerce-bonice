@@ -105,8 +105,8 @@ body {
 .seccion-carrito {
     flex: 2;
     position: relative;
-    bottom: -11%;
-    left: -25%;
+    bottom: 3%;
+    left: -4%;
     border-radius: 5px;
     padding: 20px;
     padding-bottom: 20rem;
@@ -196,14 +196,13 @@ body {
 }
 
 .resumen-pago {
-    width: 116%;
+    width: 110%;
     background-color: #aabff7;
     color: black;
-    padding: 15px;
-    margin-top: 20px;
+    padding: 13px;
+    margin-top: 63px;
+    margin-left: -4%;
     text-align: left;
-    position: relative;
-    right: 8%;
 }
 
 .resumen-pago p {
@@ -271,11 +270,12 @@ body {
 
 .tabla-recibo th,
 .tabla-recibo td {
-    padding: 10px;
+    padding: 4px;
     border-bottom: 1px solid #ddd;
     text-align: left;
     position: relative;
-    top: -3rem;
+    top: 5px;
+    right: 4px;
 }
 
 .columna-precio-recibo {
@@ -315,8 +315,8 @@ body {
     width: 150px;
     border-radius: 5px;
     position: absolute;
-    bottom: -15rem;
-    left: 25rem;
+    bottom: -8rem;
+    left: 23rem;
     font-weight: bold;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, transform 0.2s ease;

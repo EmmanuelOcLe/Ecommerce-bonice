@@ -28,8 +28,7 @@ body {
 .logo-floating img {
     width: 150px;
     height: auto;
-    margin-top: 40px;
-    animation: float 3s ease-in-out infinite;
+    margin-top: 67px;
 }
 
 

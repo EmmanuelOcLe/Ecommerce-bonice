@@ -1,12 +1,19 @@
 <?php
+// header.php
+
+// 1) Incluir configuración y funciones con rutas relativas al archivo actual
 include_once(__DIR__ . '/../config/db.php');
 include_once(__DIR__ . '/../functions/carrito.php');
 
+// 2) Iniciar sesión si no hay una activa
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// 3) Obtener productos en el carrito
 $productosEnCarrito = obtenerCarrito();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -22,7 +29,7 @@ $productosEnCarrito = obtenerCarrito();
     <!-- Logo -->
     <div class="img-container">
       <a href="index.php?page=home">
-        <img src="assets/img/bonice.png" alt="Logo Bonice" class="logo-bonice" style="width:25%;">
+        <img src="assets/img/bonice.png" alt="Logo Bonice" class="logo-bonice" style="width:20%;">
       </a>
     </div>
 
@@ -37,14 +44,12 @@ $productosEnCarrito = obtenerCarrito();
             <i class="bi bi-chevron-down"></i>
           </div>
           <div class="admin-user-options">
-          <?php if (isset($_SESSION["user_rol"]) && $_SESSION["user_rol"] == "admin"): ?>
-                          <a href="index.php?page=admin/gestionar_productos">Gestionar productos</a>
-                          <a href="pages/admin/gestionar_categorias.php">Gestionar categorías</a>
-                          <a href="index.php?page=admin/gestionar_pedidos">Gestionar pedidos</a>
-                      <?php else: ?>
-                  <a href="pages/user/mis_pedidos.php">Mis pedidos</a>
-                  <?php endif; ?>
-              <a href="functions/cerrar_sesion.php">Cerrar Sesión</a>
+            <?php if ($_SESSION["user_rol"] === "admin"): ?>
+              <a href="index.php?page=admin/gestionar_productos">Gestionar productos</a>
+              <a href="index.php?page=admin/gestionar_categorias">Gestionar categorías</a>
+              <a href="index.php?page=admin/gestionar_pedidos">Gestionar pedidos</a>
+            <?php endif; ?>
+            <a href="functions/cerrar_sesion.php">Cerrar Sesión</a>
           </div>
         <?php endif; ?>
 
