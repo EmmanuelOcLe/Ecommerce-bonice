@@ -74,10 +74,10 @@ $productosEnCarrito = obtenerCarrito();
                                     $nombreImagen = !empty($producto['imagen']) ? $producto['imagen'] : 'imagen_default.png';
 
                                     // Ruta absoluta del sistema (para verificar existencia en disco)
-                                    $rutaSistema = __DIR__ . "/../../assets/img/" . $nombreImagen;
+                                    $rutaSistema = __DIR__ . "/../../uploads/productos/" . $nombreImagen;
 
                                     // Ruta relativa desde el navegador (para mostrarla en <img>)
-                                    $rutaRelativa = "../../assets/img/" . $nombreImagen;
+                                    $rutaRelativa = "../../uploads/productos/" . $nombreImagen;
 
                                     // Si la imagen no existe en el sistema, usa la imagen por defecto
                                     if (!file_exists($rutaSistema)) {

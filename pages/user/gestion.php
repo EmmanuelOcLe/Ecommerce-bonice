@@ -116,7 +116,7 @@ if (!isset($_SESSION['user'])) {
       <input type="text" name="direccion" class="form-control-dir" placeholder="Dirección" required>
       <input type="text" name="ciudad" class="form-control-ciud" placeholder="Ciudad" required>
       <input type="text" name="departamento" class="form-control" placeholder="Departamento" required>
-      <input type="text" name="contacto" class="form-control" placeholder="Número de Contacto" required>
+      <input type="number" name="contacto" class="form-control" placeholder="Número de Contacto" required>
       <input type="text" name="pago" class="form-control" placeholder="Método de Pago" required>
       <button type="submit" class="btn-register">Confirmar Pedido</button>
     </form>
