@@ -70,18 +70,14 @@ $productosEnCarrito = obtenerCarrito();
                                 <tr>
                                     <td class="columna-imagen">
                                     <?php
-                                    // Obtiene el nombre de la imagen o asigna una por defecto
-                                    $nombreImagen = !empty($producto['imagen']) ? $producto['imagen'] : 'imagen_default.png';
+                                    $nombreImagen = !empty($producto['imagen']) ? $producto['imagen'] : 'imagen_prueba.png';
 
-                                    // Ruta absoluta del sistema (para verificar existencia en disco)
-                                    $rutaSistema = __DIR__ . "/../../uploads/productos/" . $nombreImagen;
+                                    $rutaSistema ="assets/img/" . $nombreImagen;
 
-                                    // Ruta relativa desde el navegador (para mostrarla en <img>)
-                                    $rutaRelativa = "../../uploads/productos/" . $nombreImagen;
+                                    $rutaRelativa = "assets/img/" . $nombreImagen;
 
-                                    // Si la imagen no existe en el sistema, usa la imagen por defecto
                                     if (!file_exists($rutaSistema)) {
-                                        $rutaRelativa = "../../assets/img/imagen_default.png";
+                                        $rutaRelativa = "assets/img/imagen-prueba.png";
                                     }
                                     ?>
                                         <img src="<?= htmlspecialchars($rutaRelativa) ?>" alt="<?= htmlspecialchars($producto['nombre']) ?>" class="imagen-producto">
