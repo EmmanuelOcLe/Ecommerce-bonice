@@ -55,6 +55,7 @@ $estados = ['pendiente', 'en proceso', 'enviado', 'entregado'];
         <div>Precio</div>
         <div>Fecha</div>
         <div>Estado</div>
+        <div>Detalles</div> <!-- Nueva columna -->
       </div>
 
       <?php while ($pedido = mysqli_fetch_assoc($resultado)) : ?>
