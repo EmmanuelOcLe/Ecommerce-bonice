@@ -19,7 +19,7 @@ body {
 
 .logo-floating {
     position: absolute;
-    top: 30px;
+    top: 50px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
@@ -28,8 +28,7 @@ body {
 .logo-floating img {
     width: 150px;
     height: auto;
-    margin-top: 20px;
-    animation: float 3s ease-in-out infinite;
+    margin-top: 40px;
 }
 
 

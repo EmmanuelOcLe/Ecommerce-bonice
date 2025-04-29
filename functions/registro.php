@@ -1,5 +1,4 @@
 <?php
-session_start(); // Para iniciar la sesión
 require '../config/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -37,20 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                    VALUES ('$nombre', '$apellidos', '$correo', '$contrasena_segura', 'user')";
 
     if (mysqli_query($conexion, $sql_insert)) {
-        // Obtener el ID del usuario recién insertado
-        $nuevo_usuario_id = mysqli_insert_id($conexion);
-
-        // Guardar datos en sesión
-        $_SESSION['user'] = [
-            'id' => $nuevo_usuario_id,
-            'nombre' => $nombre,
-            'apellidos' => $apellidos,
-            'correo' => $correo,
-            'rol' => 'user'
-        ];
 
         // Redirigir al inicio ya logueado
-        header("Location: ../index.php");
+        header("Location: ../pages/registro-page.php?status=0");
         exit();
     } else {
         header("Refresh: 5; URL=../pages/registro-page.php");

@@ -137,6 +137,106 @@
   background-color: #ffc107;
 }
 
+/* Estilo del botón para crear categoría */
+.btn-crear-categoria {
+  padding: 10px 20px;
+  background-color: #ff2197;
+  color: white;
+  width: 25%;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
+  margin: 1rem auto; 
+}
+
+.btn-crear-categoria:hover {
+  background-color: #882172;
+}
+
+/* Estilo del modal para crear categoría */
+#modal-crear-categoria {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-form {
+  background: #fff;
+  padding: 2em;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+  text-align: center;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  color: #888;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.modal-close:hover {
+  color: #000;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.logo-bonice {
+  width: 120px;
+  margin-bottom: 15px;
+}
+
+.formulario-actualizar input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-crear {
+  padding: 10px 25px;
+  background-color: #ffcc00;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-crear:hover {
+  background-color: #ffc107;
+}
+
 .btn-retorno {
   position: absolute;
   top: 37px;

@@ -1,23 +1,36 @@
 <?php
 
 include_once __DIR__ . '/../config/db.php';
-
-function listarProductos() {
+function listarProductos($categoriaId = null) {
     global $conexion;
 
-    $sql = "SELECT * FROM productos";
-    $resultado = $conexion->query($sql);
+    if ($categoriaId) {
+        $query = "SELECT p.*, c.nombre AS nombre_categoria 
+                    FROM productos p 
+                    JOIN categorias c ON p.categoria_id = c.id 
+                    WHERE p.categoria_id = ?";
+        $stmt = mysqli_prepare($conexion, $query);
+        mysqli_stmt_bind_param($stmt, "i", $categoriaId);
+    } else {
+        $query = "SELECT p.*, c.nombre AS nombre_categoria 
+                    FROM productos p 
+                    JOIN categorias c ON p.categoria_id = c.id";
+        $stmt = mysqli_prepare($conexion, $query);
+    }
+
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
 
     $productos = [];
-
-    if ($resultado && $resultado->num_rows > 0) {
-        while ($fila = $resultado->fetch_assoc()) {
-            $productos[] = $fila;
-        }
+    while ($producto = mysqli_fetch_assoc($resultado)) {
+        $productos[] = $producto;
     }
+
+    mysqli_stmt_close($stmt);
 
     return $productos;
 }
+
 
 function crearProducto($nombre, $descripcion, $precio, $stock, $categoria_id, $imagen) {
     global $conexion;
@@ -104,20 +117,18 @@ function actualizarProducto($id, $nombre, $descripcion, $precio, $stock, $catego
 
 function buscarProductosPorNombre($nombre) {
     global $conexion;
+    $nombre = mysqli_real_escape_string($conexion, $nombre);
+    $sql = "SELECT p.*, c.nombre AS nombre_categoria 
+            FROM productos p 
+            JOIN categorias c ON p.categoria_id = c.id 
+            WHERE p.nombre LIKE '%$nombre%' 
+            ORDER BY p.id DESC";
+    $resultado = mysqli_query($conexion, $sql);
 
-    $stmt = $conexion->prepare("SELECT * FROM productos WHERE nombre LIKE ?");
-    $like = '%' . $nombre . '%';
-    $stmt->bind_param("s", $like);
-    $stmt->execute();
-
-    $resultado = $stmt->get_result();
     $productos = [];
-
-    while ($fila = $resultado->fetch_assoc()) {
+    while ($fila = mysqli_fetch_assoc($resultado)) {
         $productos[] = $fila;
     }
-
-    $stmt->close();
     return $productos;
 }
 

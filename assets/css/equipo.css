@@ -6,40 +6,58 @@
   margin-bottom: 30px;
   margin-top: 2%;
 }
-  
+
+/* Tarjeta de cada miembro */
 .team-member {
   display: flex;
   align-items: center;
   background-color: #F6F8FE;
-  width: 180%; 
+  width: 150%;
   border-radius: 10px;
-  padding: 70px;
-margin-left: 100%;
-box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-transition: transform 0.3s ease;
+  padding: 32px;
+  margin-left: 60%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.8s forwards;
 }
 
-.team-member:hover{
-transform: scale(1.05);
+/* Efecto hover */
+.team-member:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
 }
 
-
+/* Imagen Avatar */
 .avatar img {
-width: 120px;
-height: auto;
-border-radius: 50%;
-margin-right: 15px;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 20px;
+  border: 3px solid #ccc;
+  transition: border-color 0.3s, transform 0.3s;
 }
 
+/* Efecto hover en el avatar */
+.team-member:hover .avatar img {
+  border-color: #C40069;;
+  transform: rotate(5deg);
+}
 
+/* Información del miembro */
 .info p {
-margin: 0;
-font-size: 16px;
-color: #333;
-
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.5;
 }
 
-
-
-
-  
+/* Animación de entrada */
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

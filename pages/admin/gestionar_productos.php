@@ -4,16 +4,21 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION["user"]) || $_SESSION["user_rol"] != "admin") {
-    header("Location: /Ecommerce-bonice/index.php?page=home");
+    header("Location: ../../index.php?page=home");
     exit();
 }
 
 require_once(__DIR__ . '/../../functions/productos.php');
+require_once(__DIR__ . '/../../functions/gestionar_categorias.php');
+
+
+$categorias = obtenerCategorias();
+
 
 //elimina el producto
 if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["id"]) && isset($_GET["page"]) && $_GET["page"] === "admin/gestionar_productos") {
   eliminarProducto($_GET["id"]);
-  header("Location: /Ecommerce-bonice/index.php?page=admin/gestionar_productos");
+  header("Location: index.php?page=admin/gestionar_productos");
   exit();
 }
 
@@ -28,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["crear_producto"])) {
         $_POST["categoria_id"],
         $_FILES["imagen"]
     );
-    header("Location: /Ecommerce-bonice/index.php?page=admin/gestionar_productos");
+    header("Location: index.php?page=admin/gestionar_productos");
     exit();
 }
 
@@ -43,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["editar_producto"])) {
         $_POST["categoria_id"],
         $_FILES["imagen"]
     );
-    header("Location: /Ecommerce-bonice/index.php?page=admin/gestionar_productos");
+    header("Location: index.php?page=admin/gestionar_productos");
     exit();
 }
 
@@ -85,24 +90,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
         </form>
 
         <div class="productos-container">
-          <div class="productos-row encabezado">
-            <div>ID</div>
-            <div>Producto</div>
-            <div>Nombre</div>
-            <div>Precio</div>
-            <div>Cantidad</div>
-            <div>Acciones</div>
-          </div>
+            <div class="productos-row encabezado">
+              <div>ID</div>
+              <div>Producto</div>
+              <div>Nombre</div>
+              <div>Precio</div>
+              <div>Cantidad</div>
+              <div>Categoría</div>
+              <div>Acciones</div>
+            </div>
+
 
           <?php foreach ($productos as $producto): ?>
             <div class="productos-row">
               <div><?= htmlspecialchars($producto['id']) ?></div>
-              <div>
-                <img src="assets/img/<?= htmlspecialchars($producto['imagen']) ?>" alt="Imagen producto" >
-              </div>
-              <div><?= htmlspecialchars($producto['nombre']) ?></div>
-              <div>$<?= number_format($producto['precio'], 0, ',', '.') ?></div>
-              <div><?= htmlspecialchars($producto['stock']) ?></div>
+                <div>
+                  <img src="assets/img/<?= htmlspecialchars($producto['imagen']) ?>" alt="Imagen producto" >
+                </div>
+                <div><?= htmlspecialchars($producto['nombre']) ?></div>
+                <div>$<?= number_format($producto['precio'], 0, ',', '.') ?></div>
+                <div><?= htmlspecialchars($producto['stock']) ?></div>
+                <div><?= htmlspecialchars($producto['nombre_categoria']) ?></div> 
+
               <div>
                 <button class="btn-editar"
                         data-id="<?= $producto['id'] ?>"
@@ -120,6 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
                 </button>
 
               </div>
+              
             </div>
           <?php endforeach; ?>
         </div>
@@ -130,16 +140,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
   <!-- MODAL CREAR PRODUCTO -->
   <div id="modalCrear" class="modal">
     <div class="modal-content">
+
       <span class="cerrar" id="cerrarModal">&times;</span>
       <h2>Crear Producto</h2>
-      <form method="POST" enctype="multipart/form-data">
+      <img src="assets/img/logo-bonice.png" alt="Bonice Logo" class="logo-bonice">
+      <form method="POST" enctype="multipart/form-data" class="formulario-productos">
         <input type="text" name="nombre" placeholder="Nombre del producto" required>
         <input type="number" step="0.01" name="precio" placeholder="Precio" required>
         <input type="number" name="stock" placeholder="Stock" required>
         <textarea name="descripcion" placeholder="Descripción" required></textarea>
         <input type="file" name="imagen" accept="image/*" required>
-        <input type="hidden" name="categoria_id" value="2">
-        <button type="submit" name="crear_producto">Guardar Producto</button>
+        <select name="categoria_id" required>
+        <option value="">Categoría</option>
+        <?php foreach ($categorias as $categoria): ?>
+          <option value="<?= $categoria['id'] ?>"><?= htmlspecialchars($categoria['nombre']) ?></option>
+        <?php endforeach; ?>
+      </select>
+
+        <button type="submit" name="crear_producto" class="btn-productos">Guardar Producto</button>
       </form>
     </div>
   </div>
@@ -148,16 +166,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
   <div id="modalEditar" class="modal">
     <div class="modal-content">
       <span class="cerrar" id="cerrarEditar">&times;</span>
+      
       <h2>Editar Producto</h2>
-      <form method="POST" enctype="multipart/form-data">
+
+      <img src="assets/img/logo-bonice.png" alt="Bonice Logo" class="logo-bonice">
+      <form method="POST" enctype="multipart/form-data"  class="formulario-productos">
         <input type="hidden" name="id_editar" id="id_editar">
         <input type="text" name="nombre" id="nombre_editar" placeholder="Nombre" required>
         <input type="number" name="precio" id="precio_editar" placeholder="Precio" required>
         <input type="number" name="stock" id="stock_editar" placeholder="Stock" required>
         <textarea name="descripcion" id="descripcion_editar" placeholder="Descripción" required></textarea>
         <input type="file" name="imagen">
-        <input type="hidden" name="categoria_id" value="2">
-        <button type="submit" name="editar_producto">Guardar Cambios</button>
+        <select name="categoria_id" id="categoria_editar" required>
+        <option value="">Categoría</option>
+        <?php foreach ($categorias as $categoria): ?>
+          <option value="<?= $categoria['id'] ?>"><?= htmlspecialchars($categoria['nombre']) ?></option>
+        <?php endforeach; ?>
+      </select>
+
+        <button type="submit" name="editar_producto" class="btn-productos">Guardar Cambios</button>
       </form>
     </div>
   </div>
@@ -167,18 +194,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
 <div id="modalEliminar" class="modal" >
   <div class="modal-content">
     <span class="cerrar" id="cerrarEliminar">&times;</span>
-    <h2>¿Eliminar producto?</h2>
+    <h2>Eliminar producto</h2>
+    <img src="assets/img/logo-bonice.png" alt="Bonice Logo" class="logo-bonice">
+
     <p id="mensajeEliminar"></p>
     <div >
 
-      <form method="GET" action="index.php">
-      <input type="hidden" name="page" value="admin/gestionar_productos">
+      <form method="GET" action="index.php"  class="formulario-productos">
+        <input type="hidden" name="page" value="admin/gestionar_productos">
         <input type="hidden" name="id" id="id_eliminar">
-        <button type="submit" >Eliminar</button>
+        <button type="submit" class="btn-productos">Eliminar</button>
+        <button id="cancelarEliminar" class="btn-productos">Cancelar</button>
       </form>
 
 
-      <button id="cancelarEliminar">Cancelar</button>
+      
     </div>
   </div>
 </div>
