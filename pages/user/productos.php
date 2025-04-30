@@ -14,6 +14,7 @@ $productos = listarProductos($categoriaId);
     <div class="cards-container">
         <?php if (!empty($productos)): ?>
             <?php foreach ($productos as $producto): ?>
+<<<<<<< HEAD
                 <?php if ($producto["stock"] > 0): ?>
                     <div class="product-card">
                         <a href="pages/user/detalle.php?producto=<?php echo $producto['id']; ?>">
@@ -26,12 +27,29 @@ $productos = listarProductos($categoriaId);
                         <button class="btn-agregar" onclick="agregarAlCarrito(<?php echo $producto['id']; ?>)">Agregar al carrito</button>
                     </div>  
                     <?php endif; ?>
+=======
+                <div class="product-card">
+                    <a href="pages/user/detalle.php?producto=<?php echo $producto['id']; ?>">
+                        <img src="uploads/productos/<?php echo $producto['imagen']; ?>" class="product-image" alt="<?php echo $producto['nombre']; ?>">
+                        <h3 class="product-name"><?php echo $producto['nombre']; ?></h3>
+                    </a>
+                    <p class="product-description"><?php echo $producto['descripcion']; ?></p>
+
+                    <!-- Nuevo contenedor para el footer -->
+                    <div class="card-footer">
+                        <p class="product-price"><strong>$<?php echo number_format($producto['precio'], 2); ?></strong></p>
+                        <a href="pages/user/detalle.php?producto=<?php echo $producto['id']; ?>" class="view-more-button">Ver Más</a>
+                        <button class="btn-agregar" onclick="agregarAlCarrito(<?php echo $producto['id']; ?>)">Agregar al carrito</button>
+                    </div>
+                </div>
+>>>>>>> dc4cd845d152ae1d9568917c6caeeb3ff1bdf65f
             <?php endforeach; ?>
         <?php else: ?>
             <p>No hay productos disponibles.</p>
         <?php endif; ?>
     </div>
 </div>
+
 
 
 <!-- TOAST CSS -->
@@ -64,7 +82,7 @@ $productos = listarProductos($categoriaId);
 <!-- TOAST JS + AJAX -->
 <script>
 function agregarAlCarrito(idProducto) {
-    fetch(`pages/user/carrito.php?agregar=${idProducto}`, {
+    fetch(pages/user/carrito.php?agregar=${idProducto}, {
         method: 'GET',
         headers: { 'X-Requested-With': 'XMLHttpRequest' }
     })
@@ -82,7 +100,7 @@ function agregarAlCarrito(idProducto) {
 
 function mostrarNotificacion(mensaje, esError = false) {
     const noti = document.createElement("div");
-    noti.className = `notificacion-toast ${esError ? 'error' : ''}`;
+    noti.className = notificacion-toast ${esError ? 'error' : ''};
     noti.innerText = mensaje;
     document.body.appendChild(noti);
 
@@ -94,4 +112,4 @@ function mostrarNotificacion(mensaje, esError = false) {
         }, 2500);
     }, 100);
 }
-</script>
+</script> 

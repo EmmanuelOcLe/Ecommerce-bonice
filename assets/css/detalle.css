@@ -142,8 +142,13 @@ body {
 }
 
 .btn-agregar {
+<<<<<<< HEAD
     width: 61%;
     height: 8%;
+=======
+    width: 62%;
+    height: 31%;
+>>>>>>> dc4cd845d152ae1d9568917c6caeeb3ff1bdf65f
     background-color: #f0ad4e;
     color: rgb(0, 0, 0);
     border: none;
@@ -155,6 +160,7 @@ body {
     text-decoration: none;
     font-weight: bold;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+<<<<<<< HEAD
     margin-top: 1em;
     animation: bounceIn 0.8s ease;
 }
@@ -172,6 +178,28 @@ body {
     font-weight: bold;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
+=======
+    position: relative;
+    bottom: 159%;
+    left: 24%;
+    margin-top: auto;
+    animation: bounceIn 0.8s ease;
+}
+
+.btn-agregar-2 {
+    background-color: #f0ad4e;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+>>>>>>> dc4cd845d152ae1d9568917c6caeeb3ff1bdf65f
     bottom: 10%;
     left: 52%;
     margin-top: auto;
@@ -200,7 +228,11 @@ body {
 
 .productos-carousel {
     display: flex;
+<<<<<<< HEAD
     gap: 14rem;
+=======
+    gap: 4rem;
+>>>>>>> dc4cd845d152ae1d9568917c6caeeb3ff1bdf65f
     transition: transform 0.5s ease-in-out;
     will-change: transform;
     flex-wrap: nowrap;

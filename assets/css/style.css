@@ -102,6 +102,12 @@
     color: #000;
     font-weight: 500;
     margin: 8px 0;
+<<<<<<< HEAD
+=======
+    position: relative;
+    bottom: 177%;
+    left: 38%;
+>>>>>>> dc4cd845d152ae1d9568917c6caeeb3ff1bdf65f
     animation: slideUp 1s ease forwards;
 }
 
