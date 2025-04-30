@@ -1,5 +1,9 @@
 <?php
 session_start(); // ¡IMPORTANTE! Siempre iniciar sesión antes de todo
+if (!isset($_SESSION["user"]) || isset($_SESSION["user"]) && $_SESSION["user_rol"] != "admin")
+{
+  header ("Location: ../../index.php");
+}
 require_once '../../config/db.php';
 
 // Variables necesarias
@@ -13,7 +17,7 @@ $productos_pedido = [];
 
 if ($id_pedido && is_numeric($id_pedido)) {
     // Obtener localidad y dirección
-    $sql_pedido = "SELECT localidad, direccion FROM pedidos WHERE id = ?";
+    $sql_pedido = "SELECT * FROM pedidos WHERE id = ?";
     if ($stmt_pedido = mysqli_prepare($conexion, $sql_pedido)) {
         mysqli_stmt_bind_param($stmt_pedido, "i", $id_pedido);
         mysqli_stmt_execute($stmt_pedido);
@@ -125,32 +129,54 @@ if ($id_pedido && is_numeric($id_pedido)) {
 </header>
 
 <main style="padding: 20px;">
-<?php if ($pedido_info && !empty($productos_pedido)): ?>
-    <h2>Detalle del Pedido #<?= htmlspecialchars($id_pedido) ?></h2>
-    <p><strong>Localidad:</strong> <?= htmlspecialchars($pedido_info['localidad']) ?></p>
-    <p><strong>Dirección:</strong> <?= htmlspecialchars($pedido_info['direccion']) ?></p>
-
-    <table border="1" cellpadding="5" style="border-collapse: collapse; width: 100%; margin-top: 20px;">
-        <thead>
-            <tr>
-                <th style="padding: 10px;">Producto</th>
-                <th style="padding: 10px;">Cantidad</th>
-                <th style="padding: 10px;">Precio Unitario</th>
-                <th style="padding: 10px;">Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($productos_pedido as $producto): ?>
+  <div class="table-pedidos-container">
+    <?php if ($pedido_info && !empty($productos_pedido)): ?>
+      <div>
+        <h2 style="font-size: 15px">Detalle del Pedido #<?= htmlspecialchars($id_pedido) ?></h2>
+        <p><strong>Localidad:</strong> <?= htmlspecialchars($pedido_info['localidad']) ?></p>
+        <p><strong>Dirección:</strong> <?= htmlspecialchars($pedido_info['direccion']) ?></p>
+        <p><strong>Número de contacto:</strong><?= htmlspecialchars($pedido_info['numero_contacto']) ?></p>
+      </div>
+    
+        <table border="1" cellpadding="5" style="border-collapse: collapse; width: 100%;">
+            <thead>
                 <tr>
-                    <td style="padding: 8px;"><?= htmlspecialchars($producto['producto']) ?></td>
-                    <td style="padding: 8px;"><?= htmlspecialchars($producto['cantidad']) ?></td>
-                    <td style="padding: 8px;">$<?= number_format($producto['precio_unitario'], 2, ',', '.') ?></td>
-                    <td style="padding: 8px;">$<?= number_format($producto['total_por_producto'], 2, ',', '.') ?></td>
+                    <th style="padding: 10px;">Producto</th>
+                    <th style="padding: 10px;">Cantidad</th>
+                    <th style="padding: 10px;">Precio Unitario</th>
+                    <th style="padding: 10px;">Total</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-<?php else: ?>
-    <p style="color: red;">❌ No se encontró información para este pedido.</p>
-<?php endif; ?>
+            </thead>
+            <tbody>
+              <?php
+                $suma_total = 0;
+              ?>
+                <?php foreach ($productos_pedido as $producto): ?>
+                  <?php
+                    $suma_total += $producto["total_por_producto"];
+                  ?>
+                    <tr>
+                        <td style="padding: 8px;"><?= htmlspecialchars($producto['producto']) ?></td>
+                        <td style="padding: 8px;"><?= htmlspecialchars($producto['cantidad']) ?></td>
+                        <td style="padding: 8px;">$<?= number_format($producto['precio_unitario'], 2, ',', '.') ?></td>
+                        <td style="padding: 8px;">$<?= number_format($producto['total_por_producto'], 2, ',', '.') ?></td>
+                    </tr>
+                <?php endforeach; ?>
+    
+                <?php
+                  echo "<tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td style='padding: 8px;'>$" . number_format($suma_total, 0, ',', '.') . "</td>
+                </tr>";
+                ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p style="color: red;">❌ No se encontró información para este pedido.</p>
+    <?php endif; ?>
+  </div>
 </main>
+
+<?php include "../../includes/footer.php"; ?>

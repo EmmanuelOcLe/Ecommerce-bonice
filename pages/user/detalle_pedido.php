@@ -1,6 +1,17 @@
 <?php
-session_start();
-require_once '../../config/db.php';
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+
+if (!isset($_SESSION["user"]))
+{
+  header("Location: ../../index.php");
+}
+
+include_once('../../config/db.php');
+include_once('../../functions/carrito.php');
+
+$productosEnCarrito = obtenerCarrito();
 
 // Obtener productos en carrito para mostrar en el ícono (si quieres esa funcionalidad)
 $productosEnCarrito = $_SESSION['carrito'] ?? [];
@@ -18,14 +29,17 @@ $id_pedido = $_GET['id'] ?? null;
     <link rel="stylesheet" href="../../assets/css/navbar.css"> <!-- Agrega el CSS de navbar si tienes -->
     <link rel="stylesheet" href="../../assets/css/carrito.css"> <!-- Y del carrito si quieres -->
     <link rel="stylesheet" href="../../assets/css/producto-detalle.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
 
 <?php
-// --- Header completo ---
+
 ?>
+
+
 <header>
-<div class="header-container">
+  <div class="header-container">
     <!-- Logo -->
     <div class="img-container">
       <a href="../../index.php?page=home">
@@ -44,12 +58,14 @@ $id_pedido = $_GET['id'] ?? null;
             <i class="bi bi-chevron-down"></i>
           </div>
           <div class="admin-user-options">
-            <?php if ($_SESSION["user_rol"] === "admin"): ?>
-              <a href="../../index.php?page=admin/gestionar_productos">Gestionar productos</a>
-              <a href="../../index.php?page=admin/gestionar_categorias">Gestionar categorías</a>
-              <a href="../../index.php?page=admin/gestionar_pedidos">Gestionar pedidos</a>
-            <?php endif; ?>
-            <a href="../../functions/cerrar_sesion.php">Cerrar Sesión</a>
+          <?php if (isset($_SESSION["user_rol"]) && $_SESSION["user_rol"] == "admin"): ?>
+                          <a href="../../index.php?page=admin/gestionar_productos">Gestionar productos</a>
+                          <a href="../admin/gestionar_categorias.php">Gestionar categorías</a>
+                          <a href="../../index.php?page=admin/gestionar_pedidos">Gestionar pedidos</a>
+                      <?php else: ?>
+                  <a href="mis_pedidos.php">Mis pedidos</a>
+                  <?php endif; ?>
+              <a href="../../functions/cerrar_sesion.php">Cerrar Sesión</a>
           </div>
         <?php endif; ?>
 
@@ -100,13 +116,15 @@ $id_pedido = $_GET['id'] ?? null;
   </div>
 </header>
 
+
 <main class="detalle-pedido-container" style="padding: 20px;">
+  <div class="table-pedidos-container">
 <?php
 // --- Lógica del pedido ---
 if ($id_pedido && is_numeric($id_pedido)) {
 
     // Obtener localidad y dirección del pedido
-    $sql_pedido = "SELECT localidad, direccion FROM pedidos WHERE id = ?";
+    $sql_pedido = "SELECT * FROM pedidos WHERE id = ?";
     if ($stmt_pedido = mysqli_prepare($conexion, $sql_pedido)) {
         mysqli_stmt_bind_param($stmt_pedido, "i", $id_pedido);
         mysqli_stmt_execute($stmt_pedido);
@@ -136,6 +154,7 @@ if ($id_pedido && is_numeric($id_pedido)) {
             // Mostrar localidad y dirección
             echo "<p><strong>Localidad:</strong> " . htmlspecialchars($pedido_info['localidad']) . "</p> ";
             echo "<p><strong>Dirección:</strong> " . htmlspecialchars($pedido_info['direccion']) . "</p>";
+            echo "<p><strong>Número de contacto:</strong> " . htmlspecialchars($pedido_info['numero_contacto']) . "</p>";
 
             echo "<table border='1' cellpadding='5' style='border-collapse: collapse; width: 80%; margin-top: 20px;'>
                     <thead>
@@ -148,7 +167,10 @@ if ($id_pedido && is_numeric($id_pedido)) {
                     </thead>
                     <tbody>";
 
+        $suma_total = 0;
+
             while ($row = mysqli_fetch_assoc($result)) {
+              $suma_total += $row["total_por_producto"];
                 echo "<tr>
                         <td style='padding: 8px;'>{$row['producto']}</td>
                         <td style='padding: 8px;'>{$row['cantidad']}</td>
@@ -156,6 +178,13 @@ if ($id_pedido && is_numeric($id_pedido)) {
                         <td style='padding: 8px;'>$" . number_format($row['total_por_producto'], 0, ',', '.') . "</td>
                       </tr>";
             }
+
+            echo "<tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style='padding: 8px;'>$" . number_format($suma_total, 0, ',', '.') . "</td>
+                      </tr>";
 
             echo "</tbody></table>";
         } else {
@@ -170,7 +199,13 @@ if ($id_pedido && is_numeric($id_pedido)) {
     echo "❗ ID de pedido no proporcionado o no válido.";
 }
 ?>
+
+</div>
+
+
 </main>
+
+<?php include "../../includes/footer.php"; ?>
 
 </body>
 </html>

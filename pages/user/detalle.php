@@ -88,7 +88,7 @@ require_once __DIR__ . '/../../config/db.php';
 
         <!-- Carrito -->
         <div class="carrito-icono">
-          <a href="index.php?page=user/carrito" title="Ver carrito">
+          <a href="../../index.php?page=user/carrito" title="Ver carrito">
             <img class="carrito" src="../../assets/img/Shopping_car.png" alt="Icono carrito">
           </a>
           <?php if (!empty($productosEnCarrito)): ?>
@@ -136,7 +136,7 @@ require_once __DIR__ . '/../../config/db.php';
                 <p class="producto-precio">
                     $<?= number_format($producto['precio'], 0, ',', '.') ?>
                 </p>
-                <button id="btn-agregar-carrito" data-producto-id="<?= $producto_id ?>" class="btn-agregar">Agregar al carrito</button>
+                <button id="btn-agregar-carrito" data-producto-id="<?= $producto_id ?>" class="btn-agregar-2">Agregar al carrito</button>
             </div>
         </div>
 
@@ -159,18 +159,22 @@ require_once __DIR__ . '/../../config/db.php';
                     }
                 ?>
                     <div class="producto-relacionado">
-                        <img src="<?= htmlspecialchars($relRel) ?>" alt="<?= htmlspecialchars($prod['nombre']) ?>">
-                        <h3><?= strtoupper(htmlspecialchars($prod['nombre'])) ?></h3>
-                        <p class="disponibilidad">
-                            En stock (<?= htmlspecialchars($prod['stock'] ?? 'N/A') ?>)
-                        </p>
-                        <p class="precio">
-                            $<?= number_format($prod['precio'], 0, ',', '.') ?>
-                        </p>
-                        <a href="detalle.php?producto=<?= $prod['id'] ?>">
-                            <button class="btn-ver-mas">Ver Más</button>
-                        </a>
-                    </div>
+                      <div class="imagen-container">
+                          <img src="<?= htmlspecialchars($relRel) ?>" alt="<?= htmlspecialchars($prod['nombre']) ?>">
+                      </div>
+                      
+                      <h3><?= strtoupper(htmlspecialchars($prod['nombre'])) ?></h3>
+                      <p class="disponibilidad">
+                          En stock (<?= htmlspecialchars($prod['stock'] ?? 'N/A') ?>)
+                      </p>
+                      <p class="precio">
+                          $<?= number_format($prod['precio'], 0, ',', '.') ?>
+                      </p>
+
+                      <a href="detalle.php?producto=<?= $prod['id'] ?>">
+                          <button class="btn-ver-mas">Ver Más</button>
+                      </a>
+                  </div>
                 <?php endforeach; ?>
             </div>
         </div>

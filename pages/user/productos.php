@@ -14,16 +14,18 @@ $productos = listarProductos($categoriaId);
     <div class="cards-container">
         <?php if (!empty($productos)): ?>
             <?php foreach ($productos as $producto): ?>
-                <div class="product-card">
-                    <a href="pages/user/detalle.php?producto=<?php echo $producto['id']; ?>">
-                        <img src="uploads/productos/<?php echo $producto['imagen']; ?>" class="product-image" alt="<?php echo $producto['nombre']; ?>">
-                        <h3 class="product-name"><?php echo $producto['nombre']; ?></h3>
-                    </a>
-                    <p class="product-description"><?php echo $producto['descripcion']; ?></p>
-                    <p class="product-price"><strong>$<?php echo number_format($producto['precio'], 2); ?></strong></p>
-                    <a href="pages/user/detalle.php?producto=<?php echo $producto['id']; ?>" class="view-more-button">Ver Más</a>
-                    <button class="btn-agregar" onclick="agregarAlCarrito(<?php echo $producto['id']; ?>)">Agregar al carrito</button>
-                </div>
+                <?php if ($producto["stock"] > 0): ?>
+                    <div class="product-card">
+                        <a href="pages/user/detalle.php?producto=<?php echo $producto['id']; ?>">
+                            <img src="uploads/productos/<?php echo $producto['imagen']; ?>" class="product-image" alt="<?php echo $producto['nombre']; ?>">
+                            <h3 class="product-name"><?php echo $producto['nombre']; ?></h3>
+                        </a>
+                        <p class="product-description"><?php echo $producto['descripcion']; ?></p>
+                        <p class="product-price"><strong>$<?php echo number_format($producto['precio'], 2); ?></strong></p>
+                        <a href="pages/user/detalle.php?producto=<?php echo $producto['id']; ?>" class="view-more-button">Ver Más</a>
+                        <button class="btn-agregar" onclick="agregarAlCarrito(<?php echo $producto['id']; ?>)">Agregar al carrito</button>
+                    </div>  
+                    <?php endif; ?>
             <?php endforeach; ?>
         <?php else: ?>
             <p>No hay productos disponibles.</p>
@@ -74,7 +76,7 @@ function agregarAlCarrito(idProducto) {
         }
     })
     .catch(() => {
-        mostrarNotificacion("Error al agregar al carrito", true);
+        mostrarNotificacion("Producto agotado", true);
     });
 }
 

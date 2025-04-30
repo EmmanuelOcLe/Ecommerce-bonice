@@ -84,7 +84,7 @@ if (!isset($_SESSION['user'])) {
 
         <!-- Carrito -->
         <div class="carrito-icono">
-          <a href="index.php?page=user/carrito" title="Ver carrito">
+          <a href="../../index.php?page=user/carrito" title="Ver carrito">
             <img class="carrito" src="../../assets/img/Shopping_car.png" alt="Icono carrito">
           </a>
           <?php if (!empty($productosEnCarrito)): ?>
@@ -116,12 +116,26 @@ if (!isset($_SESSION['user'])) {
       <input type="text" name="direccion" class="form-control-dir" placeholder="Dirección" required>
       <input type="text" name="ciudad" class="form-control-ciud" placeholder="Ciudad" required>
       <input type="text" name="departamento" class="form-control" placeholder="Departamento" required>
-      <input type="number" name="contacto" class="form-control" placeholder="Número de Contacto" required>
+      <input type="text" id="numero_contacto" name="contacto" class="form-control" placeholder="Número de Contacto" required>
       <input type="text" name="pago" class="form-control" placeholder="Método de Pago" required>
       <button type="submit" class="btn-register">Confirmar Pedido</button>
     </form>
   </div>
 </div>
+
+<script>
+  const button = document.getElementById('numero_contacto');
+  let numero_contacto = "";
+  button.addEventListener("input", ()=>{
+    numero_contacto = button.value;
+    if (button.value.length > 10)
+    {
+      numero_contacto = button.value.slice(0, -1);
+      alert("El número debe ser máximo de 10 digitos");
+      button.value = numero_contacto;
+    };
+  });
+</script>
 
 <?php require "../../includes/footer.php" ?>
 

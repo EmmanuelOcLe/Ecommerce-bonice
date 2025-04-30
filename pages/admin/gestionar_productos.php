@@ -1,4 +1,5 @@
 <?php
+require "config/db.php";
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -118,7 +119,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
                         data-nombre="<?= htmlspecialchars($producto['nombre']) ?>"
                         data-precio="<?= $producto['precio'] ?>"
                         data-stock="<?= $producto['stock'] ?>"
-                        data-descripcion="<?= htmlspecialchars($producto['descripcion']) ?>">
+                        data-descripcion="<?= htmlspecialchars($producto['descripcion']) ?>"
+                        data-categoria_id="<?= $producto["categoria_id"] ?>">
                   <i class="bi bi-pencil-fill"></i>
                 </button>
 
@@ -177,8 +179,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
         <input type="number" name="stock" id="stock_editar" placeholder="Stock" required>
         <textarea name="descripcion" id="descripcion_editar" placeholder="Descripción" required></textarea>
         <input type="file" name="imagen">
+        <?php
+          $sql = "SELECT * FROM categorias WHERE id = (SELECT categoria_id FROM productos WHERE id = ?)";
+        ?>
         <select name="categoria_id" id="categoria_editar" required>
-        <option value="">Categoría</option>
+        <option id="categoria_editar_option">Categoría</option>
         <?php foreach ($categorias as $categoria): ?>
           <option value="<?= $categoria['id'] ?>"><?= htmlspecialchars($categoria['nombre']) ?></option>
         <?php endforeach; ?>
@@ -204,7 +209,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buscar"])) {
         <input type="hidden" name="page" value="admin/gestionar_productos">
         <input type="hidden" name="id" id="id_eliminar">
         <button type="submit" class="btn-productos">Eliminar</button>
-        <button id="cancelarEliminar" class="btn-productos">Cancelar</button>
+        <button type="button" id="cancelarEliminar" class="btn-productos">Cancelar</button>
       </form>
 
 

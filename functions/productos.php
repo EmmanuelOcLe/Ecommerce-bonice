@@ -57,6 +57,10 @@ function crearProducto($nombre, $descripcion, $precio, $stock, $categoria_id, $i
 function eliminarProducto($id) {
     global $conexion;
 
+    $stmt = $conexion->prepare("DELETE FROM lineas_pedidos WHERE producto_id = $id");
+    $stmt->execute();
+    $stmt->close();
+
     $stmt = $conexion->prepare("DELETE FROM productos WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();

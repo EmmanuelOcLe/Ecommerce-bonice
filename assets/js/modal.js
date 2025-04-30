@@ -26,7 +26,9 @@ document.querySelectorAll('.btn-editar').forEach(boton => {
     document.getElementById('precio_editar').value = boton.dataset.precio;
     document.getElementById('stock_editar').value = boton.dataset.stock;
     document.getElementById('descripcion_editar').value = boton.dataset.descripcion;
-    document.getElementById('modalEditar').style.display = 'block';
+    document.getElementById('categoria_editar_option').value = boton.dataset.categoria_id;
+
+    document.getElementById('modalEditar').style.display = 'block'; 
     });
 });
 
@@ -53,7 +55,7 @@ boton.addEventListener('click', () => {
     const id = boton.dataset.id;
     const nombre = boton.dataset.nombre;
 
-    mensajeEliminar.textContent = `¿Estás segura de eliminar el producto "${nombre}"?`;
+    mensajeEliminar.textContent = `¿Estás seguro de eliminar el producto "${nombre}"?`;
     idEliminarInput.value = id;
     modalEliminar.style.display = "block";
 });

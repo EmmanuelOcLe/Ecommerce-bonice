@@ -45,6 +45,8 @@
                 <input type="password" name="contrasena" class="form-control" placeholder="Contraseña" required>
 
                 <button type="submit" class="btn-register">Registrarse</button>
+                <br>
+                <a href="login-page.php" style="font-weight: 400;">Iniciar sesión</a>
             </form>
         </div>
     </div>

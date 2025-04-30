@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $direccion = $_POST['direccion'] ?? '';
     $provincia = $_POST['departamento'] ?? '';
     $localidad = $_POST['ciudad'] ?? '';
-    $contacto = $_POST['contacto'] ?? '';
+    $contacto = intval($_POST['contacto']) ?? 0;
     $metodo_pago = $_POST['pago'] ?? '';
     $estado = 'confirmado';
     $fecha = date('Y-m-d');
@@ -53,10 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Insertar el pedido en la tabla pedidos
-    $sqlPedido = "INSERT INTO pedidos (usuario_id, provincia, localidad, direccion, coste, estado, fecha, hora)
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $sqlPedido = "INSERT INTO pedidos (usuario_id, provincia, localidad, direccion, numero_contacto, coste, estado, fecha, hora)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmtPedido = mysqli_prepare($conexion, $sqlPedido);
-    mysqli_stmt_bind_param($stmtPedido, "isssdsss", $usuario_id, $provincia, $localidad, $direccion, $coste_total, $estado, $fecha, $hora);
+    mysqli_stmt_bind_param($stmtPedido, "isssidsss", $usuario_id, $provincia, $localidad, $direccion, $contacto, $coste_total, $estado, $fecha, $hora);
 
     if (mysqli_stmt_execute($stmtPedido)) {
         $pedido_id = mysqli_insert_id($conexion);  // Obtener el ID del pedido recién insertado
@@ -73,6 +73,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Limpiar el carrito
+        foreach ($_SESSION["carrito"] as $key => $value)
+        {
+            $sql_producto = "SELECT stock FROM productos WHERE id = " . intval($key);
+            $stock_producto = mysqli_query($conexion, $sql_producto);
+            $result = mysqli_fetch_assoc($stock_producto);
+            $stock = intval($result["stock"]);
+
+            $resta = $stock - ($_SESSION["carrito"][$key]["cantidad"]);
+            $sql = "UPDATE productos SET stock = $resta WHERE id = $key";
+            mysqli_query($conexion, $sql);
+        }
+
         $_SESSION['carrito'] = [];
 
         echo json_encode(['status' => 'success']);

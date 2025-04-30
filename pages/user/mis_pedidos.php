@@ -156,7 +156,7 @@ $resultado = mysqli_stmt_get_result($stmtPedidos);
               <div><?= htmlspecialchars($pedido['id']) ?></div>
               <div>$<?= number_format($pedido['coste'], 0, ',', '.') ?></div>
               <div><?= htmlspecialchars($pedido['fecha']) ?></div>
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
                 <span class="estado-label <?= $estado_clase ?>">
                   <?= ucfirst($pedido['estado']) ?>
                 </span>

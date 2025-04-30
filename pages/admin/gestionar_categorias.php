@@ -109,7 +109,7 @@ function crearCategoria($nombre) {
                 $categorias_menu = mysqli_query($conexion, "SELECT * FROM categorias ORDER BY id");
                 while ($cat = mysqli_fetch_assoc($categorias_menu)):
               ?>
-                <a href="index.php?page=user/productos&categoria=<?= $cat['id'] ?>">
+                <a href="../../index.php?page=user/productos&categoria=<?= $cat['id'] ?>">
                   <?= htmlspecialchars($cat['nombre']) ?>
                 </a>
               <?php endwhile; ?>

@@ -20,7 +20,7 @@ if (!isset($_SESSION['carrito'])) {
 function obtenerProductoPorId($id) {
     global $conexion;
 
-    $stmt = $conexion->prepare("SELECT id, nombre, precio, descripcion, imagen FROM productos WHERE id = ?");
+    $stmt = $conexion->prepare("SELECT * FROM productos WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $resultado = $stmt->get_result();
